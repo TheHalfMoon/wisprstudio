@@ -85,7 +85,7 @@ jobs:
             tail -n 3 pytest-backend.log | grep -E "passed|failed|error" || true
             head -3 egress-python-summary.txt
           } | tee python-summary.txt >> "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: always()
         with:
           name: st-d00-python
@@ -129,7 +129,7 @@ jobs:
       - name: Summarize
         if: always()
         run: grep -h "_EXIT=" frontend.log bun-test.log check-electron.log | tee electron-summary.txt >> "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: always()
         with:
           name: st-d00-electron
