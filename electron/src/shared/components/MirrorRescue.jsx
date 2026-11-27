@@ -86,7 +86,7 @@ export default function MirrorRescue({ onApplied }) {
           type="text"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="https://hf-mirror.com"
+          placeholder="https://huggingface.example.internal"
           className="min-w-[220px] flex-1 rounded border border-border bg-transparent px-2 py-1 font-mono text-xs text-fg"
           data-testid="wizard-mirror-url"
         />

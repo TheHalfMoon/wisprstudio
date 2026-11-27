@@ -1,5 +1,5 @@
 """
-VoiceStudio MCP Server — expose voice synthesis as AI-agent tools.
+WisprStudio MCP Server — expose voice synthesis as AI-agent tools.
 
 Run standalone:
     python -m backend.mcp_server          # stdio transport (Claude Desktop)
@@ -442,9 +442,9 @@ def create_mcp_server(app=None):
     """
     FastMCP = _ensure_mcp()
     mcp = FastMCP(
-        "VoiceStudio",
+        "WisprStudio",
         instructions=(
-            "AI-agent interface for VoiceStudio — voice cloning, "
+            "AI-agent interface for WisprStudio — voice cloning, "
             "voice design, and video dubbing in 646 languages."
         ),
     )
@@ -945,7 +945,7 @@ def mount_mcp(app) -> bool:
 # ── CLI entrypoint ──────────────────────────────────────────────────────
 
 def main():
-    parser = argparse.ArgumentParser(description="VoiceStudio MCP Server")
+    parser = argparse.ArgumentParser(description="WisprStudio MCP Server")
     parser.add_argument(
         "--sse", action="store_true",
         help="Use SSE transport instead of stdio (for remote agents)",

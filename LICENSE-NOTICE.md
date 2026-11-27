@@ -1,4 +1,4 @@
-# VoiceStudio — License Notice
+# WisprStudio — License Notice
 
 ## Abbreviation
 
@@ -6,78 +6,61 @@ AGPL-3.0-only
 
 ## Notice
 
-Copyright 2024-present Palash Debnath and VoiceStudio contributors.
+Copyright 2024-present Palash Debnath (`Debpalash`) and VoiceStudio contributors.
+Copyright 2026 Wispral Contributors.
 
-VoiceStudio is **free and open-source software, licensed under the GNU
-Affero General Public License, Version 3 (AGPL-3.0)**. You are free to use,
-copy, modify, and redistribute it. That **includes commercial and internal
-business use** of the application itself. Model weights, tokenizers, and other
-third-party assets retain their own terms; this application license does not
-grant or summarize rights under those separate terms.
+WisprStudio is **free and open-source software, licensed strictly under the GNU
+Affero General Public License, Version 3 (`AGPL-3.0-only`)**. You are free to use,
+copy, modify, and redistribute it under the terms of the AGPL-3.0, including
+commercial and internal business use of the application itself. Model weights,
+tokenizers, and other third-party assets retain their own terms; this application
+license does not grant or summarize rights under those separate terms.
 
-Because this is the **Affero** GPL, one additional obligation applies: if you
-modify VoiceStudio and make that modified version available to others over
-a network, you must also offer those users the complete corresponding source
-code of your modified version under these same AGPL-3.0 terms. See the full
-text in [`LICENSE`](LICENSE).
+Because this is the **Affero** GPL, if you modify WisprStudio and make that
+modified version available to others over a network, you must also offer those
+users the complete corresponding source code of your modified version under these
+same AGPL-3.0 terms. See the full text in [`LICENSE`](LICENSE) and attributions
+in [`NOTICE`](NOTICE).
 
-Commercial use under the AGPL-3.0 is free. What is paid is a **commercial
-license** for organizations that want to embed VoiceStudio in a closed-source or
-proprietary product or service without the AGPL-3.0 copyleft obligations, and
-the VoiceStudio Pro features. See the plans at <https://voicestudio.sh/pro>; for
-other inquiries contact `hi@voicestudio.sh`.
+### Complete Corresponding Source Code Offer
 
-Contributors license their contributions to Yupcha Softwares Private Limited,
-the company that maintains VoiceStudio, under the
-[Contributor License Agreement](.github/CLA-1.0.md). While a contribution is
-in the public repository, it stays available there under the AGPL-3.0 or
-another OSI-approved licence (CLA section 4).
+The complete corresponding source code for WisprStudio is available at:
+<https://github.com/TheHalfMoon/wisprstudio>
 
 (This Notice is a plain-language summary; the binding terms are the full GNU
 AGPL-3.0 text in [`LICENSE`](LICENSE).)
 
-### Scope
+### Scope & Upstream Attributions
 
-These terms cover the VoiceStudio application — the Electron desktop and web
+These terms cover the WisprStudio application — the Electron desktop and web
 app (`electron/`), its native desktop helper (`native/`), the FastAPI backend
 (`backend/`), and supporting build / packaging files (`scripts/`, `deploy/`,
-`.github/`). Electron components adapted from T3 Code keep their MIT notice in
+`.github/`). Upstream VoiceStudio code by Palash Debnath (`Debpalash`) and
+contributors (<https://github.com/debpalash/VoiceStudio>) remains attributed under
+`AGPL-3.0-only`. Electron components adapted from T3 Code keep their MIT notice in
 `electron/T3CODE-LICENSE.txt`.
 
-The bundled `omnivoice/` Python package — the underlying TTS model by Han Zhu —
-is **separately licensed under Apache License 2.0** by its upstream authors and
-is not relicensed here. Apache License 2.0 is compatible with, and may be
-combined under, the GNU AGPL-3.0. See `pyproject.toml`.
+The bundled `omnivoice/` Python package — the underlying TTS model code by Han Zhu
+(<https://github.com/k2-fsa/OmniVoice>) — is **separately licensed under Apache
+License 2.0** by its upstream authors and is not relicensed here. Apache License 2.0
+is compatible with, and may be combined under, the GNU AGPL-3.0. See `pyproject.toml`.
 
-Downloaded model weights are not relicensed by VoiceStudio. The default
+Downloaded model weights are not relicensed by WisprStudio. The upstream
 `k2-fsa/OmniVoice` model card identifies its code as Apache-2.0 and pretrained
 weights as CC-BY-NC. Its `audio_tokenizer/LICENSE` contains separate Boson
-Higgs Audio 2 and Meta Llama community terms. A commercial license for
-VoiceStudio-owned code does not replace any of those terms.
+Higgs Audio 2 and Meta Llama community terms. Commercially permissive local TTS
+engines (`Kokoro-82M` under Apache-2.0 and `Piper` under MIT) are recommended by
+default for commercial workflows; non-commercial model weights are explicitly
+labeled in catalog metadata.
 
 The maintained About panel displays selected model credits and required literal
-Higgs Audio and Llama attribution text. See [model credit sources](docs/model-credits.md)
-for evidence and remaining gaps. These visible credits do not establish complete
-notice compliance or permission for a particular use.
+Higgs Audio and Llama attribution text, along with the AGPL-3.0 source-code offer.
+See [model credit sources](docs/model-credits.md) for evidence and remaining gaps.
 
 The [model licence records](backend/config/model_licenses.json) distinguish
 inspected non-commercial terms from unreviewed upstream metadata. A false
 commercial-use flag includes unresolved review; it is not a claim that every
-listed model forbids commercial use. No commercial clearance is asserted by
-the initial inventory.
-
-The Model Manager's versioned notices distinguish commercial model use,
-commercial output use, redistribution and voice/recording consent. An unknown
-assessment is not permission and is not a finding that all uses are prohibited.
-Evidence for one revision or conversion does not automatically cover another.
-
-The optional [reviewed-file workflow](docs/licensing/model-review-workflow.md)
-records a local acknowledgement of the displayed notice and exact evidence.
-It does not accept agreements with a provider, grant provider access, grant
-commercial rights, verify voice consent or add a waiver. It does not alter
-rights granted by the application's AGPL licence. Existing engine settings and
-ordinary download/first-use paths remain separate and unchanged; no production
-model currently has the complete evidence needed for this reviewed workflow.
+listed model forbids commercial use.
 
 Third-party dependencies retain their own licenses. See `bun.lock`, `uv.lock`,
 and `native/desktop-bridge/Cargo.lock` for the resolved set.
@@ -92,9 +75,3 @@ upstream licence-label patch, and unresolved redistribution requirements.
 The full canonical text of the GNU Affero General Public License, Version 3 is
 reproduced verbatim in [`LICENSE`](LICENSE). The authoritative copy lives at
 <https://www.gnu.org/licenses/agpl-3.0.txt>.
-
-> **Why this notice is a separate file:** `LICENSE` must contain the verbatim
-> AGPL-3.0 text and nothing else, so GitHub's license detection (and the
-> corporate license scanners that gate adoption) can identify it as
-> `AGPL-3.0-only` rather than falling back to "Other" / `NOASSERTION`.
-

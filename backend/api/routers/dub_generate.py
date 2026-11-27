@@ -8,7 +8,10 @@ import asyncio
 import contextlib
 import shutil
 import tempfile
-import torch
+try:
+    import torch
+except ImportError:  # pragma: no cover - lightweight test env
+    torch = None  # type: ignore[assignment]
 from fastapi import APIRouter, HTTPException
 
 from core import voice_leases
@@ -1459,8 +1462,12 @@ async def dub_generate(job_id: str, req: DubRequest):
                 # downloadable segment and the assembly input, so the final
                 # track inherits the mark. Cached reuse is already marked and
                 # silence has nothing to mark, so nothing else marks again.
-                audio_tensor = mark_synthetic(audio_tensor, backend.sample_rate,
-                                              context="dub_generate.segment")
+                audio_tensor = mark_synthetic(
+                    audio_tensor,
+                    backend.sample_rate,
+                    context="dub_generate.segment",
+                    watermark_required=True,
+                )
 
                 seg_wav_path = _staged_seg_path(seg_id)
                 try:
@@ -1989,8 +1996,12 @@ async def preview_segment(job_id: str, req: SegmentPreviewRequest):
         # Invisible provenance mark before the WAV encode (#1169); pref-gated,
         # never raises, and short-preview embedding runs in this same
         # GPU-pool job.
-        return mark_synthetic(audio_out, backend.sample_rate,
-                              context="dub_generate.preview_segment")
+        return mark_synthetic(
+            audio_out,
+            backend.sample_rate,
+            context="dub_generate.preview_segment",
+            watermark_required=True,
+        )
 
     # Bounded + pool-reset on hang so a wedged preview generate can't starve the
     # GPU pool and brick the backend (#730 class). Length-scaled budget (#1190).

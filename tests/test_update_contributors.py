@@ -28,12 +28,12 @@ def _image(fmt: str, colour: str = "red", size: int = 300) -> bytes:
 
 def test_select_keeps_humans_above_threshold_owner_first():
     rows = [
-        _row("alice", 50), _row("debpalash", 20), _row("bob", 50), _row("Carol", 50),
+        _row("alice", 50), _row("TheHalfMoon", 20), _row("bob", 50), _row("Carol", 50),
         _row("dependabot[bot]", 900, "Bot"), _row("renovate[bot]", 90), _row("github-actions", 99),
         _row("Copilot", 40), _row("org", 40, "Organization"), _row("edge", 10), _row("over", 11),
     ]
     people = uc.select_contributors(rows)
-    assert [p["login"] for p in people] == ["debpalash", "alice", "bob", "Carol", "over"]
+    assert [p["login"] for p in people] == ["TheHalfMoon", "alice", "bob", "Carol", "over"]
     assert people[1] == {"login": "alice", "commits": 50, "avatar_url": "https://avatars.example/alice?v=4"}
 
 
@@ -46,7 +46,7 @@ def test_fetch_contributors_paginates():
         return json.dumps(pages[int(re.search(r"&page=(\d+)", url).group(1))]).encode()
 
     assert len(uc.fetch_contributors(fetch)) == 101
-    assert all("per_page=100" in url and url.startswith("https://api.github.com/repos/debpalash/VoiceStudio/") for url in seen)
+    assert all("per_page=100" in url and url.startswith("https://api.github.com/repos/TheHalfMoon/wisprstudio/") for url in seen)
 
 
 def test_avatar_url_requests_fixed_size():
@@ -99,7 +99,7 @@ def sandbox(tmp_path, monkeypatch):
     home = tmp_path / "home"
     (home / "contributors").mkdir(parents=True)
     (home / "contributors/gone.jpg").write_bytes(b"x")
-    (home / "home-contributors-data.ts").write_text(uc.render_ts([], ["debpalash"], "2020-01-01"))
+    (home / "home-contributors-data.ts").write_text(uc.render_ts([], ["TheHalfMoon"], "2020-01-01"))
     xcassets = tmp_path / "Contributors.xcassets"
     (xcassets / "contributor-gone.imageset").mkdir(parents=True)
     swift, kotlin = tmp_path / "H.swift", tmp_path / "H.kt"
@@ -116,7 +116,7 @@ def sandbox(tmp_path, monkeypatch):
 
 
 def test_main_writes_every_target_then_is_idempotent(sandbox):
-    rows = [_row("debpalash", 30), _row("ana", 12), _row("bot[bot]", 99, "Bot")]
+    rows = [_row("TheHalfMoon", 30), _row("ana", 12), _row("bot[bot]", 99, "Bot")]
 
     def fetch(url: str) -> bytes:
         if url.startswith("https://api.github.com/"):
@@ -125,12 +125,12 @@ def test_main_writes_every_target_then_is_idempotent(sandbox):
 
     assert uc.main(fetch) == 0
     ts = uc.DATA_TS.read_text()
-    assert re.findall(r"login: '([^']+)'", ts) == ["debpalash", "ana"] and "2020-01-01" not in ts
-    assert sorted(p.name for p in uc.AVATARS.iterdir()) == ["ana.png", "debpalash.png"]
-    assert sorted(p.name for p in uc.XCASSETS.iterdir()) == ["contributor-ana.imageset", "contributor-debpalash.imageset"]
-    assert uc.SWIFT.read_text() == 'static let logins = ["debpalash", "ana"]\n'
-    assert uc.KOTLIN.read_text() == 'val logins = listOf("debpalash", "ana")\n'
-    assert "github.com/ana.png" in uc.READMES[0].read_text() and "github.com/debpalash" not in uc.READMES[0].read_text()
+    assert re.findall(r"login: '([^']+)'", ts) == ["TheHalfMoon", "ana"] and "2020-01-01" not in ts
+    assert sorted(p.name for p in uc.AVATARS.iterdir()) == ["TheHalfMoon.png", "ana.png"]
+    assert sorted(p.name for p in uc.XCASSETS.iterdir()) == ["contributor-TheHalfMoon.imageset", "contributor-ana.imageset"]
+    assert uc.SWIFT.read_text() == 'static let logins = ["TheHalfMoon", "ana"]\n'
+    assert uc.KOTLIN.read_text() == 'val logins = listOf("TheHalfMoon", "ana")\n'
+    assert "github.com/ana.png" in uc.READMES[0].read_text() and "github.com/TheHalfMoon" not in uc.READMES[0].read_text()
 
     # Same data on a later day: nothing changes, the snapshot date included.
     people = uc.select_contributors(rows)

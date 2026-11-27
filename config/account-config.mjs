@@ -54,9 +54,11 @@ export function parseAccountConfig(input) {
   for (const name of ENVIRONMENT_NAMES) {
     const env = input.environments[name];
     exactKeys(env, [...ENDPOINT_NAMES, "clientId"], `environments.${name}`);
-    for (const key of ENDPOINT_NAMES) url(env[key], `environments.${name}.${key}`, name === "local");
-    // Zitadel client IDs are numeric; only a local stack may leave it empty (set at run time).
-    if (typeof env.clientId !== "string" || !(/^\d{6,32}$/.test(env.clientId) || (name === "local" && env.clientId === "")))
+    const cloudDisabled = env.clientId === "";
+    for (const key of ENDPOINT_NAMES)
+      url(env[key], `environments.${name}.${key}`, name === "local" || cloudDisabled);
+    // Zitadel client IDs are numeric; offline builds (WisprStudio) leave clientId empty.
+    if (typeof env.clientId !== "string" || !(/^\d{6,32}$/.test(env.clientId) || cloudDisabled))
       fail(`environments.${name}.clientId`);
   }
   return deepFreeze(structuredClone(input));

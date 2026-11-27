@@ -307,7 +307,7 @@ def build_plan(registry: dict, catalog: list[dict], repo_id: str, target: str,
                source: str = "https://huggingface.co") -> dict:
     if target != "local":
         raise ModelTermsError("review_required", ["local_target_required"])
-    if source not in {"https://huggingface.co", "https://hf-mirror.com"}:
+    if source != "https://huggingface.co":
         raise ModelTermsError("review_required", ["source_unverified"])
     # Catalogue identity: a package entry's own id, else its repo id.
     specs = {str(m.get("id") or m["repo_id"]): m for m in catalog}

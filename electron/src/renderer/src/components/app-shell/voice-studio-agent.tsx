@@ -45,8 +45,8 @@ import { AgentDockFrame } from './agent-dock-frame';
 import './voice-studio-agent.css';
 
 const REPAIR_DOCS_URL =
-  'https://github.com/debpalash/VoiceStudio/blob/main/docs/electron-repair.md#source-checkout';
-const CLONE_COMMAND = 'git clone https://github.com/debpalash/VoiceStudio.git';
+  'https://github.com/TheHalfMoon/wisprstudio/blob/main/docs/electron-repair.md#source-checkout';
+const CLONE_COMMAND = 'git clone https://github.com/TheHalfMoon/wisprstudio.git';
 type WorkspaceProblem = NonNullable<RepairAgentState['workspaceError']>;
 const icons = { codex: codexIcon, claude: claudeIcon, opencode: openCodeIcon, pi: piIcon };
 const labels: Record<AgentFeature, string> = {

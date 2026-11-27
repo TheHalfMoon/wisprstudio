@@ -219,17 +219,19 @@ export function HomePage() {
                       <TooltipTrigger
                         render={
                           <a
-                            href="https://voicestudio.sh"
+                            href="https://github.com/TheHalfMoon/wisprstudio"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="rounded-md transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-ring"
                             onClick={(event) => {
-                              const browser = getBridge()?.browser;
-                              if (!browser) return;
+                              const bridge = getBridge();
+                              if (!bridge) return;
                               event.preventDefault();
                               event.currentTarget.focus();
-                              runRendererTask('Preview official website', () =>
-                                browser.open('https://voicestudio.sh'),
+                              runRendererTask('Open WisprStudio repository', () =>
+                                bridge.files.openExternal(
+                                  'https://github.com/TheHalfMoon/wisprstudio',
+                                ),
                               );
                             }}
                           />

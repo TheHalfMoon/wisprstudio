@@ -7,8 +7,8 @@ Thanks for your interest in improving VoiceStudio! This guide covers everything 
 | | |
 |---|---|
 | 💬 **Chat** | [Discord](https://discord.gg/bzQavDfVV9) |
-| 🐛 **Bugs** | [GitHub Issues](https://github.com/debpalash/VoiceStudio/issues) |
-| 🏷️ **Good First Issues** | [Filtered list](https://github.com/debpalash/VoiceStudio/labels/good%20first%20issue) |
+| 🐛 **Bugs** | [GitHub Issues](https://github.com/TheHalfMoon/wisprstudio/issues) |
+| 🏷️ **Good First Issues** | [Filtered list](https://github.com/TheHalfMoon/wisprstudio/labels/good%20first%20issue) |
 | 📋 **Roadmap** | [docs/ROADMAP.md](../docs/ROADMAP.md) |
 
 ---
@@ -18,7 +18,7 @@ Thanks for your interest in improving VoiceStudio! This guide covers everything 
 > [Contributor License Agreement](CLA-1.0.md) once. GitHub cannot stop you opening a pull request first, so it is checked at
 > merge instead: an unsigned pull request cannot merge unless a maintainer applies
 > the `cla-override` label after manual review. You can sign now on the
-> [signing issue (#2586)](https://github.com/debpalash/VoiceStudio/issues/2586) and
+> [signing issue (#2586)](https://github.com/TheHalfMoon/wisprstudio/issues/2586) and
 > your signature covers your future contributions. Every other non-exempt human commit
 > author and co-author must also sign before the check passes. Details are in
 > [Contribution licensing](#contribution-licensing).
@@ -60,7 +60,7 @@ for Fedora and Arch packages.
 ### Clone & Run
 
 ```bash
-git clone https://github.com/debpalash/VoiceStudio.git
+git clone https://github.com/TheHalfMoon/wisprstudio.git
 cd VoiceStudio
 bun run dev
 ```
@@ -162,7 +162,7 @@ VoiceStudio/
 
 ### Bug Reports
 
-Open an [issue](https://github.com/debpalash/VoiceStudio/issues/new) with:
+Open an [issue](https://github.com/TheHalfMoon/wisprstudio/issues/new) with:
 
 1. **What happened** vs **what you expected**
 2. **Steps to reproduce**
@@ -424,7 +424,7 @@ that — the agent recalls the architecture, conventions, and your past findings
 instead of re-reading the tree each time. [**memxt**](https://github.com/debpalash/memxt)
 (100% local, MCP-based, built by this project's maintainer) exists for exactly
 this; any MCP memory server works. Pair it with the repo's agent skill —
-`npx skills add debpalash/VoiceStudio` — so your agent knows the project's
+`npx skills add TheHalfMoon/wisprstudio` — so your agent knows the project's
 hard rules from the first prompt.
 
 ## Quality gates your PR must pass
@@ -489,7 +489,7 @@ test-only PR. Docker Hub overview edits still publish through the small
   - **First-run setup the user starts:** the pinned, SHA-256-verified
     ffmpeg/ffprobe download from GitHub (`zackees/ffmpeg_bins`) when no usable
     copy is found (`backend/services/media_tools.py`); the huggingface.co vs
-    hf-mirror.com reachability probe that picks a download endpoint on
+    configured custom mirror reachability probe that picks a download endpoint on
     restricted networks, skipped when the user set an endpoint
     (`backend/services/endpoint_race.py`); the dependency install's download
     of the packages pinned in `uv.lock`, from their locked URLs or the
@@ -497,7 +497,7 @@ test-only PR. Docker Hub overview edits still publish through the small
     parallel multi-connection wheel prefetch
     (`electron/src/main/wheel-prefetch.ts`; owner-approved 2026-10-27); the
     Auto region's speed check, which reads the start of one locked wheel from
-    files.pythonhosted.org and mirrors.aliyun.com (one ranged request each,
+    files.pythonhosted.org and configured PyPI mirror (one ranged request each,
     timed out, no retries) and keeps PyPI on any doubt
     (`electron/src/main/pypi-mirror.ts`); a user-clicked setup connection check
     requesting 256 KiB from the affected package's pinned URL through the setup
@@ -610,13 +610,13 @@ I have read the VoiceStudio CLA 1.0 and I hereby sign it.
 The signature covers your earlier and future contributions. The CLA check
 identifies other required signers or cases needing manual review.
 New contributors can sign first: post the same line on the
-[signing issue (#2586)](https://github.com/debpalash/VoiceStudio/issues/2586)
+[signing issue (#2586)](https://github.com/TheHalfMoon/wisprstudio/issues/2586)
 before opening a pull request, or on the pull request itself if you prefer. The
 same signature applies if a maintainer folds your pull request into another one.
 If a pull request contains `Supersedes #N`, its CLA check also covers the
 non-exempt human opener, commit authors and co-authors of pull request #N.
 Contributed before and have no open pull request? Post
-the same line on the [issue labelled `cla`](https://github.com/debpalash/VoiceStudio/issues?q=label%3Acla). If it lists a commit it cannot link to a GitHub
+the same line on the [issue labelled `cla`](https://github.com/TheHalfMoon/wisprstudio/issues?q=label%3Acla). If it lists a commit it cannot link to a GitHub
 account, either add that commit email to your account (Settings → Emails), or
 rewrite the commits with an email that is on it (`git commit --amend
 --reset-author`, or an interactive rebase) and push again. Comment `recheck` to
@@ -630,7 +630,7 @@ replace the CLA.
 ## Need Help?
 
 - **Stuck on setup?** Ask in [Discord #help](https://discord.gg/bzQavDfVV9)
-- **Not sure where to start?** Check [good first issues](https://github.com/debpalash/VoiceStudio/labels/good%20first%20issue)
-- **Want to discuss a big change?** Open a [discussion](https://github.com/debpalash/VoiceStudio/discussions) or Discord thread before coding
+- **Not sure where to start?** Check [good first issues](https://github.com/TheHalfMoon/wisprstudio/labels/good%20first%20issue)
+- **Want to discuss a big change?** Open a [discussion](https://github.com/TheHalfMoon/wisprstudio/discussions) or Discord thread before coding
 
 Thank you for contributing! 🎙️

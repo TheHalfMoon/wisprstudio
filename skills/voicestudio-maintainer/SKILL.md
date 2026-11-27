@@ -34,7 +34,7 @@ Lead with the outcome and evidence. Credit concrete contributor work. Do not clo
 
 ## VoiceStudio-specific routing
 
-When maintaining debpalash/VoiceStudio, consult its current rules rather than old architecture assumptions:
+When maintaining TheHalfMoon/wisprstudio, consult its current rules rather than old architecture assumptions:
 - Electron development and packaging: `electron/README.md`, `electron/package.json`, and `.github/workflows/`.
 - Backend contracts: running `/openapi.json`, `backend/api/`, and targeted tests.
 - Release channels and version ownership: `docs/RELEASING.md` and CLAUDE.md. Never infer a version bump from a fix request.

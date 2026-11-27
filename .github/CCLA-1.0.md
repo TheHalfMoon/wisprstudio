@@ -12,7 +12,7 @@ and will need a new signature.
 ## How the organisation accepts
 
 An officer or other person authorised to bind the organisation completes the
-signature block below and emails a signed copy to `hi@voicestudio.sh`.
+signature block below and emails a signed copy to `opensource@wispral.dev`.
 The signature must be handwritten, or an electronic signature recognised by
 the Information Technology Act, 2000 or the law where the Corporation is
 established. The Maintainer keeps the
@@ -78,7 +78,7 @@ asserted, against the uses licensed in this Agreement.
 ## 5. Designated Contributors
 
 The Corporation keeps Schedule A current by emailing an updated list to
-`hi@voicestudio.sh`. Removing a person stops future Contributions from
+`opensource@wispral.dev`. Removing a person stops future Contributions from
 being covered. It does not affect licences already granted for earlier
 Contributions.
 

@@ -97,7 +97,11 @@ export function SupportSettings() {
               Ko-fi
             </ExternalLink>
             <ExternalLink
-              href={typeof amount === 'number' ? PAYPAL_URL + '/' + amount : PAYPAL_URL}
+              href={
+                typeof amount === 'number' && PAYPAL_URL.includes('paypal.me')
+                  ? PAYPAL_URL + '/' + amount
+                  : PAYPAL_URL
+              }
             >
               <CreditCardIcon aria-hidden="true" />
               PayPal
@@ -113,7 +117,7 @@ export function SupportSettings() {
 
       <div className="support-community" role="group" aria-label={t('support.other_ways')}>
         <span>{t('support.other_ways')}</span>
-        <ExternalLink href="https://github.com/debpalash/VoiceStudio">
+        <ExternalLink href="https://github.com/TheHalfMoon/wisprstudio">
           <StarIcon aria-hidden="true" />
           {t('support.star_github')}
         </ExternalLink>
@@ -163,19 +167,17 @@ export function SupportSettings() {
         </section>
         <section className="support-tile support-license" aria-labelledby="support-pro-heading">
           <span className="mb-4 w-fit rounded-md bg-primary/10 px-2 py-1 text-xs font-semibold tracking-wider text-primary">
-            {t('supportPlans.pro')}
+            AGPL-3.0-only
           </span>
-          <h2 id="support-pro-heading">{t('proPage.title')}</h2>
-          <p>{t('proPage.hero_body')}</p>
-          <p>{t('proPage.billing_note')}</p>
-          <button
-            type="button"
-            onClick={() => runRendererTask('Open Pro', () => navigate({ to: '/pro' }))}
-            className="mt-4 flex min-h-11 items-center gap-2 text-sm font-medium text-primary hover:underline focus-visible:outline-2 focus-visible:outline-primary"
-          >
-            {t('supportPlans.get_pro')}
+          <h2 id="support-pro-heading">Open-Source License &amp; Source Offer</h2>
+          <p>
+            WisprStudio is free software under the GNU Affero General Public License v3.0 only. No
+            proprietary closed-source tier is offered.
+          </p>
+          <ExternalLink href="https://github.com/TheHalfMoon/wisprstudio">
+            https://github.com/TheHalfMoon/wisprstudio
             <ArrowUpRightIcon aria-hidden="true" className="size-3" />
-          </button>
+          </ExternalLink>
         </section>
       </div>
 

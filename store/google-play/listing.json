@@ -27,7 +27,7 @@
       "On-device tasks send nothing anywhere. The only network requests are model downloads you start, reports you choose to send about a result and, if you pair, requests to your own computer. Analytics are off unless you say yes, and this version sends none.",
       "",
       "OPEN SOURCE",
-      "VoiceStudio is free and open source (AGPL-3.0): https://github.com/debpalash/VoiceStudio",
+      "VoiceStudio is free and open source (AGPL-3.0): https://github.com/TheHalfMoon/wisprstudio",
       "",
       "Use voice cloning responsibly: only clone voices you have permission to use."
     ]

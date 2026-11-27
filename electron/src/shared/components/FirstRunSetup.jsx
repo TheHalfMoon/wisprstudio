@@ -539,17 +539,17 @@ export default function FirstRunSetup() {
                       [
                         'pypiIndex',
                         t('firstrun.mirror_pypi', 'PyPI index URL'),
-                        'https://mirrors.aliyun.com/pypi/simple/',
+                        'https://pypi.org/simple/',
                       ],
                       [
                         'hfEndpoint',
                         t('firstrun.mirror_hf', 'Hugging Face endpoint'),
-                        'https://hf-mirror.com',
+                        'https://huggingface.co',
                       ],
                       [
                         'pythonDownloads',
                         t('firstrun.mirror_python', 'Python downloads mirror'),
-                        'https://gh-proxy.com/…',
+                        'https://github.com/astral-sh/python-build-standalone/releases/download',
                       ],
                     ].map(([field, label, ph]) => (
                       <label key={field} className="flex flex-col gap-1">

@@ -35,8 +35,8 @@ def test_snap_store_workflow_builds_strict_snap_and_uploads_only_tags_to_candida
     assert workflow["permissions"] == {"contents": "read"}
     assert set(workflow["on"]) == {"push", "workflow_dispatch"}
     assert workflow["on"]["push"] == {"tags": ["v*"]}
-    assert workflow["env"]["SNAP_NAME"] == "voicestudio"
-    assert "linuxExecutableName: 'voicestudio'" in (
+    assert workflow["env"]["SNAP_NAME"] == "wisprstudio"
+    assert "linuxExecutableName: 'wisprstudio'" in (
         ROOT / "electron/electron-builder.config.mjs"
     ).read_text()
 
@@ -114,14 +114,14 @@ def test_snap_upload_releases_candidate_only_for_the_newest_tag(tmp_path, tag, n
     )
     step = next(s for s in workflow["jobs"]["upload"]["steps"] if s.get("name") == "Upload to candidate")
     (tmp_path / "artifact").mkdir()
-    (tmp_path / "artifact" / "VoiceStudio-0.5.8-linux-x64.snap").write_text("")
+    (tmp_path / "artifact" / "WisprStudio-0.5.8-linux-x64.snap").write_text("")
     log = tmp_path / "calls"
     tags = "".join(f"abc\trefs/tags/{t}\n" for t in ["v0.5.7", newest] if t)
     stubs = {
         "sudo": "exit 0",
         "git": f"printf '{tags}'" if newest else "exit 0",
         "snapcraft": 'echo "snapcraft $*" >> "$LOG"; '
-        'case "$1" in upload) echo "Revision 42 created for \'voicestudio\'";; esac',
+        'case "$1" in upload) echo "Revision 42 created for \'wisprstudio\'";; esac',
     }
     for name, body in stubs.items():
         stub = tmp_path / name
@@ -131,7 +131,7 @@ def test_snap_upload_releases_candidate_only_for_the_newest_tag(tmp_path, tag, n
         os.environ,
         PATH=f"{tmp_path}{os.pathsep}{os.environ['PATH']}",
         LOG=str(log),
-        SNAP_NAME="voicestudio",
+        SNAP_NAME="wisprstudio",
         SNAPCRAFT_STORE_CREDENTIALS="x",
         GITHUB_REF_NAME=tag,
         GITHUB_REPOSITORY="o/r",
@@ -148,7 +148,7 @@ def test_snap_upload_releases_candidate_only_for_the_newest_tag(tmp_path, tag, n
         assert result.returncode != 0 and len(calls) == 1
         return
     assert result.returncode == 0, result.stderr
-    assert calls[1:] == (["snapcraft release voicestudio 42 candidate"] if released else [])
+    assert calls[1:] == (["snapcraft release wisprstudio 42 candidate"] if released else [])
     assert "Store revision: 42" in (tmp_path / "summary").read_text()
 
 
@@ -191,7 +191,7 @@ def test_release_preserves_authored_announcement_and_contributors(monkeypatch, t
     assets = tmp_path / "assets"
     assets.mkdir()
     for suffix in ("mac-arm64.dmg", "mac-x64.dmg", "linux-x64.deb"):
-        (assets / f"VoiceStudio-1.2.3-{suffix}").write_bytes(b"fixture")
+        (assets / f"WisprStudio-1.2.3-{suffix}").write_bytes(b"fixture")
     module.prepare(assets, "v1.2.3")
     assert (assets / "RELEASE_NOTES.md").read_text() == notes
 
@@ -203,16 +203,16 @@ def validate_sunset(monkeypatch):
     spec.loader.exec_module(module)
     return module.validate_sunset
 
-def feed(url="https://github.com/debpalash/VoiceStudio/releases/download/v1.2.3/app.tar.gz"):
+def feed(url="https://github.com/TheHalfMoon/wisprstudio/releases/download/v1.2.3/app.tar.gz"):
     return {"version": "1.2.3", "platforms": {"linux-x86_64": {"url": url, "signature": "signed"}}}
 
 def test_sunset_feed_stays_on_immutable_tauri_release(validate_sunset):
     validate_sunset(feed(), "v1.2.3")
 
 @pytest.mark.parametrize("url", [
-    "https://github.com/debpalash/VoiceStudio/releases/latest/download/app.tar.gz",
-    "https://example.com/debpalash/VoiceStudio/releases/download/v1.2.3/app.tar.gz",
-    "https://github.com/debpalash/VoiceStudio/releases/download/v2.0.0/app.exe",
+    "https://github.com/TheHalfMoon/wisprstudio/releases/latest/download/app.tar.gz",
+    "https://example.com/TheHalfMoon/wisprstudio/releases/download/v1.2.3/app.tar.gz",
+    "https://github.com/TheHalfMoon/wisprstudio/releases/download/v2.0.0/app.exe",
 ])
 def test_sunset_rejects_redirecting_legacy_clients(url, validate_sunset):
     with pytest.raises(ValueError):

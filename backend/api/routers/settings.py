@@ -1198,11 +1198,10 @@ async def clear_temp_files():
 
 _HF_ENDPOINT_ENV = "HF_ENDPOINT"
 
-# A few well-known mirrors, surfaced as quick-picks in the UI. hf-mirror.com
-# is the community mirror most-used in China; the official endpoint clears it.
+# Official Hugging Face endpoint preset (empty string clears any custom HF_ENDPOINT).
+# Third-party community mirrors are never pre-populated or probed automatically.
 _HF_MIRROR_PRESETS = [
     {"label": "Hugging Face (official)", "url": ""},
-    {"label": "hf-mirror.com (community, China)", "url": "https://hf-mirror.com"},
 ]
 
 

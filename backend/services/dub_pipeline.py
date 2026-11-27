@@ -41,7 +41,10 @@ import time
 from collections import OrderedDict
 from typing import AsyncIterator, Optional
 
-import soundfile as sf
+try:
+    import soundfile as sf
+except ImportError:  # pragma: no cover - lightweight test env
+    sf = None  # type: ignore[assignment]
 
 from core.config import DUB_DIR
 from fastapi import HTTPException

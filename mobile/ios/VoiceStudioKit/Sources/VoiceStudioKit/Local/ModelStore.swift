@@ -14,7 +14,7 @@ public struct DownloadPolicy: Sendable {
 public final class ModelRedirectDelegate: NSObject, URLSessionTaskDelegate, Sendable {
     public static func allowed(_ url: URL) -> Bool {
         guard url.scheme == "https", url.user == nil, url.password == nil, url.port == nil || url.port == 443, let host = url.host?.lowercased() else { return false }
-        return ["huggingface.co", "hf-mirror.com", "hf.co", "xethub.hf.co", "github.com", "release-assets.githubusercontent.com", "objects.githubusercontent.com"].contains(host) || host.hasSuffix(".huggingface.co") || host.hasSuffix(".hf.co") || host.hasSuffix(".hf-mirror.com")
+        return ["huggingface.co", "hf.co", "xethub.hf.co", "github.com", "release-assets.githubusercontent.com", "objects.githubusercontent.com"].contains(host) || host.hasSuffix(".huggingface.co") || host.hasSuffix(".hf.co")
     }
     public func urlSession(_ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest, completionHandler: @escaping @Sendable (URLRequest?) -> Void) {
         guard let url = request.url, Self.allowed(url) else { completionHandler(nil); return }
@@ -335,7 +335,7 @@ public actor ModelStore {
         for attempt in 0..<5 {
             var retryAfter: Int?
             let fixedHost = file.url.flatMap { URL(string: $0)?.host }
-            let hosts = fixedHost != nil && fixedHost != "huggingface.co" ? [fixedHost!] : ["huggingface.co","hf-mirror.com"]
+            let hosts = fixedHost != nil && fixedHost != "huggingface.co" ? [fixedHost!] : ["huggingface.co"]
             let sources = hosts.allSatisfy { sourceRates[$0] != nil } ? hosts.sorted { sourceRates[$0,default: 0] > sourceRates[$1,default: 0] } : (offset >= max(16_777_216,transport.preferredRangeBytes) ? Array(hosts.reversed()) : hosts)
             for host in sources where !permanent.contains(host) {
                 try Task.checkCancellation(); try checkPermission(model)

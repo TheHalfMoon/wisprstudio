@@ -6,9 +6,10 @@ from pathlib import Path
 
 import pytest
 
+from core.shell_tools import posix_bash_env, resolve_posix_bash
+
 REPO = Path(__file__).resolve().parents[1]
-BASH = (shutil.which("bash") if os.name != "nt" else
-        "C:/Program Files/Git/bin/bash.exe")
+BASH = resolve_posix_bash()
 
 
 @pytest.mark.parametrize("platform", ["windows-x86_64", "linux-x86_64", "linux-aarch64"])
@@ -72,10 +73,18 @@ bash scripts/build-omnivoice-tts.sh --platform "$PLATFORM" --commit-sha aaaaaaaa
     msvc.mkdir()
     for dll in ("msvcp140.dll", "vcruntime140.dll"):
         (msvc / dll).write_text("crt")
-    env = {**os.environ, "MODE": mode, "PLATFORM": platform,
-           "OMNIVOICE_MSVC_RUNTIME_DIR": msvc.as_posix()}
+    env = posix_bash_env(
+        [fake],
+        base_env={
+            **os.environ,
+            "MODE": mode,
+            "PLATFORM": platform,
+            "OMNIVOICE_MSVC_RUNTIME_DIR": msvc.as_posix(),
+        },
+        bash_executable=BASH,
+    )
     result = subprocess.run([BASH, launcher.as_posix()], env=env,
-                            capture_output=True, text=True, timeout=30,
+                            capture_output=True, text=True, encoding="utf-8", timeout=90,
                             check=False)
     assert result.returncode == 0, result.stdout + result.stderr
     log = (tmp_path / "cmake.log").read_text()

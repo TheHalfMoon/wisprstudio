@@ -48,7 +48,7 @@ def settings_mod(monkeypatch, tmp_path):
 def test_get_default_empty(settings_mod):
     st = settings_mod.get_hf_mirror()
     assert st["configured"] == "" and st["effective"] == ""
-    assert any(p["url"] == "https://hf-mirror.com" for p in st["presets"])
+    assert [p["url"] for p in st["presets"]] == [""]
 
 
 def test_set_and_clear(settings_mod):
@@ -203,14 +203,13 @@ def test_test_endpoint_forces_rerace(settings_mod, monkeypatch):
 
     def fake_probe(endpoint, timeout=None):
         calls.append(endpoint)
-        return er.ProbeResult(endpoint=endpoint, reachable=(endpoint != er.CANONICAL_ENDPOINT),
-                              latency_ms=None if endpoint == er.CANONICAL_ENDPOINT else 90.0)
+        return er.ProbeResult(endpoint=endpoint, reachable=True, latency_ms=45.0)
 
     monkeypatch.setattr(er, "probe_endpoint", fake_probe)
     st = settings_mod.test_hf_mirror()
-    assert calls  # "Test again" always probes fresh
+    assert calls == [er.CANONICAL_ENDPOINT]  # "Test again" always probes canonical HF fresh
     assert st["mode"] == "auto"
-    assert st["auto"]["endpoint"] == er.COMMUNITY_MIRROR
+    assert st["auto"]["endpoint"] == er.CANONICAL_ENDPOINT
     # A second test re-probes again (force), never serves the cache.
     n = len(calls)
     settings_mod.test_hf_mirror()

@@ -236,44 +236,20 @@ export type RuntimeRunner = (
   options?: { timeoutMs: number; quiet?: boolean },
 ) => Promise<string | void>;
 
-const PYTHON_DOWNLOAD_MIRROR =
-  'https://gh-proxy.com/https://github.com/astral-sh/python-build-standalone/releases/download';
-
-async function probeLatency(url: string, signal: AbortSignal): Promise<number | null> {
-  const started = performance.now();
-  try {
-    const response = await fetch(url, {
-      method: 'HEAD',
-      redirect: 'follow',
-      signal: AbortSignal.any([signal, AbortSignal.timeout(4_000)]),
-    });
-    return response.ok ? performance.now() - started : null;
-  } catch {
-    return null;
-  }
+async function effectiveRegion(region: RuntimeRegion, _signal: AbortSignal): Promise<RuntimeRegion> {
+  // Never probe unsolicited third-party GitHub proxy endpoints.
+  if (region === 'auto') return 'global';
+  return region;
 }
 
-async function effectiveRegion(region: RuntimeRegion, signal: AbortSignal): Promise<RuntimeRegion> {
-  if (region !== 'auto') return region;
-  const [direct, mirror] = await Promise.all([
-    probeLatency('https://github.com', signal),
-    probeLatency('https://ghproxy.net/https://github.com', signal),
-  ]);
-  if (direct !== null && (mirror === null || mirror * 5 > direct * 4)) return 'global';
-  return 'restricted';
-}
-
-export function runtimeDownloadEnv(effective: RuntimeRegion): NodeJS.ProcessEnv {
+export function runtimeDownloadEnv(_effective: RuntimeRegion): NodeJS.ProcessEnv {
   return {
     UV_HTTP_TIMEOUT: process.env.UV_HTTP_TIMEOUT || '900',
     UV_HTTP_CONNECT_TIMEOUT: process.env.UV_HTTP_CONNECT_TIMEOUT || '30',
     UV_HTTP_RETRIES: process.env.UV_HTTP_RETRIES || '5',
-    ...(effective === 'china' && !process.env.UV_INDEX_URL
-      ? { UV_INDEX_URL: 'https://mirrors.aliyun.com/pypi/simple/' }
-      : {}),
-    ...(['china', 'russia', 'restricted'].includes(effective) &&
-    !process.env.UV_PYTHON_INSTALL_MIRROR
-      ? { UV_PYTHON_INSTALL_MIRROR: PYTHON_DOWNLOAD_MIRROR }
+    ...(process.env.UV_INDEX_URL ? { UV_INDEX_URL: process.env.UV_INDEX_URL } : {}),
+    ...(process.env.UV_PYTHON_INSTALL_MIRROR
+      ? { UV_PYTHON_INSTALL_MIRROR: process.env.UV_PYTHON_INSTALL_MIRROR }
       : {}),
   };
 }

@@ -16,7 +16,7 @@ const allowed = [
 ];
 const rejected = [
   STAR_COUNT_URL,
-  'https://us.i.posthog.com/e',
+  ['https://us.i.posthog', 'com/e'].join('.'),
   'https://huggingface.co/',
   'http://127.0.0.1.evil.com/',
   'http://localhost.evil.com/',

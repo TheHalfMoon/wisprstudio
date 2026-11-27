@@ -22,15 +22,13 @@ import ReportBugButton from '../components/ReportBugButton';
 // One home for every outward channel. The repo/Discord/security URLs match the
 // values the rest of the app uses (bug reporter, footer, SECURITY.md) so a link
 // change here can never leave one surface pointing somewhere stale (#contact).
-const REPO_URL = 'https://github.com/debpalash/VoiceStudio';
+const REPO_URL = 'https://github.com/TheHalfMoon/wisprstudio';
 const ISSUES_URL = `${REPO_URL}/issues`;
-const DISCORD_URL = 'https://discord.gg/bzQavDfVV9';
-// GitHub Security Advisories = the private "report a vulnerability" flow that
-// SECURITY.md points at (never a public issue for security bugs).
+const DISCORD_URL = `${REPO_URL}/discussions`;
 const SECURITY_URL = `${REPO_URL}/security/advisories/new`;
-const EMAIL = 'hi@voicestudio.sh';
-const WEBSITE_URL = 'https://palash.dev';
-const X_URL = 'https://x.com/idebpalash';
+const EMAIL = 'opensource@wispral.dev';
+const WEBSITE_URL = REPO_URL;
+const X_URL = REPO_URL;
 
 // Compact action cards for every outward channel. `kind` picks CTA behaviour:
 //   bug      → reuse ReportBugButton (prefilled GitHub issue + scrubbed diag)

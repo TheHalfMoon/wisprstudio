@@ -6127,7 +6127,7 @@
   }
  },
  "info": {
-  "title": "VoiceStudio API",
+  "title": "WisprStudio API",
   "version": "0.0.0"
  },
  "openapi": "3.1.0",
@@ -11708,7 +11708,7 @@
   },
   "/dub/ingest-url": {
    "post": {
-    "description": "Ingest a remote video URL via yt-dlp. Queues background prep task.\n\nReturns 202 immediately with {job_id, task_id}. All work (download,\naudio extract, Demucs, scene detect, thumbnail) happens in the background\ntask and progress is streamed via /tasks/stream/{task_id}.",
+    "description": "Ingest a remote video URL via yt-dlp (disabled by default in WisprStudio).",
     "operationId": "dub_ingest_url_dub_ingest_url_post",
     "requestBody": {
      "content": {
@@ -13959,7 +13959,7 @@
   },
   "/gallery/download": {
    "post": {
-    "description": "Download a clip from YouTube for voice cloning.",
+    "description": "Download a clip from YouTube \u2014 disabled by default in WisprStudio.",
     "operationId": "download_youtube_clip_gallery_download_post",
     "parameters": [
      {
@@ -14061,7 +14061,7 @@
   },
   "/gallery/search/youtube": {
    "post": {
-    "description": "Search a source site (via yt-dlp) for clips matching the user's query.\n\nThe query is user-supplied; the project ships no celebrity/character seed\nlist. Users are responsible for the licensing of whatever they import.",
+    "description": "Search a source site (via yt-dlp) \u2014 disabled by default in WisprStudio.",
     "operationId": "search_youtube_gallery_search_youtube_post",
     "parameters": [
      {
@@ -15632,7 +15632,7 @@
   },
   "/media-tools/ytdlp/update": {
    "post": {
-    "description": "Fetch the newest yt-dlp wheel (sha256-verified against PyPI metadata)\ninto the update-surviving overlay. Applies on next backend start.",
+    "description": "Fetch the newest yt-dlp wheel (disabled by default unless remote URL ingest is enabled).",
     "operationId": "media_tools_ytdlp_update_media_tools_ytdlp_update_post",
     "responses": {
      "200": {
@@ -19362,7 +19362,7 @@
   },
   "/watermark/settings": {
    "post": {
-    "description": "Update watermark preferences.",
+    "description": "Update watermark preferences (note: cloned/reference voices always enforce watermarking).",
     "operationId": "update_watermark_settings_watermark_settings_post",
     "parameters": [
      {

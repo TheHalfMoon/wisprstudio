@@ -3,19 +3,19 @@
     {
       "id": "github",
       "name": "GitHub Sponsors",
-      "url": "https://github.com/sponsors/debpalash",
+      "url": "https://github.com/TheHalfMoon/wisprstudio#sponsors",
       "detailKey": "donate.github_desc"
     },
     {
       "id": "kofi",
-      "name": "Ko-fi",
-      "url": "https://ko-fi.com/debpalash",
+      "name": "Support",
+      "url": "https://github.com/TheHalfMoon/wisprstudio#support",
       "detailKey": "donate.coffee_desc"
     },
     {
       "id": "paypal",
-      "name": "PayPal",
-      "url": "https://paypal.me/palashCoder",
+      "name": "Discussions",
+      "url": "https://github.com/TheHalfMoon/wisprstudio/discussions",
       "detailKey": "donate.paypal_desc"
     }
   ],
@@ -35,14 +35,6 @@
       "detailKey": "mobile.support.opal",
       "tierKey": "support.sponsors_tier_strategic",
       "artwork": "opal.png"
-    },
-    {
-      "id": "supermetry",
-      "name": "Supermetry",
-      "url": "https://github.com/velixio/supermetry",
-      "detailKey": "mobile.support.supermetry",
-      "tierKey": "support.sponsors_tier_strategic",
-      "artwork": "supermetry.png"
     },
     {
       "id": "spicrawl",

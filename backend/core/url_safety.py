@@ -48,8 +48,15 @@ from urllib.parse import urlsplit
 from core.user_env import DESKTOP_ENV_FILE_HINT
 
 ALLOW_PRIVATE_ENV = "OMNIVOICE_ALLOW_PRIVATE_URL_IMPORTS"
+ALLOW_REMOTE_URL_INGEST_ENV = "WISPRSTUDIO_ALLOW_REMOTE_URL_INGEST"
 _TRUTHY = frozenset({"1", "true", "yes", "on"})
 _ALLOWED_SCHEMES = frozenset({"http", "https"})
+
+REMOTE_URL_INGEST_DISABLED_DETAIL = (
+    "Remote URL media scraping (yt-dlp) is disabled by default in WisprStudio. "
+    "Import a local audio or video file instead, or explicitly set "
+    f"{ALLOW_REMOTE_URL_INGEST_ENV}=1 if remote URL ingest is authorized."
+)
 
 # Carrier-grade NAT (RFC 6598) and the NAT64 well-known prefix (RFC 6052).
 _CGNAT = ipaddress.ip_network("100.64.0.0/10")
@@ -93,6 +100,11 @@ class UnsafeURLError(ValueError):
 def private_url_imports_allowed() -> bool:
     """Whether the user opted in to URL imports from private addresses."""
     return os.environ.get(ALLOW_PRIVATE_ENV, "").strip().lower() in _TRUTHY
+
+
+def remote_url_ingest_enabled() -> bool:
+    """Whether yt-dlp remote URL scraping routes are explicitly enabled (default False)."""
+    return os.environ.get(ALLOW_REMOTE_URL_INGEST_ENV, "").strip().lower() in _TRUTHY
 
 
 def _embedded_ipv4(address: ipaddress.IPv6Address) -> ipaddress.IPv4Address | None:

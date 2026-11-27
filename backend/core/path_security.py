@@ -13,7 +13,7 @@ import os
 import re
 from pathlib import Path
 
-_WINDOWS_RESERVED_NAMES = frozenset({"CON", "PRN", "AUX", "NUL"}) | frozenset(
+_WINDOWS_RESERVED_NAMES = frozenset({"CON", "PRN", "AUX", "NUL", "CONIN$", "CONOUT$"}) | frozenset(
     f"{prefix}{number}" for prefix in ("COM", "LPT") for number in range(1, 10)
 )
 

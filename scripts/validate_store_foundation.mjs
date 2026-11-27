@@ -48,7 +48,8 @@ assert.equal(privacy.schemaVersion, 1);
 assert.equal(privacy.policyUrl, metadata.urls.privacyPolicy);
 assert.equal(privacy.defaultBehavior.analyticsEnabled, false);
 assert.equal(privacy.defaultBehavior.audioUploaded, false);
-assert(privacy.transmittedData.some((entry) => entry.destination === "PostHog US"));
+assert(!privacy.transmittedData.some((entry) => entry.destination.includes("PostHog")));
+assert(!privacy.transmittedData.some((entry) => entry.destination === "GitHub API"));
 
 assert.equal(compliance.schemaVersion, 1);
 const allowedStatuses = new Set(compliance.statuses);

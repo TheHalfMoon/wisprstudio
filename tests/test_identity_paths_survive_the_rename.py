@@ -42,6 +42,7 @@ def test_the_python_package_name_is_unchanged():
 
 
 def test_the_model_class_name_is_unchanged():
+    pytest.importorskip("torch")
     import omnivoice
     from services.model_manager import _lazy_omnivoice
 
@@ -54,9 +55,9 @@ def test_the_public_env_var_prefix_is_unchanged(env_var):
     assert env_var in source, WHY
 
 
-def test_the_product_and_artifact_names_are_voicestudio():
+def test_the_product_and_artifact_names_are_wisprstudio():
     config = json.loads(_read("config/app.json"))
     builder = _read("electron/electron-builder.config.mjs")
-    assert config["productName"] == "VoiceStudio"
+    assert config["productName"] == "WisprStudio"
     assert "productName: PRODUCT_NAME" in builder
     assert "artifactPrefix" in builder

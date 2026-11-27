@@ -74,8 +74,8 @@ class SupportPagesTest {
         compose.waitUntil(5000) {compose.onAllNodesWithTag("support.donate.github").fetchSemanticsNodes().isNotEmpty()}
         capture("android-donate-large-text")
         assertTrue(opened.isEmpty())
-        val expected=listOf("github" to "https://github.com/sponsors/debpalash","kofi" to "https://ko-fi.com/debpalash","paypal" to "https://paypal.me/palashCoder",
-            "star" to "https://github.com/debpalash/VoiceStudio","discord" to "https://discord.gg/bzQavDfVV9")
+        val expected=listOf("github" to "https://github.com/TheHalfMoon/wisprstudio#sponsors","kofi" to "https://github.com/TheHalfMoon/wisprstudio#support","paypal" to "https://github.com/TheHalfMoon/wisprstudio/discussions",
+            "star" to "https://github.com/TheHalfMoon/wisprstudio","discord" to "https://discord.gg/bzQavDfVV9")
         for((id,url) in expected) {
             compose.onNodeWithTag("support.donate.$id").performScrollTo().assertIsDisplayed().assertHeightIsAtLeast(48.dp).performClick()
             assertEquals(url,opened.last())
@@ -86,7 +86,7 @@ class SupportPagesTest {
 
     @Test fun projectArtAndSponsorLabelsAreBundledAndLinksRequireATap() {
         val expected=listOf("opengtm" to "https://github.com/debpalash/OpenGTM","opal" to "https://github.com/debpalash/Opal",
-            "supermetry" to "https://github.com/velixio/supermetry","spicrawl" to "https://spicrawl.com")
+            "spicrawl" to "https://spicrawl.com")
         compose.setContent {Content(light=true,large=true) {OtherAppsScreen()}}
         compose.waitUntil(5000) {expected.all {(id,_) ->
             compose.onAllNodesWithTag("support.artwork.$id",useUnmergedTree=true).fetchSemanticsNodes().isNotEmpty()
@@ -99,7 +99,7 @@ class SupportPagesTest {
             assertEquals(url,opened.last())
         }
         compose.onNodeWithText(L10n.load(app,"en").t("mobile.support.special_sponsor")).assertExists()
-        assertEquals(4,opened.size)
+        assertEquals(3,opened.size)
     }
 
     @Test fun proExplainsDesktopScopeAndFreePhoneToolsWithoutPurchaseControls() {

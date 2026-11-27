@@ -1,7 +1,7 @@
-# VoiceStudio compatibility entry
+# WisprStudio compatibility entry
 
 The current cross-agent package is [voicestudio](../../../../skills/voicestudio/SKILL.md).
-For new installations use `npx skills add debpalash/VoiceStudio --skill voicestudio`.
+For new installations use `npx skills add TheHalfMoon/wisprstudio --skill voicestudio`.
 
 Use the running backend at the user's configured address (default
 `http://localhost:3900`). Check `/health`, discover `/openapi.json` and
@@ -19,7 +19,7 @@ before reporting success. Protected backends require configured credentials;
 never disable authentication to make an example work.
 
 Source and current setup documentation:
-https://github.com/debpalash/VoiceStudio
+https://github.com/TheHalfMoon/wisprstudio
 
 This archived entry is not an installable skill. Existing installations should
 remove the old `omnivoice` / `oss-maintainer` entries and install `voicestudio` /

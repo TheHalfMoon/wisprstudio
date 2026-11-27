@@ -36,7 +36,10 @@ FAILED_MARK = "VOICESTUDIO_GPU_TEST_FAILED="
 
 SCRIPT = f"""
 import sys
-import torch
+try:
+    import torch
+except ImportError:  # pragma: no cover - lightweight test env
+    torch = None  # type: ignore[assignment]
 print({STARTED_MARK!r}, flush=True)
 if not torch.cuda.is_available():
     print({NO_GPU_MARK!r}, flush=True)

@@ -326,7 +326,7 @@ async def _convert_keeping_delivery(row, profile_id: str, source_path: str) -> d
 
     from services.watermark import mark_synthetic_async
     audio_tensor = await mark_synthetic_async(
-        audio_tensor, sample_rate, context="convert.finalize",
+        audio_tensor, sample_rate, context="convert.finalize", watermark_required=True,
     )
     _, meta = await _finalize_generation(
         audio_tensor, sample_rate, text="", history_mode="convert",
@@ -567,7 +567,7 @@ async def convert_speech(
         # OUTPUTS_DIR, self-healing history row, retention prune, event emit.
         from services.watermark import mark_synthetic_async
         audio_tensor = await mark_synthetic_async(
-            audio_tensor, sample_rate, context="convert.finalize",
+            audio_tensor, sample_rate, context="convert.finalize", watermark_required=True,
         )
         _, meta = await _finalize_generation(
             audio_tensor, sample_rate, text=text, history_mode="convert",

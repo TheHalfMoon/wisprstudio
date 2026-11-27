@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
   "identity": {
-    "productName": "VoiceStudio",
-    "applicationId": "com.voicestudio.desktop",
+    "productName": "WisprStudio",
+    "applicationId": "com.wispral.wisprstudio",
     "macAppStore": {
-      "applicationId": "sh.voicestudio.pro",
+      "applicationId": "com.wispral.wisprstudio.mas",
       "appStoreConnectId": "6829361961"
     },
-    "publisherLegalName": "Yupcha Softwares Private Limited",
+    "publisherLegalName": "Wispral Contributors",
     "license": "AGPL-3.0-only",
     "defaultLocale": "en-US"
   },
   "listing": {
-    "title": "VoiceStudio",
-    "shortDescription": "Local voice cloning, voice design, dubbing and dictation on your computer.",
-    "description": "VoiceStudio is a local-first desktop studio for voice cloning, voice design, video dubbing, transcription and real-time dictation. Audio and projects remain on the user's computer by default, with no account or API key required. Models and the managed runtime are installed only through explicit setup or model-install actions.",
+    "title": "WisprStudio",
+    "shortDescription": "Offline-first voice studio for authorized cloning, dubbing, transcription and narration.",
+    "description": "WisprStudio is an offline-first desktop voice studio for consent-verified voice cloning, voice design, video dubbing, transcription and narration. Audio, consent ledgers and projects remain on your computer with zero telemetry and no cloud account required. Models and runtimes install only through explicit user-initiated actions.",
     "keywords": [
-      "voice cloning",
+      "voice studio",
       "text to speech",
       "dubbing",
       "dictation",
@@ -25,10 +25,10 @@
     ]
   },
   "urls": {
-    "website": "https://voicestudio.sh",
-    "privacyPolicy": "https://voicestudio.sh/privacy",
-    "support": "https://github.com/debpalash/VoiceStudio/issues",
-    "source": "https://github.com/debpalash/VoiceStudio"
+    "website": "https://github.com/TheHalfMoon/wisprstudio",
+    "privacyPolicy": "https://github.com/TheHalfMoon/wisprstudio/blob/main/LICENSE-NOTICE.md",
+    "support": "https://github.com/TheHalfMoon/wisprstudio/issues",
+    "source": "https://github.com/TheHalfMoon/wisprstudio"
   },
   "requirements": {
     "diskGib": 10,

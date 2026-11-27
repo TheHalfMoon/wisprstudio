@@ -35,8 +35,8 @@ $ErrorActionPreference = 'Stop'
 $legacyIdentifier = 'com.debpalash.omnivoice-studio'
 # Electron app folder (app.getPath('userData'); electron/src/main/app-identity.ts)
 # and electron-updater's download cache (package name + "-updater").
-$electronAppName = 'VoiceStudio'
-$electronUpdaterCache = 'voicestudio-electron-updater'
+$electronAppName = 'WisprStudio'
+$electronUpdaterCache = 'wisprstudio-electron-updater'
 
 # The installed app: the Electron NSIS installer (default `irm ... | iex`
 # install) registers "Uninstall VoiceStudio.exe"; a final Tauri install is an
@@ -59,13 +59,13 @@ if ($RemoveApp) {
     'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*'
   )
   $entries = @(Get-ItemProperty $uninstallKeys -ErrorAction SilentlyContinue |
-    Where-Object { $_.DisplayName -match 'VoiceStudio|OmniVoice' })
+    Where-Object { $_.DisplayName -match 'WisprStudio|VoiceStudio|OmniVoice' })
   # The actual removal path is unelevated. A registered uninstaller that needs
   # administrator privileges requests its own consent; this script never lends
   # an elevated token to a registry-selected executable.
   foreach ($entry in $entries) {
     if ([string]$entry.UninstallString -match '^"([^"]+\.exe)"(?:\s+(/currentuser|/allusers))?\s*$' -and
-        (Split-Path $Matches[1] -Leaf) -eq 'Uninstall VoiceStudio.exe' -and
+        ((Split-Path $Matches[1] -Leaf) -in @('Uninstall WisprStudio.exe', 'Uninstall VoiceStudio.exe')) -and
         (Test-Path -LiteralPath $Matches[1] -PathType Leaf)) {
       $candidate = [System.IO.Path]::GetFullPath($Matches[1])
       $scope = $Matches[2]
@@ -128,7 +128,7 @@ try {
     $location = Get-Content -LiteralPath $locationFile -Raw | ConvertFrom-Json
     $root = [string]$location.root
     if ($location.owned -eq $true -and [System.IO.Path]::IsPathRooted($root) -and
-        (Split-Path $root -Leaf) -eq 'VoiceStudio' -and
+        ((Split-Path $root -Leaf) -in @('WisprStudio', 'VoiceStudio')) -and
         $root.TrimEnd('\') -ne (Join-Path $electronUserData 'runtime') -and
         (Test-Path -LiteralPath (Join-Path $root 'project') -PathType Container)) {
       $electronRuntime = $root
@@ -184,39 +184,7 @@ if (-not $Yes) {
   exit 0
 }
 
-# ── Opt-in uninstall ping (before anything is deleted) ──────────────────────
-# If — and only if — the user opted in to anonymous analytics, send a single
-# best-effort `app_uninstalled` event before the data (and the consent record
-# it lives in) goes away. The backend writes analytics_info.json next to
-# prefs.json ONLY while analytics is enabled (explicit consent + a build that
-# ships a token) and deletes it on opt-out, so the file's presence is itself
-# consent-gated; the prefs.json check is belt and braces. Content-free: the
-# event carries the app version, the OS name, and the random per-install id —
-# nothing else. Never blocks or fails the uninstall (2s timeout, silent
-# failure). Not opted in => nothing is sent and nothing is printed.
-try {
-  $infoPath  = Join-Path $dataDir 'analytics_info.json'
-  $prefsPath = Join-Path $dataDir 'prefs.json'
-  if ((Test-Path -LiteralPath $infoPath) -and (Test-Path -LiteralPath $prefsPath)) {
-    $prefs = Get-Content -LiteralPath $prefsPath -Raw | ConvertFrom-Json
-    if ($prefs.analytics_enabled -eq $true) {
-      $info = Get-Content -LiteralPath $infoPath -Raw | ConvertFrom-Json
-      if ($info.token -and $info.host -and $info.distinct_id) {
-        Write-Host 'Sending anonymous uninstall ping (you opted in to analytics).'
-        $body = @{
-          api_key     = $info.token
-          event       = 'app_uninstalled'
-          distinct_id = $info.distinct_id
-          properties  = @{ app_version = "$($info.app_version)"; platform = "$($info.platform)" }
-        } | ConvertTo-Json
-        Invoke-RestMethod -Method Post -Uri "$($info.host)/capture/" `
-          -ContentType 'application/json' -Body $body -TimeoutSec 2 | Out-Null
-      }
-    }
-  }
-} catch {
-  # Best-effort by design: a dead network must never block the uninstall.
-}
+# Zero-telemetry policy: WisprStudio never transmits an uninstall beacon.
 
 $deleted = 0
 foreach ($t in $appTargets) {

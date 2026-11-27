@@ -1,9 +1,15 @@
 import importlib.abc
 import importlib.machinery
+import ipaddress
 import os
+import socket
 import sys
 import tempfile
 import time
+
+os.environ.setdefault("PYTHONUTF8", "1")
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
 # Backend runs with `--app-dir backend`, so tests must do the same.
 _BACKEND = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "backend"))
@@ -154,6 +160,71 @@ def pytest_configure(config):
         "markers",
         "model_licence_gate: run with real model-licence acceptance (default: accepted)",
     )
+    config.addinivalue_line(
+        "markers",
+        "allow_external_network: opt out of the unit-test loopback-only socket guard",
+    )
+
+
+_LOOPBACK_HOSTS = frozenset({"localhost", "127.0.0.1", "::1", "0:0:0:0:0:0:0:1", ""})
+
+
+def _is_loopback_sockaddr(address) -> bool:
+    """True when `address` targets loopback (`127.0.0.0/8`, `::1`, `localhost`, or AF_UNIX)."""
+    if isinstance(address, (str, bytes)):
+        return True  # AF_UNIX local path
+    if not isinstance(address, tuple) or not address:
+        return True
+    host = str(address[0] or "").strip().strip("[]")
+    if host.lower() in _LOOPBACK_HOSTS:
+        return True
+    try:
+        ip = ipaddress.ip_address(host.split("%", 1)[0])
+        return ip.is_loopback or ip.is_unspecified
+    except ValueError:
+        return False
+
+
+@pytest.fixture(autouse=True)
+def _block_non_loopback_egress(request):
+    """Fail closed on any non-loopback (`127.0.0.1` / `::1`) socket connection in unit tests."""
+    if (
+        request.node.get_closest_marker("allow_external_network")
+        or os.environ.get("WISPRSTUDIO_ALLOW_TEST_NETWORK") == "1"
+    ):
+        yield
+        return
+
+    orig_connect = socket.socket.connect
+    orig_connect_ex = socket.socket.connect_ex
+    orig_create_connection = socket.create_connection
+
+    def _guarded_connect(self, address):
+        if not _is_loopback_sockaddr(address):
+            raise ConnectionRefusedError(
+                f"Blocked non-loopback network egress in offline unit test: {address!r}"
+            )
+        return orig_connect(self, address)
+
+    def _guarded_connect_ex(self, address):
+        if not _is_loopback_sockaddr(address):
+            raise ConnectionRefusedError(
+                f"Blocked non-loopback network egress in offline unit test: {address!r}"
+            )
+        return orig_connect_ex(self, address)
+
+    def _guarded_create_connection(address, *args, **kwargs):
+        if not _is_loopback_sockaddr(address):
+            raise ConnectionRefusedError(
+                f"Blocked non-loopback network egress in offline unit test: {address!r}"
+            )
+        return orig_create_connection(address, *args, **kwargs)
+
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(socket.socket, "connect", _guarded_connect)
+        mp.setattr(socket.socket, "connect_ex", _guarded_connect_ex)
+        mp.setattr(socket, "create_connection", _guarded_create_connection)
+        yield
 
 
 _LICENCE_STUB = {"active": False, "stubbed": []}
@@ -717,23 +788,22 @@ def _restore_config_paths_after_reload():
         yield
     finally:
         cfg = sys.modules.get("core.config")
-        if cfg is None or not before:
-            return
-        # 1. core.config itself back to what this module inherited.
-        for const, value in before.items():
-            if getattr(cfg, const, None) != value:
-                setattr(cfg, const, value)
-        # 2. Re-sync every module that copied a value out of it. A reload
-        #    fixture typically imports the router under test for the first
-        #    time, so it has no earlier value to restore — which is how
-        #    api.routers.profiles kept a tmp_path VOICES_DIR while core.config
-        #    was already correct.
-        for name, mod in list(sys.modules.items()):
-            if mod is None or not name.startswith(("api.routers.", "services.", "core.")):
-                continue
+        if cfg is not None and before:
+            # 1. core.config itself back to what this module inherited.
             for const, value in before.items():
-                if isinstance(getattr(mod, const, None), str) and getattr(mod, const) != value:
-                    setattr(mod, const, value)
+                if getattr(cfg, const, None) != value:
+                    setattr(cfg, const, value)
+            # 2. Re-sync every module that copied a value out of it. A reload
+            #    fixture typically imports the router under test for the first
+            #    time, so it has no earlier value to restore — which is how
+            #    api.routers.profiles kept a tmp_path VOICES_DIR while core.config
+            #    was already correct.
+            for name, mod in list(sys.modules.items()):
+                if mod is None or not name.startswith(("api.routers.", "services.", "core.")):
+                    continue
+                for const, value in before.items():
+                    if isinstance(getattr(mod, const, None), str) and getattr(mod, const) != value:
+                        setattr(mod, const, value)
 
 
 # ── Symlinks on a stock Windows checkout ───────────────────────────────────

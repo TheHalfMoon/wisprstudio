@@ -204,14 +204,8 @@ def render(data: dict[str, Any]) -> str:
 
 
 def _open_hf(path: str):
-    """Public HF only, with the same allowed mirror as the desktop."""
-    for host in ("https://huggingface.co", "https://hf-mirror.com"):
-        try:
-            return urlopen(host + path, timeout=60)
-        except (HTTPError, URLError, TimeoutError):
-            if host == "https://hf-mirror.com":
-                raise
-    raise AssertionError("unreachable")
+    """Official Hugging Face endpoint only (no third-party mirror fallback)."""
+    return urlopen("https://huggingface.co" + path, timeout=60)
 
 
 def pin_source(source: dict[str, Any]) -> dict[str, Any]:

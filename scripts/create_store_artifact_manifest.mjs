@@ -36,9 +36,9 @@ function releaseArtifact(name, distribution) {
   // Direct and Snap packages are `VoiceStudio-<version>-…`; store builds carry a label.
   const installer =
     {
-      "microsoft-store": /^VoiceStudio-MicrosoftStore-/,
-      "mac-app-store": /^VoiceStudio-MacAppStore-/,
-    }[distribution] ?? /^VoiceStudio-\d/;
+      "microsoft-store": /^WisprStudio-MicrosoftStore-/,
+      "mac-app-store": /^WisprStudio-MacAppStore-/,
+    }[distribution] ?? /^WisprStudio-\d/;
   const updatePrefix =
     distribution === "microsoft-store"
       ? "electron-microsoft-store-stable-"

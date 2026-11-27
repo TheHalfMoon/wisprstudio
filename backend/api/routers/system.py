@@ -5,7 +5,11 @@ import sys
 import platform
 import time
 import uuid
-import psutil
+
+try:
+    import psutil
+except ImportError:  # pragma: no cover - lightweight test env
+    psutil = None  # type: ignore[assignment]
 import asyncio
 import logging
 from fastapi import APIRouter, Depends, File, UploadFile, HTTPException, Query, Request
@@ -15,7 +19,11 @@ from services import tailscale as _tailscale
 from api.schemas import SysinfoResponse, SystemInfoResponse, ModelStatusResponse
 from api.dependencies import is_loopback, require_admin, require_admin_action
 from fastapi.responses import FileResponse, StreamingResponse
-import torch
+
+try:
+    import torch
+except ImportError:  # pragma: no cover - lightweight torch-free test env
+    torch = None  # type: ignore[assignment]
 import shutil
 import subprocess
 import shlex
@@ -43,22 +51,23 @@ router = APIRouter(dependencies=[Depends(require_admin)])
 logger = logging.getLogger("omnivoice.api")
 
 # Cache device checks at module load — they don't change at runtime
-_is_mac = hasattr(torch.backends, "mps") and torch.backends.mps.is_available()
-_is_cuda = torch.cuda.is_available()
+_is_mac = bool(torch is not None and hasattr(torch.backends, "mps") and torch.backends.mps.is_available())
+_is_cuda = bool(torch is not None and torch.cuda.is_available())
 try:
-    _is_xpu = hasattr(torch, "xpu") and torch.xpu.is_available()
+    _is_xpu = bool(torch is not None and hasattr(torch, "xpu") and torch.xpu.is_available())
 except Exception:
     _is_xpu = False
 try:
     # torch.npu exists only once the Ascend extension registers it; torch_npu
     # releases before 2.5.1 do not autoload, so import it where installed.
-    if not hasattr(torch, "npu") and importlib.util.find_spec("torch_npu"):
+    if torch is not None and not hasattr(torch, "npu") and importlib.util.find_spec("torch_npu"):
         importlib.import_module("torch_npu")
-    _is_npu = hasattr(torch, "npu") and torch.npu.is_available()
+    _is_npu = bool(torch is not None and hasattr(torch, "npu") and torch.npu.is_available())
 except Exception:
     _is_npu = False
 # Prime psutil's internal CPU counter so the first non-blocking call returns useful data
-psutil.cpu_percent(interval=None)
+if psutil is not None:
+    psutil.cpu_percent(interval=None)
 
 
 def _detect_cpu_model() -> str:

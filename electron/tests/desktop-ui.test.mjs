@@ -17,7 +17,7 @@ test('launch: window, title and bridge match the real OS', async (t) => {
   await withApp(t, {}, async ({ page }) => {
     await page.waitForFunction(() => Boolean(window.voicestudio?.files?.saveData));
     const facts = await bridgeFacts(page);
-    assert.match(facts.title, /VoiceStudio/);
+    assert.match(facts.title, /WisprStudio/);
     assert.equal(facts.platform, process.platform);
     assert.equal(facts.saveData, 'function');
   });
@@ -216,7 +216,7 @@ test('settings: theme and language survive restart, user data stays in the profi
     });
     const dark = page.getByRole('group', { name: 'Dark', exact: true });
     // Studio is the default palette, so pick the other one to make the change observable.
-    const original = dark.getByRole('button', { name: 'VoiceStudio Original', exact: true });
+    const original = dark.getByRole('button', { name: 'WisprStudio Quiet Signal', exact: true });
     await original.click();
     await original.and(page.locator('[aria-pressed="true"]')).waitFor();
 
@@ -307,12 +307,12 @@ test('dialogs: open and save round-trip through the main process', async (t) => 
     await stub('showSaveDialog', { canceled: false, filePath: output });
     const saved = await page.evaluate(() =>
       window.voicestudio.files.saveData({
-        data: new TextEncoder().encode('VoiceStudio desktop test'),
+        data: new TextEncoder().encode('WisprStudio desktop test'),
         suggestedName: 'dialog-test.txt',
       }),
     );
     assert.deepEqual(saved, { canceled: false, path: output });
-    assert.equal(readFileSync(output, 'utf8'), 'VoiceStudio desktop test');
+    assert.equal(readFileSync(output, 'utf8'), 'WisprStudio desktop test');
 
     rmSync(output);
     await stub('showSaveDialog', { canceled: true });

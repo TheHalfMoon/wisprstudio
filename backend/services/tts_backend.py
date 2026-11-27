@@ -32,7 +32,10 @@ from collections import OrderedDict
 from contextlib import contextmanager
 from typing import Literal, Optional
 
-import torch
+try:
+    import torch
+except ImportError:  # pragma: no cover - lightweight / GGUF-only test environments
+    torch = None  # type: ignore[assignment]
 
 from services.expression import COSYVOICE_INLINE_TAGS, OMNIVOICE_INLINE_TAGS, expression_caps
 

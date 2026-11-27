@@ -32,7 +32,7 @@ def fetch(item):
             raise RuntimeError('Bundled model component checksum failed')
         return
     part = output.with_suffix(output.suffix + '.part')
-    for host in ('huggingface.co', 'hf-mirror.com'):
+    for host in ('huggingface.co',):
         url = file.get('url') or 'https://' + host + '/' + model['repo'] + '/resolve/' + model['revision'] + '/' + file['path']
         if url.startswith('https://huggingface.co/'):
             url = url.replace('https://huggingface.co/', 'https://' + host + '/', 1)

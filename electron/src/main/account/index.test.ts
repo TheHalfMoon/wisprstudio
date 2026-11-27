@@ -1,7 +1,7 @@
 import { existsSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { afterEach, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 
 const h = vi.hoisted(() => ({
   packaged: false,
@@ -45,11 +45,15 @@ const opts = {
   isRemoteBackend: () => false,
   notifyBackend: vi.fn(async (_path: string) => {}),
 };
+beforeEach(() => {
+  vi.stubEnv('VOICESTUDIO_CLOUD_CLIENT_ID', '123456');
+});
 afterEach(() => {
   h.packaged = false;
   h.safeThrows = false;
   h.keyring = false;
   h.setBackendOnlyEnv.mockClear();
+  vi.unstubAllEnvs();
   vi.unstubAllGlobals();
 });
 

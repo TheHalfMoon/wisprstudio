@@ -11,7 +11,11 @@ from dataclasses import asdict, dataclass, field
 from typing import Callable, Mapping, Optional, Sequence
 
 import numpy as np
-import soundfile as sf
+
+try:
+    import soundfile as sf
+except ImportError:  # pragma: no cover - lightweight test env without libsndfile
+    sf = None  # type: ignore[assignment]
 
 from services.director import Direction
 

@@ -1,21 +1,18 @@
 <div align="center">
-  <h1><sub><img src="../../docs/logo.png" alt="" width="36" height="36" /></sub> VoiceStudio</h1>
+  <h1><sub><img src="../../docs/logo.png" alt="" width="36" height="36" /></sub> WisprStudio</h1>
   <p>
-    <a href="https://trendshift.io/repositories/28176?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-28176" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/28176" alt="ट्रेंडशिफ्ट बैज दिखाता है कि वॉयसस्टूडियो ट्रेंडिंग रिपॉजिटरी में कहां रैंक करता है" width="220" height="48" /></a>
-  </p>
-  <p>
-    <strong>🎉 <a href="https://github.com/debpalash/VoiceStudio/stargazers">GitHub पर 100,000 स्टार — आपका धन्यवाद!</a></strong>
+    <strong>🎉 <a href="https://github.com/TheHalfMoon/wisprstudio/stargazers">GitHub पर 100,000 स्टार — आपका धन्यवाद!</a></strong>
   </p>
   <h2>एआई वॉइस स्टूडियो। आपके डिवाइस पर।</h2>
   <h3>646 भाषाओं में आवाज़ क्लोन और डिज़ाइन करें, डबिंग करें, बोलकर लिखें, ऑडियो को टेक्स्ट में बदलें और कथावाचन करें।</h3>
   <p>आपके लैपटॉप, डेस्कटॉप, सर्वर, फोन, टैबलेट और अन्य पर चलता है</p>
   <p>
-    <a href="https://voicestudio.sh/?utm_source=github&utm_medium=readme&utm_campaign=project">वेबसाइट</a> ·
-    <a href="https://github.com/debpalash/VoiceStudio/releases/latest">डाउनलोड</a> ·
+    <a href="https://github.com/TheHalfMoon/wisprstudio">वेबसाइट</a> ·
+    <a href="https://github.com/TheHalfMoon/wisprstudio/releases/latest">डाउनलोड</a> ·
     <a href="#get-started">शुरू करें</a> ·
     <a href="#documentation">दस्तावेज़</a> ·
-    <a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project">VoiceStudio Pro</a> ·
-    <a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project">VoiceStudio Cloud</a>
+    <a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Pro</a> ·
+    <a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Cloud</a>
   </p>
   <!-- README_LANGUAGES_START -->
   <a id="readme-languages"></a>
@@ -26,18 +23,10 @@
   <!-- README_LANGUAGES_END -->
 
   <p>
-    <a href="https://github.com/debpalash/VoiceStudio/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/debpalash/VoiceStudio/ci.yml?branch=main&amp;style=flat-square&amp;label=build&amp;labelColor=27272a" alt="CI" /></a>
-    <a href="https://github.com/debpalash/VoiceStudio/releases/latest"><img src="https://img.shields.io/github/v/release/debpalash/VoiceStudio?style=flat-square&amp;labelColor=27272a&amp;color=52525b" alt="नवीनतम रिलीज" /></a>
+    <a href="https://github.com/TheHalfMoon/wisprstudio/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/TheHalfMoon/wisprstudio/ci.yml?branch=main&amp;style=flat-square&amp;label=build&amp;labelColor=27272a" alt="CI" /></a>
+    <a href="https://github.com/TheHalfMoon/wisprstudio/releases/latest"><img src="https://img.shields.io/github/v/release/TheHalfMoon/wisprstudio?style=flat-square&amp;labelColor=27272a&amp;color=52525b" alt="नवीनतम रिलीज" /></a>
     <a href="../../LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-52525b?style=flat-square&amp;labelColor=27272a" alt="AGPL-3.0" /></a>
-    <a href="https://supermetry.com"><img src="https://app.supermetry.com/px/zfjiv7psp4ed.svg?c=VoiceStudio" alt="व्यू" /></a>
     <a href="https://discord.gg/bzQavDfVV9"><img src="https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?style=flat-square&amp;logo=discord&amp;logoColor=white" alt="Join Discord" /></a>
-  </p>
-  <p>
-    <sub>रणनीतिक प्रायोजक</sub>      <a href="https://github.com/debpalash/OpenGTM?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opengtm-dark.svg" /><img src="../../docs/sponsors/opengtm.svg" alt="OpenGTM" height="32" align="middle" /></picture></a>
-    <a href="https://github.com/debpalash/Opal?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opal-dark.svg" /><img src="../../docs/sponsors/opal.svg" alt="Opal" height="32" align="middle" /></picture></a>
-    <a href="https://github.com/velixio/supermetry?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/supermetry-dark.svg" /><img src="../../docs/sponsors/supermetry.svg" alt="Supermetry" height="32" align="middle" /></picture></a>
-      ·   <sub>विशेष प्रायोजक</sub> 
-    <a href="https://app.spicrawl.com/signup?utm_source=voicestudio&amp;utm_medium=github_readme&amp;utm_campaign=special_sponsor&amp;utm_content=logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/spicrawl-dark.svg" /><img src="../../docs/sponsors/spicrawl.svg" alt="Spicrawl" height="32" align="middle" /></picture></a>
   </p>
 </div>
 
@@ -53,10 +42,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/debpalash/VoiceStudio/releases/latest"><img src="https://img.shields.io/badge/%E0%A4%A1%E0%A4%BE%E0%A4%89%E0%A4%A8%E0%A4%B2%E0%A5%8B%E0%A4%A1-993f61?style=for-the-badge&amp;logo=github&amp;logoColor=ffffff" alt="डाउनलोड" height="24" /></a>
+  <a href="https://github.com/TheHalfMoon/wisprstudio/releases/latest"><img src="https://img.shields.io/badge/%E0%A4%A1%E0%A4%BE%E0%A4%89%E0%A4%A8%E0%A4%B2%E0%A5%8B%E0%A4%A1-993f61?style=for-the-badge&amp;logo=github&amp;logoColor=ffffff" alt="डाउनलोड" height="24" /></a>
   <a href="#get-started"><img src="https://img.shields.io/badge/%E0%A4%B6%E0%A5%81%E0%A4%B0%E0%A5%82%20%E0%A4%95%E0%A4%B0%E0%A5%87%E0%A4%82-27272a?style=for-the-badge" alt="शुरू करें" height="24" /></a>
-  <a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=hero-badge"><img src="https://img.shields.io/badge/VoiceStudio%20Pro-27272a?style=for-the-badge" alt="VoiceStudio Pro" height="24" /></a>
-  <a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=hero-badge"><img src="https://img.shields.io/badge/VoiceStudio%20Cloud-27272a?style=for-the-badge" alt="VoiceStudio Cloud" height="24" /></a>
 </p>
 
 <a id="what-you-can-do"></a>
@@ -106,7 +93,7 @@
 - **बताएं और बैच** - कहानियां, ऑडियोबुक और कतारबद्ध नौकरियां
 - **कनेक्ट और स्वचालित** - स्थानीय एपीआई, एमसीपी, पुन: प्रयोज्य व्यंजन और घड़ी फ़ोल्डर
 
-**VoiceStudio** से प्रारंभ करें (डिफ़ॉल्ट, k2-fsa/OmniVoice द्वारा संचालित), या मॉडल मैनेजर में दर्जनों अन्य इंजनों में से चुनें। [सुविधाएँ और इंजन कैटलॉग](../../docs/feature-catalog.md) देखें।
+**WisprStudio** से प्रारंभ करें (डिफ़ॉल्ट, k2-fsa/OmniVoice द्वारा संचालित), या मॉडल मैनेजर में दर्जनों अन्य इंजनों में से चुनें। [सुविधाएँ और इंजन कैटलॉग](../../docs/feature-catalog.md) देखें।
 
 <p align="center"><a href="https://discord.gg/bzQavDfVV9"><img src="../../docs/assets/discord-community.svg" alt="Come say hello! Join us on Discord" height="64" /></a></p>
 
@@ -117,7 +104,7 @@
 <table>
   <tr>
     <td width="50%" valign="top">
-      <a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section"><img src="../assets/voicestudio-pro.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">VoiceStudio Pro</a></strong><br /><br />
+      <a href="https://github.com/TheHalfMoon/wisprstudio"><img src="../assets/voicestudio-pro.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Pro</a></strong><br /><br />
       एक से ज़्यादा मशीनों पर सशुल्क क्लाइंट काम के लिए।
       <ul>
         <li>आपके क्लाइंट काम के लिए व्यावसायिक लाइसेंस, ईमेल से भेजा जाता है</li>
@@ -126,10 +113,10 @@
         <li>नई सुविधाएँ और सुधार सबसे पहले</li>
       </ul>
       <sub>बंद-स्रोत बिल्ड, खाता ज़रूरी, 7 दिनों में पूरा रिफ़ंड। AGPL-3.0 ऐप मुफ़्त रहता है, उसकी शर्तों के तहत व्यावसायिक उपयोग सहित।</sub><br /><br />
-      <strong><a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">Pro प्लान देखें →</a></strong>
+      <strong><a href="https://github.com/TheHalfMoon/wisprstudio">Pro प्लान देखें →</a></strong>
     </td>
     <td width="50%" valign="top">
-      <a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section"><img src="../assets/voicestudio-cloud.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">VoiceStudio Cloud</a></strong><br /><br />
+      <a href="https://github.com/TheHalfMoon/wisprstudio"><img src="../assets/voicestudio-cloud.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Cloud</a></strong><br /><br />
       आवाज़ और डबिंग के लिए होस्टेड API, जल्द आ रहा है। GPU की ज़रूरत नहीं।
       <ul>
         <li>स्पीच, वॉइस डिज़ाइन और सहमति से वॉइस क्लोनिंग</li>
@@ -138,7 +125,7 @@
         <li>लंबे काम जो अपने आप चलते हैं</li>
       </ul>
       <sub>अभी उपलब्ध नहीं: अर्ली एक्सेस से जुड़ें और मुफ़्त उपयोग क्रेडिट पाएँ। डेस्कटॉप ऐप मुफ़्त और लोकल रहता है।</sub><br /><br />
-      <strong><a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">Cloud अर्ली एक्सेस से जुड़ें →</a></strong>
+      <strong><a href="https://github.com/TheHalfMoon/wisprstudio">Cloud अर्ली एक्सेस से जुड़ें →</a></strong>
     </td>
   </tr>
 </table>
@@ -169,9 +156,9 @@ brew install --cask debpalash/tap/voicestudio
 <details>
 <summary>DMG</summary>
 
-अपने Mac के लिए DMG डाउनलोड करें, इसे खोलें और VoiceStudio को एप्लिकेशन में खींचें।
+अपने Mac के लिए DMG डाउनलोड करें, इसे खोलें और WisprStudio को एप्लिकेशन में खींचें।
 
-[डाउनलोड करें](https://github.com/debpalash/VoiceStudio/releases/latest) · [गाइड](../../docs/install/macos.md)
+[डाउनलोड करें](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [गाइड](../../docs/install/macos.md)
 
 </details>
 
@@ -179,7 +166,7 @@ brew install --cask debpalash/tap/voicestudio
 <summary>एक-कमांड इंस्टॉलर</summary>
 
 ```sh
-curl -fsSL https://voicestudio.sh/install | sh
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh
 ```
 
 </details>
@@ -187,14 +174,14 @@ curl -fsSL https://voicestudio.sh/install | sh
 <details>
 <summary>इंटेल मैक · रिमोट बैकएंड · लिमिटेड</summary>
 
-ऐप यूआई इंटेल पर चलता है; इसे किसी अन्य कंप्यूटर पर VoiceStudio बैकएंड से कनेक्ट करें।
+ऐप यूआई इंटेल पर चलता है; इसे किसी अन्य कंप्यूटर पर WisprStudio बैकएंड से कनेक्ट करें।
 
 [गाइड](../../docs/install/macos.md)
 
 </details>
 
 > [!NOTE]
-> macOS पर «VoiceStudio क्षतिग्रस्त है और खुल नहीं सकता» संदेश का मतलब है कि Gatekeeper ने ऐप को रोका है; इसका मतलब यह नहीं है कि डाउनलोड की गई फ़ाइल खराब है। [Gatekeeper की समस्या हल करें](../../docs/install/macos.md#gatekeeper-quarantine).
+> macOS पर «WisprStudio क्षतिग्रस्त है और खुल नहीं सकता» संदेश का मतलब है कि Gatekeeper ने ऐप को रोका है; इसका मतलब यह नहीं है कि डाउनलोड की गई फ़ाइल खराब है। [Gatekeeper की समस्या हल करें](../../docs/install/macos.md#gatekeeper-quarantine).
 
 </blockquote>
 
@@ -210,17 +197,17 @@ curl -fsSL https://voicestudio.sh/install | sh
 **स्थिर · x64**<br />विंडोज़ 10/11 x64 · एनवीडिया सीयूडीए · एएमडी आरओसीएम (ऑप्ट-इन) · सीपीयू।
 
 ```powershell
-irm https://voicestudio.sh/install.ps1 | iex
+irm https://github.com/TheHalfMoon/wisprstudio | iex
 ```
 
-[विंडोज इंस्टॉलर डाउनलोड करें](https://github.com/debpalash/VoiceStudio/releases/latest) · [गाइड](../../docs/install/windows.md) · [AMD ROCm](../../docs/install/windows-rocm.md)
+[विंडोज इंस्टॉलर डाउनलोड करें](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [गाइड](../../docs/install/windows.md) · [AMD ROCm](../../docs/install/windows-rocm.md)
 
 <details>
 <summary>एआरएम पर विंडोज़ · प्रयोगात्मक</summary>
 
 मूल ऐप यूआई; x64 पायथन बैकएंड सीपीयू पर इम्यूलेशन के तहत चलता है।
 
-[डाउनलोड करें](https://github.com/debpalash/VoiceStudio/releases/latest) · [गाइड](../../docs/install/windows.md)
+[डाउनलोड करें](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [गाइड](../../docs/install/windows.md)
 
 </details>
 
@@ -241,7 +228,7 @@ irm https://voicestudio.sh/install.ps1 | iex
 <summary>एक-कमांड इंस्टॉलर</summary>
 
 ```sh
-curl -fsSL https://voicestudio.sh/install | sh
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh
 ```
 
 </details>
@@ -279,10 +266,10 @@ sudo pacman -U ./voicestudio-bin-*.pkg.tar.zst
 
 `.deb` को वर्तमान फ़ोल्डर में डाउनलोड करें, फिर इसे इंस्टॉल करें:
 
-[डाउनलोड करें](https://github.com/debpalash/VoiceStudio/releases/latest)
+[डाउनलोड करें](https://github.com/TheHalfMoon/wisprstudio/releases/latest)
 
 ```sh
-sudo apt install ./VoiceStudio-*-linux-x64.deb
+sudo apt install ./WisprStudio-*-linux-x64.deb
 ```
 
 </details>
@@ -311,11 +298,11 @@ sudo snap connect voicestudio:audio-record
 
 AppImage को वर्तमान फ़ोल्डर में डाउनलोड करें, फिर इसे लॉन्च करें:
 
-[डाउनलोड करें](https://github.com/debpalash/VoiceStudio/releases/latest)
+[डाउनलोड करें](https://github.com/TheHalfMoon/wisprstudio/releases/latest)
 
 ```sh
-chmod +x VoiceStudio-*-linux-x64.AppImage
-./VoiceStudio-*-linux-x64.AppImage
+chmod +x WisprStudio-*-linux-x64.AppImage
+./WisprStudio-*-linux-x64.AppImage
 ```
 
 </details>
@@ -326,8 +313,8 @@ chmod +x VoiceStudio-*-linux-x64.AppImage
 रिपॉजिटरी का FHS विकास वातावरण दर्ज करें, फिर स्रोत से चलाएँ:
 
 ```sh
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/TheHalfMoon/wisprstudio.git
+cd WisprStudio
 nix develop .#fhs
 bun run dev
 ```
@@ -351,7 +338,7 @@ bun run dev
 
 स्थिर कंटेनर इमेज · CPU · NVIDIA CUDA · AMD ROCm.
 
-<a href="https://github.com/debpalash/VoiceStudio/pkgs/container/voicestudio"><img src="https://img.shields.io/badge/GHCR-27272a?style=flat-square&amp;logo=github&amp;logoColor=ffffff" alt="GHCR" height="20" /></a>
+<a href="https://github.com/TheHalfMoon/wisprstudio/pkgs/container/voicestudio"><img src="https://img.shields.io/badge/GHCR-27272a?style=flat-square&amp;logo=github&amp;logoColor=ffffff" alt="GHCR" height="20" /></a>
 
 **सीपीयू पर स्थानीय रूप से चलाएं (बैश)**
 
@@ -385,7 +372,7 @@ http://localhost:3900 खोलें और नीचे मुद्रित 
 
 Android 10+ · पूर्वावलोकन · ऑन-डिवाइस, मॉडल डाउनलोड के बाद ऑफ़लाइन।
 
-[एपीके डाउनलोड करें](https://github.com/debpalash/VoiceStudio/releases/latest) · [गाइड](../../docs/mobile.md#install)
+[एपीके डाउनलोड करें](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [गाइड](../../docs/mobile.md#install)
 
 <details>
 <summary>F-Droid · वॉयसस्टूडियो रिपॉजिटरी</summary>
@@ -393,7 +380,7 @@ Android 10+ · पूर्वावलोकन · ऑन-डिवाइस, �
 इस रिपॉजिटरी को F-Droid-संगत क्लाइंट में जोड़ें; गाइड में फ़िंगरप्रिंट सत्यापित करें.
 
 ```text
-https://debpalash.github.io/VoiceStudio/fdroid/repo
+https://debpalash.github.io/WisprStudio/fdroid/repo
 ```
 
 [गाइड](../../store/fdroid/README.md)
@@ -406,10 +393,10 @@ https://debpalash.github.io/VoiceStudio/fdroid/repo
 इस स्रोत को ओब्टेनियम में जोड़ें, या दिए गए कॉन्फ़िगरेशन को आयात करें।
 
 ```text
-https://github.com/debpalash/VoiceStudio
+https://github.com/TheHalfMoon/wisprstudio
 ```
 
-[आयात कॉन्फ़िगरेशन](https://debpalash.github.io/VoiceStudio/obtainium.json)
+[आयात कॉन्फ़िगरेशन](https://debpalash.github.io/WisprStudio/obtainium.json)
 
 </details>
 
@@ -417,7 +404,7 @@ https://github.com/debpalash/VoiceStudio
 <summary>एडीबी के साथ यूएसबी पर स्थापित करें</summary>
 
 ```sh
-adb install -r VoiceStudio-*-android.apk
+adb install -r WisprStudio-*-android.apk
 ```
 
 </details>
@@ -437,13 +424,13 @@ iOS/iPadOS 17+ · पूर्वावलोकन · ऑन-डिवाइस
 
 आईपीए डाउनलोड करें और हस्ताक्षर करने और साइडलोड करने के निर्देशों का पालन करें।
 
-[डाउनलोड करें](https://github.com/debpalash/VoiceStudio/releases/latest) · [गाइड](../../docs/mobile.md#install)
+[डाउनलोड करें](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [गाइड](../../docs/mobile.md#install)
 
 </blockquote>
 
 </details>
 
-डेस्कटॉप और फ़ोन इंस्टॉलर [नवीनतम रिलीज़](https://github.com/debpalash/VoiceStudio/releases/latest) पर हैं; डॉकर छवियां जीएचसीआर से आती हैं। कोई जीपीयू नहीं? ऐप सीपीयू पर पूरी तरह प्रयोग करने योग्य है, बस धीमा है। मूल GGUF इंजन AMD, Intel और NVIDIA GPU पर भी वल्कन का उपयोग कर सकते हैं; OmniVoice GGUF विंडोज़ और लिनक्स पर स्वचालित रूप से अपना GPU और मॉडल आकार चुनता है ([OmniVoice](../../docs/engines/omnivoice-gguf.md#vulkan-acceleration), [CosyVoice](../../docs/engines/cosyvoice-gguf.md))। इंजन और हार्डवेयर द्वारा गति: [प्रदर्शन](../../docs/performance.md)।
+डेस्कटॉप और फ़ोन इंस्टॉलर [नवीनतम रिलीज़](https://github.com/TheHalfMoon/wisprstudio/releases/latest) पर हैं; डॉकर छवियां जीएचसीआर से आती हैं। कोई जीपीयू नहीं? ऐप सीपीयू पर पूरी तरह प्रयोग करने योग्य है, बस धीमा है। मूल GGUF इंजन AMD, Intel और NVIDIA GPU पर भी वल्कन का उपयोग कर सकते हैं; OmniVoice GGUF विंडोज़ और लिनक्स पर स्वचालित रूप से अपना GPU और मॉडल आकार चुनता है ([OmniVoice](../../docs/engines/omnivoice-gguf.md#vulkan-acceleration), [CosyVoice](../../docs/engines/cosyvoice-gguf.md))। इंजन और हार्डवेयर द्वारा गति: [प्रदर्शन](../../docs/performance.md)।
 
 
 <a id="get-started"></a>
@@ -456,18 +443,18 @@ iOS/iPadOS 17+ · पूर्वावलोकन · ऑन-डिवाइस
 <summary><strong>अधिक इंस्टॉल विकल्प</strong>: एक विशिष्ट संस्करण, वर्तमान मुख्य, अनइंस्टॉल, स्रोत से, एक कोडिंग एजेंट के साथ</summary>
 
 ```sh
-curl -fsSL https://voicestudio.sh/install | sh -s -- --version X.Y.Z   # a specific release
-curl -fsSL https://voicestudio.sh/install | sh -s -- --main            # build current main
-curl -fsSL https://voicestudio.sh/install | sh -s -- --uninstall       # remove the app, keep your data
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh -s -- --version X.Y.Z   # a specific release
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh -s -- --main            # build current main
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh -s -- --uninstall       # remove the app, keep your data
 ```
 
-यदि `voicestudio.sh` पहुंच योग्य नहीं है, तो स्क्रिप्ट को सीधे रिपॉजिटरी से चलाएँ: `curl -fsSL https://raw.githubusercontent.com/debpalash/VoiceStudio/main/scripts/install.sh | sh`। पूर्वापेक्षाएँ और व्यवहार: [इंस्टॉलर गाइड](../../docs/install/script.md)।
+यदि `voicestudio.sh` पहुंच योग्य नहीं है, तो स्क्रिप्ट को सीधे रिपॉजिटरी से चलाएँ: `curl -fsSL https://raw.githubusercontent.com/TheHalfMoon/wisprstudio/main/scripts/install.sh | sh`। पूर्वापेक्षाएँ और व्यवहार: [इंस्टॉलर गाइड](../../docs/install/script.md)।
 
 **स्रोत से**
 
 ```bash
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/TheHalfMoon/wisprstudio.git
+cd WisprStudio
 bun run dev
 ```
 
@@ -478,8 +465,8 @@ bun run dev
 **एक कोडिंग एजेंट के साथ** (क्लाउड कोड, कोडेक्स, कर्सर,…), पेस्ट करें:
 
 ```text
-Install the VoiceStudio app on this device and verify it works, following
-https://github.com/debpalash/VoiceStudio/blob/main/docs/install/agent.md
+Install the WisprStudio app on this device and verify it works, following
+https://github.com/TheHalfMoon/wisprstudio/blob/main/docs/install/agent.md
 ```
 
 0.5.3 या पुराने (टौरी ऐप) से अपग्रेड करना? [नया ऐप अलग से इंस्टॉल करें](../../docs/electron-migration.md)।
@@ -501,34 +488,27 @@ https://github.com/debpalash/VoiceStudio/blob/main/docs/install/agent.md
 | फ़ोन ऐप्स | [आईओएस और एंड्रॉइड](../../docs/mobile.md) |
 | विकास | [योगदान](../../.github/CONTRIBUTING.md) ([अपने पहले पीआर से पहले CLA पर हस्ताक्षर करें](../../.github/CONTRIBUTING.md#contribution-licensing)) · [Changelog](../../CHANGELOG.md) |
 
-एजेंट स्किल: `npx skills add debpalash/VoiceStudio` (ऑडियो कार्य के लिए **voicestudio** और रिपॉजिटरी के लिए **voicestudio-maintainer**)।
+एजेंट स्किल: `npx skills add TheHalfMoon/wisprstudio` (ऑडियो कार्य के लिए **voicestudio** और रिपॉजिटरी के लिए **voicestudio-maintainer**)।
 
 <a id="sponsors"></a>
 
 ## प्रायोजक
 
-VoiceStudio मुफ़्त है और किसी भुगतान वाली क्लाउड सेवा पर निर्भर नहीं है। प्रायोजक रखरखाव करने वालों का समय, परीक्षण हार्डवेयर, कोड साइनिंग और रिलीज़ का ढाँचा उपलब्ध कराने में मदद करते हैं, ताकि विकास और नई रिलीज़ जारी रह सकें।
+WisprStudio मुफ़्त है और किसी भुगतान वाली क्लाउड सेवा पर निर्भर नहीं है। प्रायोजक रखरखाव करने वालों का समय, परीक्षण हार्डवेयर, कोड साइनिंग और रिलीज़ का ढाँचा उपलब्ध कराने में मदद करते हैं, ताकि विकास और नई रिलीज़ जारी रह सकें।
 
-<p>
-    <a href="https://github.com/debpalash/OpenGTM?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opengtm-dark.svg" /><img src="../../docs/sponsors/opengtm.svg" alt="OpenGTM" height="48" align="middle" /></picture></a>
-    <a href="https://github.com/debpalash/Opal?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opal-dark.svg" /><img src="../../docs/sponsors/opal.svg" alt="Opal" height="48" align="middle" /></picture></a>
-    <a href="https://github.com/velixio/supermetry?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/supermetry-dark.svg" /><img src="../../docs/sponsors/supermetry.svg" alt="Supermetry" height="48" align="middle" /></picture></a>
-</p>
 
-प्रायोजन संबंधी पूछताछ के लिए, [sponsor@voicestudio.sh](mailto:sponsor@voicestudio.sh) से संपर्क करें।
+प्रायोजन संबंधी पूछताछ के लिए, [TheHalfMoon/wisprstudio](https://github.com/TheHalfMoon/wisprstudio) से संपर्क करें।
 
 <a href="https://github.com/sponsors/debpalash"><img src="https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?logo=githubsponsors&logoColor=white" alt="GitHub प्रायोजकों पर प्रायोजक" /></a>
-[को-फाई](https://ko-fi.com/debpalash) · [पेपैल](https://paypal.me/palashCoder) · [स्तर और लाभ](../../SPONSORS.md) · [अपना लोगो सूचीबद्ध कराएं](https://github.com/debpalash/VoiceStudio/issues/new?template=sponsor.yml)
 
 <a id="other-projects"></a>
 
 ## अन्य परियोजनाएँ
 
-VoiceStudio बनाने वाले लोगों की ओर से अधिक ओपन-सोर्स टूल।
+WisprStudio बनाने वाले लोगों की ओर से अधिक ओपन-सोर्स टूल।
 
-- **[OpenGTM](https://opengtm.palash.dev/?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=related-projects)** - स्व-होस्टेड गो-टू-मार्केट कार्यक्षेत्र में कंपनियों और लोगों को खोजें और समृद्ध करें। [स्रोत](https://github.com/debpalash/OpenGTM)।
-- **[ओपल](https://opal.palash.dev/?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=related-projects)** - अपने मीडिया को एक देशी, ओपन-सोर्स प्लेयर में देखें, स्ट्रीम करें और ब्राउज़ करें। [स्रोत](https://github.com/debpalash/Opal)।
-- **[सुपरमेट्री](https://supermetry.com/?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=related-projects)** - स्वयं-होस्टेड, कुकी-मुक्त विश्लेषण के साथ अपनी वेबसाइटों और उत्पादों को समझें। [स्रोत](https://github.com/velixio/supermetry)।
+- **[OpenGTM](https://github.com/debpalash/OpenGTM)** - स्व-होस्टेड गो-टू-मार्केट कार्यक्षेत्र में कंपनियों और लोगों को खोजें और समृद्ध करें। [स्रोत](https://github.com/debpalash/OpenGTM)।
+- **[ओपल](https://github.com/debpalash/Opal)** - अपने मीडिया को एक देशी, ओपन-सोर्स प्लेयर में देखें, स्ट्रीम करें और ब्राउज़ करें। [स्रोत](https://github.com/debpalash/Opal)।
 
 अधिक परियोजनाएँ: [debpalash](https://github.com/debpalash?tab=repositories) · [velixio](https://github.com/velixio?tab=repositories)
 
@@ -553,22 +533,22 @@ VoiceStudio बनाने वाले लोगों की ओर से �
 
 <a href="https://github.com/kevin9327"><img src="https://github.com/kevin9327.png?size=96" width="44" height="44" alt="@kevin9327" title="@kevin9327"></a> <a href="https://github.com/jaketame"><img src="https://github.com/jaketame.png?size=96" width="44" height="44" alt="@jaketame" title="@jaketame"></a> <a href="https://github.com/psiberfunk"><img src="https://github.com/psiberfunk.png?size=96" width="44" height="44" alt="@psiberfunk" title="@psiberfunk"></a> <a href="https://github.com/rudycelekli"><img src="https://github.com/rudycelekli.png?size=96" width="44" height="44" alt="@rudycelekli" title="@rudycelekli"></a> <a href="https://github.com/paoloantinori"><img src="https://github.com/paoloantinori.png?size=96" width="44" height="44" alt="@paoloantinori" title="@paoloantinori"></a> <a href="https://github.com/Chang-Jin-Lee"><img src="https://github.com/Chang-Jin-Lee.png?size=96" width="44" height="44" alt="@Chang-Jin-Lee" title="@Chang-Jin-Lee"></a> <a href="https://github.com/swadhinbiswas"><img src="https://github.com/swadhinbiswas.png?size=96" width="44" height="44" alt="@swadhinbiswas" title="@swadhinbiswas"></a> <a href="https://github.com/BichengWang"><img src="https://github.com/BichengWang.png?size=96" width="44" height="44" alt="@BichengWang" title="@BichengWang"></a> <a href="https://github.com/nirmalchatur"><img src="https://github.com/nirmalchatur.png?size=96" width="44" height="44" alt="@nirmalchatur" title="@nirmalchatur"></a> <a href="https://github.com/Shivendra-Coherent"><img src="https://github.com/Shivendra-Coherent.png?size=96" width="44" height="44" alt="@Shivendra-Coherent" title="@Shivendra-Coherent"></a> <a href="https://github.com/marreiradigital"><img src="https://github.com/marreiradigital.png?size=96" width="44" height="44" alt="@marreiradigital" title="@marreiradigital"></a> <a href="https://github.com/nvtoan0201-swe"><img src="https://github.com/nvtoan0201-swe.png?size=96" width="44" height="44" alt="@nvtoan0201-swe" title="@nvtoan0201-swe"></a>
 
-कोड, रिपोर्ट, अनुवाद और विचार भेजने वाले सभी लोगों को धन्यवाद। [सभी योगदानकर्ता](https://github.com/debpalash/VoiceStudio/graphs/contributors) · [योगदान करें](../../.github/CONTRIBUTING.md)
+कोड, रिपोर्ट, अनुवाद और विचार भेजने वाले सभी लोगों को धन्यवाद। [सभी योगदानकर्ता](https://github.com/TheHalfMoon/wisprstudio/graphs/contributors) · [योगदान करें](../../.github/CONTRIBUTING.md)
 
 <a id="license--responsible-use"></a>
 
 ## लाइसेंस एवं जिम्मेदार उपयोग
 
-[AGPL-3.0](../../LICENSE) अपनी शर्तों के तहत व्यावसायिक उपयोग सहित ऐप को कवर करता है। मॉडल वजन, आवाज़ और उत्पन्न आउटपुट के अपने स्वयं के लाइसेंस होते हैं, जिन्हें मॉडल प्रबंधक प्रत्येक मॉडल के लिए दिखाता है ([इन्वेंट्री](../../docs/licensing/model-inventory.md))। किसी आवाज़ को उसके मालिक की अनुमति से ही क्लोन करें। विवरण: [LICENSE-NOTICE.md](../../LICENSE-NOTICE.md)।
+[AGPL-3.0](../../LICENSE) अपनी शर्तों के तहत व्यावसायिक उपयोग सहित ऐप को कवर करता है। मॉडल वजन, आवाज़ और उत्पन्न आउटपुट के अपने स्वयं के लाइसेंस होते हैं, जिन्हें मॉडल प्रबंधक प्रत्येक मॉडल के लिए दिखाता है ([इन्वेंट्री](../../docs/licensing/model-inventory.md))। किसी आवाज़ को उसके मालिक की अनुमति से ही क्लोन करें। विवरण: [LICENSE-NOTICE.md](../../LICENSE-NOTICE.md) · [AGPL-3.0 Source](https://github.com/TheHalfMoon/wisprstudio)।
 
 <a id="community-tutorials"></a>
 
 ## सामुदायिक ट्यूटोरियल
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=I-u-A-oisIU&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/I-u-A-oisIU/hqdefault.jpg" alt="VoiceStudio tutorial by Nafay 3D on YouTube" width="30%" /></a>
-  <a href="https://www.youtube.com/watch?v=hsLRbXLBP4U&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/hsLRbXLBP4U/hqdefault.jpg" alt="VoiceStudio tutorial by Samuel Gregory on YouTube" width="30%" /></a>
-  <a href="https://www.youtube.com/watch?v=2KemGhEI0Ck&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/2KemGhEI0Ck/hqdefault.jpg" alt="VoiceStudio tutorial by kilObit on YouTube" width="30%" /></a><br />
+  <a href="https://www.youtube.com/watch?v=I-u-A-oisIU&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/I-u-A-oisIU/hqdefault.jpg" alt="WisprStudio tutorial by Nafay 3D on YouTube" width="30%" /></a>
+  <a href="https://www.youtube.com/watch?v=hsLRbXLBP4U&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/hsLRbXLBP4U/hqdefault.jpg" alt="WisprStudio tutorial by Samuel Gregory on YouTube" width="30%" /></a>
+  <a href="https://www.youtube.com/watch?v=2KemGhEI0Ck&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/2KemGhEI0Ck/hqdefault.jpg" alt="WisprStudio tutorial by kilObit on YouTube" width="30%" /></a><br />
   <sub>Nafay 3D · Samuel Gregory · kilObit</sub>
 </p>
 

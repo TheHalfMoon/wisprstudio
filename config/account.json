@@ -3,18 +3,18 @@
   "browserSessionMaxAgeSeconds": 86400,
   "environments": {
     "prod": {
-      "issuer": "https://id.voicestudio.sh",
-      "accountApi": "https://appapi.voicestudio.sh/v1/account",
-      "syncApi": "https://appapi.voicestudio.sh/v1/sync",
-      "dashboard": "https://app.voicestudio.sh",
-      "clientId": "398544795535933532"
+      "issuer": "http://127.0.0.1:8092",
+      "accountApi": "http://127.0.0.1:8080/v1/account",
+      "syncApi": "http://127.0.0.1:8090/v1/sync",
+      "dashboard": "http://127.0.0.1:3000",
+      "clientId": ""
     },
     "dev": {
-      "issuer": "https://dev-id.voicestudio.sh",
-      "accountApi": "https://dev-appapi.voicestudio.sh/v1/account",
-      "syncApi": "https://dev-appapi.voicestudio.sh/v1/sync",
-      "dashboard": "https://dev-app.voicestudio.sh",
-      "clientId": "396555644615786670"
+      "issuer": "http://127.0.0.1:8092",
+      "accountApi": "http://127.0.0.1:8080/v1/account",
+      "syncApi": "http://127.0.0.1:8090/v1/sync",
+      "dashboard": "http://127.0.0.1:3000",
+      "clientId": ""
     },
     "local": {
       "issuer": "http://localhost:8092",

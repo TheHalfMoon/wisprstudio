@@ -30,6 +30,10 @@ import os
 import sys
 import tempfile
 
+os.environ.setdefault("PYTHONUTF8", "1")
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
+
 # Backend runs with `--app-dir backend`, so tests must do the same.
 _BACKEND = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if _BACKEND not in sys.path:

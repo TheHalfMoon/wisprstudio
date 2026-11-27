@@ -1223,11 +1223,11 @@ def _timeout_guidance(
         return (
             f"{what} was abandoned after {timeout:.0f}s without doing any "
             "work — it spent the whole time waiting on an internal lock, not "
-            "computing. This is a bug in VoiceStudio, not a limit of your "
+            "computing. This is a bug in WisprStudio, not a limit of your "
             "machine, so shorter text or a lighter engine won't help. "
             "Restart the backend to clear it (Settings → Logs → Backend has "
             "the stack trace that was captured), and please report it with "
-            "that log at https://github.com/debpalash/VoiceStudio/issues — "
+            "that log at https://github.com/TheHalfMoon/wisprstudio/issues — "
             "the trace names exactly where it stopped."
         )
     common = (

@@ -15,12 +15,13 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
+from core.shell_tools import posix_bash_env, resolve_posix_bash
 from gguf_cache_fixtures import gguf_binary, gguf_cache, gguf_engine
 
 __all__ = ["gguf_binary", "gguf_cache", "gguf_engine"]
 
 REPO = Path(__file__).resolve().parents[1]
-BASH = shutil.which("bash") if os.name != "nt" else "C:/Program Files/Git/bin/bash.exe"
+BASH = resolve_posix_bash()
 PORTABLE = ("-DGGML_NATIVE=OFF", "-DGGML_CPU_ALL_VARIANTS=ON", "-DGGML_BACKEND_DL=ON",
             "-DBUILD_SHARED_LIBS=ON")
 
@@ -45,25 +46,29 @@ def test_x86_cpu_build_is_portable(tmp_path, platform):
                  ' printf lib > build/libggml-cpu-haswell.so; fi',
     }
     for name, body in tools.items():
-        (fake / name).write_text("#!/usr/bin/env bash\nset -euo pipefail\n" + body + "\n")
+        (fake / name).write_text("#!/usr/bin/env bash\nset -euo pipefail\n" + body + "\n", encoding="utf-8")
         (fake / name).chmod(0o755)
     log = tmp_path / "cmake.log"
     msvc = tmp_path / "msvc"
     msvc.mkdir()
     for dll in ("msvcp140.dll", "vcruntime140.dll"):
-        (msvc / dll).write_text("crt")
-    env = {**os.environ, "PATH": f"{fake}:/usr/bin:/bin", "CMAKE_LOG": str(log),
-           "OMNIVOICE_MSVC_RUNTIME_DIR": msvc.as_posix()}
+        (msvc / dll).write_text("crt", encoding="utf-8")
+    env = {
+        **posix_bash_env([fake], bash_executable=BASH),
+        "CMAKE_LOG": str(log),
+        "OMNIVOICE_MSVC_RUNTIME_DIR": msvc.as_posix(),
+    }
     env.pop("VULKAN_SDK", None)
     result = subprocess.run(
         [BASH, str(scripts / "build-omnivoice-tts.sh"), "--platform", platform,
          "--commit-sha", "a" * 40],
-        env=env, cwd=tmp_path, capture_output=True, text=True, timeout=60, check=False,
+        env=env, cwd=tmp_path, capture_output=True, text=True, encoding="utf-8", timeout=60, check=False,
     )
     assert result.returncode == 0, result.stdout + result.stderr
-    configure = [line for line in log.read_text().splitlines() if line.startswith("-B build")]
-    assert configure, log.read_text()
-    assert "native" not in log.read_text()
+    log_text = log.read_text(encoding="utf-8")
+    configure = [line for line in log_text.splitlines() if line.startswith("-B build")]
+    assert configure, log_text
+    assert "native" not in log_text
     for line in configure:
         for flag in PORTABLE:
             assert flag in line, line
