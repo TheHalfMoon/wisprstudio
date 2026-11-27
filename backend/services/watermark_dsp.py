@@ -29,6 +29,7 @@ except ImportError:  # pragma: no cover - pure-Python stdlib fallback
     _np = None  # type: ignore[assignment]
 
 SCHEME = "wispral-qim-v1"
+WATERMARK_SCHEME_ID = SCHEME
 SYNC_HEADER_U32 = 0x57535052  # ASCII "WSPR"
 SYNC_BITS = 32
 PAYLOAD_BYTES = 16
@@ -695,28 +696,283 @@ def write_pcm16_wav(path: str | Path, samples: Sequence[float] | Any, sample_rat
             wf.writeframes(pcm.tobytes())
 
 
-def read_pcm16_wav(path_or_bytes: str | Path | bytes) -> tuple[Any, int, int]:
-    """Read a 16-bit PCM WAV file or bytes into float64 samples `[-1, 1]`, `(samples, sr, channels)`."""
-    src: Any = io.BytesIO(path_or_bytes) if isinstance(path_or_bytes, bytes) else str(path_or_bytes)
-    with wave.open(src, "rb") as wf:
-        channels = wf.getnchannels()
-        sampwidth = wf.getsampwidth()
-        sr = wf.getframerate()
-        nframes = wf.getnframes()
-        raw = wf.readframes(nframes)
+def parse_wav_bytes(
+    path_or_bytes: str | Path | bytes,
+) -> tuple[Any, int, int, int, int]:
+    """Parse RIFF `WAVE` container into `(samples, sr, channels, audio_format, bits_per_sample)`.
 
-    if sampwidth != 2:
-        raise ValueError(f"Only 16-bit PCM WAV supported by stdlib reader, got sampwidth={sampwidth}")
+    Supports:
+      - 16-bit signed PCM (`format=1, bits=16`)
+      - 24-bit signed PCM (`format=1, bits=24`)
+      - 32-bit signed PCM (`format=1, bits=32`)
+      - 32-bit IEEE 754 float (`format=3, bits=32`)
+      - `WAVE_FORMAT_EXTENSIBLE` (`0xFFFE`) wrapping PCM (`1`) or IEEE float (`3`)
+    Works with `numpy` when installed and falls back to pure-Python `struct`.
+    """
+    raw_file = (
+        bytes(path_or_bytes)
+        if isinstance(path_or_bytes, (bytes, bytearray, memoryview))
+        else Path(path_or_bytes).read_bytes()
+    )
+    if len(raw_file) < 12 or raw_file[:4] != b"RIFF" or raw_file[8:12] != b"WAVE":
+        raise ValueError("Invalid RIFF WAVE header")
+
+    audio_format: int | None = None
+    channels: int = 0
+    sr: int = 0
+    bits_per_sample: int = 0
+    data_payload: bytes | None = None
+
+    offset = 12
+    total_len = len(raw_file)
+    while offset + 8 <= total_len:
+        chunk_id = raw_file[offset : offset + 4]
+        chunk_size = struct.unpack_from("<I", raw_file, offset + 4)[0]
+        body_start = offset + 8
+        body_end = min(total_len, body_start + chunk_size)
+        chunk_body = raw_file[body_start:body_end]
+
+        if chunk_id == b"fmt ":
+            if len(chunk_body) < 16:
+                raise ValueError("Truncated WAVE fmt chunk")
+            fmt_tag, ch, rate, _byte_rate, _block_align, bps = struct.unpack_from(
+                "<HHIIHH", chunk_body, 0
+            )
+            if fmt_tag == 0xFFFE:
+                if len(chunk_body) < 40:
+                    raise ValueError("Truncated WAVE_FORMAT_EXTENSIBLE fmt chunk")
+                fmt_tag = struct.unpack_from("<H", chunk_body, 24)[0]
+            audio_format = int(fmt_tag)
+            channels = int(ch)
+            sr = int(rate)
+            bits_per_sample = int(bps)
+        elif chunk_id == b"data":
+            data_payload = chunk_body
+            if audio_format is not None:
+                break
+
+        step = 8 + chunk_size + (chunk_size & 1)
+        if step <= 0:
+            break
+        offset += step
+
+    if audio_format is None or data_payload is None:
+        raise ValueError("WAVE file missing fmt or data chunk")
+    if channels < 1 or sr <= 0:
+        raise ValueError(f"Invalid WAVE stream parameters: channels={channels}, sr={sr}")
+
+    bytes_per_sample = bits_per_sample // 8
+    if bits_per_sample not in (16, 24, 32) or bytes_per_sample * 8 != bits_per_sample:
+        raise ValueError(
+            f"Unsupported WAV format={audio_format}, bits_per_sample={bits_per_sample}"
+        )
+    frame_bytes = channels * bytes_per_sample
+    usable_bytes = (len(data_payload) // frame_bytes) * frame_bytes
+    raw = data_payload[:usable_bytes]
 
     if _np is not None:
-        ints = _np.frombuffer(raw, dtype="<i2").astype(_np.float64) / 32767.0
-        if channels > 1:
-            return ints.reshape(-1, channels).T, sr, channels
-        return ints, sr, 1
+        if audio_format == 1 and bits_per_sample == 16:
+            interleaved = _np.frombuffer(raw, dtype="<i2").astype(_np.float64) / 32767.0
+        elif audio_format == 1 and bits_per_sample == 24:
+            if len(raw) == 0:
+                interleaved = _np.zeros(0, dtype=_np.float64)
+            else:
+                triplets = _np.frombuffer(raw, dtype=_np.uint8).reshape(-1, 3)
+                signed = (
+                    triplets[:, 0].astype(_np.int32)
+                    | (triplets[:, 1].astype(_np.int32) << 8)
+                    | (triplets[:, 2].astype(_np.int32) << 16)
+                )
+                signed = _np.where(signed & 0x800000, signed - 0x1000000, signed)
+                interleaved = signed.astype(_np.float64) / 8388608.0
+        elif audio_format == 1 and bits_per_sample == 32:
+            interleaved = _np.frombuffer(raw, dtype="<i4").astype(_np.float64) / 2147483648.0
+        elif audio_format == 3 and bits_per_sample == 32:
+            interleaved = _np.frombuffer(raw, dtype="<f4").astype(_np.float64)
+            if interleaved.size and not bool(_np.all(_np.isfinite(interleaved))):
+                raise ValueError("WAV contains non-finite IEEE float samples")
+        else:
+            raise ValueError(
+                f"Unsupported WAV format={audio_format}, bits_per_sample={bits_per_sample}"
+            )
 
-    pcm = array.array("h")
-    pcm.frombytes(raw)
-    floats = [x / 32767.0 for x in pcm]
+        if channels > 1:
+            return interleaved.reshape(-1, channels).T, sr, channels, audio_format, bits_per_sample
+        return interleaved, sr, 1, audio_format, bits_per_sample
+
+    # Pure-Python `struct` fallback (zero numpy dependency)
+    if audio_format == 1 and bits_per_sample == 16:
+        floats = [s / 32767.0 for (s,) in struct.iter_unpack("<h", raw)]
+    elif audio_format == 1 and bits_per_sample == 24:
+        floats = []
+        for pos in range(0, len(raw), 3):
+            v = raw[pos] | (raw[pos + 1] << 8) | (raw[pos + 2] << 16)
+            if v & 0x800000:
+                v -= 0x1000000
+            floats.append(v / 8388608.0)
+    elif audio_format == 1 and bits_per_sample == 32:
+        floats = [s / 2147483648.0 for (s,) in struct.iter_unpack("<i", raw)]
+    elif audio_format == 3 and bits_per_sample == 32:
+        floats = [float(s) for (s,) in struct.iter_unpack("<f", raw)]
+        if any(not math.isfinite(x) for x in floats):
+            raise ValueError("WAV contains non-finite IEEE float samples")
+    else:
+        raise ValueError(
+            f"Unsupported WAV format={audio_format}, bits_per_sample={bits_per_sample}"
+        )
+
     if channels > 1:
         floats = floats[0::channels]
-    return floats, sr, channels
+    return floats, sr, channels, audio_format, bits_per_sample
+
+
+def encode_wav_bytes(
+    samples: Sequence[float] | Any,
+    sample_rate: int,
+    *,
+    audio_format: int = 1,
+    bits_per_sample: int = 16,
+) -> bytes:
+    """Encode mono or multi-channel float `[-1, 1]` samples into RIFF `WAVE` bytes.
+
+    Supports `(1, 16)` 16-bit PCM, `(1, 24)` 24-bit PCM, `(1, 32)` 32-bit PCM,
+    and `(3, 32)` 32-bit IEEE float.
+    """
+    sr = int(sample_rate)
+    if sr <= 0:
+        raise ValueError(f"sample_rate must be positive, got {sr}")
+    if (audio_format, bits_per_sample) == (1, 16):
+        return floats_to_pcm16_wav_bytes(samples, sr)
+
+    if _is_torch_tensor(samples):
+        arr = samples.detach().cpu().numpy()
+    elif _np is not None and isinstance(samples, _np.ndarray):
+        arr = samples
+    else:
+        arr = None
+
+    if arr is not None:
+        if arr.ndim == 1:
+            channels = 1
+            n_frames = int(arr.shape[0])
+            interleaved = arr.astype(_np.float64, copy=False)
+        else:
+            flat = arr.reshape(-1, arr.shape[-1]).astype(_np.float64, copy=False)
+            channels = int(flat.shape[0])
+            n_frames = int(flat.shape[1])
+            interleaved = flat.T.reshape(-1)
+
+        if (audio_format, bits_per_sample) == (1, 24):
+            scaled = _np.clip(_np.round(interleaved * 8388607.0), -8388608, 8388607).astype(
+                _np.int32
+            )
+            u24 = (scaled & 0xFFFFFF).astype("<u4")
+            raw_u8 = u24.view(_np.uint8).reshape(-1, 4)[:, :3]
+            payload = raw_u8.tobytes()
+        elif (audio_format, bits_per_sample) == (1, 32):
+            scaled32 = _np.clip(
+                _np.round(interleaved * 2147483647.0), -2147483648, 2147483647
+            ).astype("<i4")
+            payload = scaled32.tobytes()
+        elif (audio_format, bits_per_sample) == (3, 32):
+            payload = _np.clip(interleaved, -1.0, 1.0).astype("<f4").tobytes()
+        else:
+            raise ValueError(
+                f"Unsupported WAV encoding format={audio_format}, bits_per_sample={bits_per_sample}"
+            )
+    else:
+        channels = 1
+        seq = [float(x) for x in samples]
+        n_frames = len(seq)
+        if (audio_format, bits_per_sample) == (1, 24):
+            out = bytearray(n_frames * 3)
+            for idx, val in enumerate(seq):
+                iv = max(-8388608, min(8388607, int(round(val * 8388607.0)))) & 0xFFFFFF
+                pos = idx * 3
+                out[pos] = iv & 0xFF
+                out[pos + 1] = (iv >> 8) & 0xFF
+                out[pos + 2] = (iv >> 16) & 0xFF
+            payload = bytes(out)
+        elif (audio_format, bits_per_sample) == (1, 32):
+            payload = b"".join(
+                struct.pack("<i", max(-2147483648, min(2147483647, int(round(val * 2147483647.0)))))
+                for val in seq
+            )
+        elif (audio_format, bits_per_sample) == (3, 32):
+            payload = b"".join(struct.pack("<f", max(-1.0, min(1.0, val))) for val in seq)
+        else:
+            raise ValueError(
+                f"Unsupported WAV encoding format={audio_format}, bits_per_sample={bits_per_sample}"
+            )
+
+    bytes_per_sample = bits_per_sample // 8
+    block_align = channels * bytes_per_sample
+    byte_rate = sr * block_align
+    fmt_chunk = struct.pack(
+        "<4sIHHIIHH",
+        b"fmt ",
+        16,
+        audio_format,
+        channels,
+        sr,
+        byte_rate,
+        block_align,
+        bits_per_sample,
+    )
+    fact_chunk = (
+        struct.pack("<4sII", b"fact", 4, n_frames) if audio_format == 3 else b""
+    )
+    pad = b"\x00" if (len(payload) & 1) else b""
+    data_chunk = struct.pack("<4sI", b"data", len(payload)) + payload + pad
+    riff_body = b"WAVE" + fmt_chunk + fact_chunk + data_chunk
+    return struct.pack("<4sI", b"RIFF", len(riff_body)) + riff_body
+
+
+def read_pcm16_wav(path_or_bytes: str | Path | bytes) -> tuple[Any, int, int]:
+    """Read a RIFF WAV file or bytes (16/24/32-bit PCM or 32-bit IEEE float) into `(samples, sr, channels)`."""
+    samples, sr, channels, _fmt, _bps = parse_wav_bytes(path_or_bytes)
+    return samples, sr, channels
+
+
+def floats_to_pcm16_wav_bytes(samples: Sequence[float] | Any, sample_rate: int) -> bytes:
+    """Encode mono or multi-channel float [-1, 1] samples into 16-bit PCM WAV bytes."""
+    if _is_torch_tensor(samples):
+        arr = samples.detach().cpu().numpy()
+    elif _np is not None and isinstance(samples, _np.ndarray):
+        arr = samples
+    else:
+        arr = None
+
+    buf = io.BytesIO()
+    with wave.open(buf, "wb") as wf:
+        if arr is not None:
+            if arr.ndim == 1:
+                channels = 1
+                interleaved = arr
+            else:
+                flat = arr.reshape(-1, arr.shape[-1])
+                channels = int(flat.shape[0])
+                interleaved = flat.T.reshape(-1)
+            clipped = _np.clip(_np.round(interleaved * 32767.0), -32768, 32767).astype("<i2")
+            wf.setnchannels(channels)
+            wf.setsampwidth(2)
+            wf.setframerate(int(sample_rate))
+            wf.writeframes(clipped.tobytes())
+        else:
+            pcm = array.array(
+                "h",
+                (max(-32768, min(32767, int(round(float(x) * 32767.0)))) for x in samples),
+            )
+            wf.setnchannels(1)
+            wf.setsampwidth(2)
+            wf.setframerate(int(sample_rate))
+            wf.writeframes(pcm.tobytes())
+    return buf.getvalue()
+
+
+def pcm16_wav_bytes_to_floats(wav_bytes: bytes) -> tuple[Any, int]:
+    """Decode 16-bit PCM WAV bytes into `(samples_1d, sample_rate)`."""
+    samples, sr, channels = read_pcm16_wav(wav_bytes)
+    if _np is not None and isinstance(samples, _np.ndarray) and samples.ndim > 1:
+        return samples[0], sr
+    return samples, sr

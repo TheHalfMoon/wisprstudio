@@ -602,6 +602,28 @@ def create_mcp_server(app=None):
         if language:
             form["language"] = language
         if profile_id:
+            from core.config import VOICES_DIR
+            from core.db import db_conn
+            from core.path_security import contained_join
+            from services.consent_ledger import enforce_checkpoint_consent
+
+            ref_path = None
+            p_kind = None
+            with db_conn() as conn:
+                row = conn.execute("SELECT * FROM voice_profiles WHERE id=?", (profile_id,)).fetchone()
+            if row:
+                p_kind = row["kind"] or "clone"
+                rel = row["locked_audio_path"] if row["is_locked"] and row["locked_audio_path"] else row["ref_audio_path"]
+                if rel:
+                    ref_path = contained_join(VOICES_DIR, rel)
+            if p_kind == "clone" or ref_path or row is None:
+                enforce_checkpoint_consent(
+                    profile_id,
+                    checkpoint="mcp_generate_enqueue",
+                    reference_path=ref_path,
+                    has_ref_audio=bool(ref_path),
+                    profile_kind=p_kind,
+                )
             form["profile_id"] = profile_id
         if instruct:
             form["instruct"] = instruct
@@ -731,6 +753,7 @@ def create_mcp_server(app=None):
         instruct: str = "",
         language: str = "Auto",
         ref_audio_path: str | None = None,
+        voice_id: str | None = None,
     ) -> str:
         """Clone a new voice profile from a reference audio sample.
 
@@ -761,17 +784,37 @@ def create_mcp_server(app=None):
         )
         if err:
             return json.dumps({"error": err})
+        from services.consent_ledger import (
+            ConsentGateError,
+            enforce_checkpoint_consent,
+            sha256_prefixed,
+        )
+
+        target_voice_id = (voice_id or "").strip()
+        try:
+            enforce_checkpoint_consent(
+                target_voice_id,
+                checkpoint="mcp_clone_enrollment",
+                reference_digest=sha256_prefixed(raw),
+                has_ref_audio=True,
+                profile_kind="clone",
+            )
+        except ConsentGateError as exc:
+            return json.dumps({"error": str(exc), "code": exc.code})
         import httpx
+        form_data = {
+            "name": name,
+            "kind": "clone",
+            "ref_text": ref_text,
+            "instruct": instruct,
+            "language": language,
+        }
+        if target_voice_id:
+            form_data["voice_id"] = target_voice_id
         try:
             r = await _api_post_form(
                 "/profiles",
-                data={
-                    "name": name,
-                    "kind": "clone",
-                    "ref_text": ref_text,
-                    "instruct": instruct,
-                    "language": language,
-                },
+                data=form_data,
                 files={"ref_audio": (f"ref_audio{_sniff_audio_ext(raw)}", raw,
                                      "application/octet-stream")},
             )

@@ -512,6 +512,17 @@ def _resolve_profile_conditioning(row, *, ref_text=None, instruct=None,
     elif out["ref_text"]:
         # A stored transcript may hold script markup the take never spoke (#3062).
         out["ref_text"] = strip_script_markup(out["ref_text"]) or None
+    if profile_kind == "clone":
+        from services.consent_ledger import enforce_checkpoint_consent
+
+        enforce_checkpoint_consent(
+            row["id"],
+            checkpoint="synthesis_enqueue",
+            reference_path=out.get("ref_audio_path"),
+            has_ref_audio=bool(out.get("ref_audio_path")),
+            profile_kind="clone",
+            engine_id=engine_id,
+        )
     return out
 
 
@@ -1851,6 +1862,7 @@ async def generate_speech(
     emo_alpha: Optional[float] = Form(None, ge=0.0, le=1.0),
     emo_vector: Optional[str] = Form(None),
     profile_id: Optional[str] = Form(None),
+    voice_id: Optional[str] = Form(None),
     seed: Optional[int] = Form(None),
     effect_preset: str = Form("broadcast"),
     wav_bits: Literal["16", "24", "32"] = Form("16"),
@@ -2165,6 +2177,21 @@ async def generate_speech(
                 ref_lease = _TempReferenceLease(ref_audio_path)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
+        from services.consent_ledger import enforce_checkpoint_consent
+
+        try:
+            enforce_checkpoint_consent(
+                voice_id,
+                checkpoint="synthesis_enqueue",
+                reference_path=ref_audio_path,
+                has_ref_audio=True,
+                profile_kind="clone",
+                engine_id=engine_id,
+            )
+        except BaseException:
+            if cleanup_ref and ref_lease is not None:
+                ref_lease.finish_request()
+            raise
     # Script markup is never spoken, so it is never part of a transcript (#3062).
     ref_text = strip_script_markup(ref_text) or None
 

@@ -49,6 +49,162 @@ from services.dub_qc import _NO_SPACE_SCRIPT
 # scripts gets no boundary.
 _NO_SPACE_CHAR = re.compile(f"[{_NO_SPACE_SCRIPT}]")
 
+# ── Arabic proclitic & tashkeel/tatweel normalization ────────────────────────
+# Arabic diacritics (harakat/tashkeel + Quranic marks) and tatweel (kashida).
+_ARABIC_TATWEEL = "\u0640"
+_ARABIC_DIACRITICS_RE = re.compile(r"[\u064B-\u065F\u0670\u06D6-\u06ED]")
+_ARABIC_LETTER_RE = re.compile(r"[\u0621-\u063A\u0641-\u064A\u0671-\u06D3]")
+_ARABIC_WORD_TOKEN_PAT = (
+    r"(?<![\w\u064B-\u065F\u0670])"
+    r"[\u0621-\u063A\u0640-\u065F\u0670-\u06D3]+"
+    r"(?![\w\u064B-\u065F\u0670])"
+)
+
+# Ordered longest-first so compound proclitics (`وبال`, `وال`, `بال`, `كال`,
+# `فال`, `لل`, `ال`) are tried before single-letter proclitics (`و`, `ف`, `ب`,
+# `ك`, `ل`). Tuple layout: (skeleton_prefix, attaches_definite_al, elides_alif).
+_ARABIC_PROCLITICS: tuple[tuple[str, bool, bool], ...] = (
+    ("وبال", True, False),
+    ("فبال", True, False),
+    ("وكال", True, False),
+    ("فكال", True, False),
+    ("ولل", True, True),
+    ("فلل", True, True),
+    ("وال", True, False),
+    ("بال", True, False),
+    ("كال", True, False),
+    ("فال", True, False),
+    ("لل", True, True),
+    ("ال", True, False),
+    ("وب", False, False),
+    ("فب", False, False),
+    ("وك", False, False),
+    ("فك", False, False),
+    ("ول", False, False),
+    ("فل", False, False),
+    ("و", False, False),
+    ("ف", False, False),
+    ("ب", False, False),
+    ("ك", False, False),
+    ("ل", False, False),
+)
+
+
+def _has_arabic_letters(value: str) -> bool:
+    return bool(_ARABIC_LETTER_RE.search(value))
+
+
+def _arabic_skeleton(value: str) -> str:
+    """Strip Arabic tatweel (`ـ`) and harakat/diacritics; normalize alef-wasla (`ٱ` -> `ا`)."""
+    no_tatweel = value.replace(_ARABIC_TATWEEL, "")
+    no_marks = _ARABIC_DIACRITICS_RE.sub("", no_tatweel)
+    return no_marks.replace("\u0671", "\u0627")
+
+
+def _split_arabic_surface_prefix(token: str, skeleton_prefix_len: int) -> tuple[str, str]:
+    """Split `token` after `skeleton_prefix_len` base Arabic letters, keeping any
+    harakat/tatweel attached to each prefix letter on the prefix slice."""
+    if skeleton_prefix_len <= 0:
+        return "", token
+    seen = 0
+    pos = 0
+    n = len(token)
+    while pos < n and seen < skeleton_prefix_len:
+        ch = token[pos]
+        pos += 1
+        if ch == _ARABIC_TATWEEL or _ARABIC_DIACRITICS_RE.match(ch):
+            continue
+        seen += 1
+    while pos < n and (token[pos] == _ARABIC_TATWEEL or _ARABIC_DIACRITICS_RE.match(token[pos])):
+        pos += 1
+    return token[:pos], token[pos:]
+
+
+def _strip_leading_al_from_replacement(replacement: str) -> str:
+    """Strip leading definite article `ال` / `ٱل` (plus its diacritics) when joining after `لل`."""
+    skel = _arabic_skeleton(replacement)
+    if skel.startswith("ال") and len(skel) >= 4:
+        _, rest = _split_arabic_surface_prefix(replacement, 2)
+        return rest
+    return replacement
+
+
+def _build_arabic_stem_index(lexicon: dict[str, str]) -> tuple[dict[str, str], dict[str, str]]:
+    """Return `(exact_surface_map, skeleton_map)` for single-word Arabic lexicon entries.
+
+    Vocalized lexicon keys (keys carrying explicit Arabic harakat/diacritics) are
+    indexed in `exact_map` only so distinct vocalized homographs (e.g. `عَلِمَ` vs
+    `عِلْم`) never clobber one another or rewrite unvocalized text via skeleton folding.
+    Unvocalized keys populate both `exact_map` and `skel_map`.
+    """
+    exact_map: dict[str, str] = {}
+    skel_map: dict[str, str] = {}
+    for key, repl in lexicon.items():
+        if not _has_arabic_letters(key) or any(ch.isspace() for ch in key):
+            continue
+        no_tatweel = key.replace(_ARABIC_TATWEEL, "")
+        exact_map[no_tatweel] = repl
+        if _ARABIC_DIACRITICS_RE.search(no_tatweel):
+            continue
+        skel = _arabic_skeleton(no_tatweel)
+        if skel:
+            skel_map[skel] = repl
+    return exact_map, skel_map
+
+
+def _resolve_arabic_token(
+    token: str,
+    exact_map: dict[str, str],
+    skel_map: dict[str, str],
+) -> str:
+    """Resolve an Arabic word token against exact, tatweel/harakat-normalized, and proclitic stems."""
+    clean_surface = token.replace(_ARABIC_TATWEEL, "")
+    if clean_surface in exact_map:
+        return exact_map[clean_surface]
+
+    skel = _arabic_skeleton(token)
+    if not skel:
+        return token
+    if skel in skel_map:
+        return skel_map[skel]
+
+    for proc_skel, has_al, elides_alif in _ARABIC_PROCLITICS:
+        if not skel.startswith(proc_skel):
+            continue
+        bare_stem = skel[len(proc_skel):]
+        # Guard minimum stem length (>= 3 Arabic base letters — triliteral root floor)
+        # so short particles/nouns are never mis-segmented into proclitic + 2-letter fragment.
+        if len(bare_stem) < 3:
+            continue
+
+        surface_prefix, _ = _split_arabic_surface_prefix(token, len(proc_skel))
+        clean_prefix = surface_prefix.replace(_ARABIC_TATWEEL, "")
+
+        # Case A: proclitic includes `ال` (e.g. `وال`, `بال`, `كال`, `فال`, `لل`, `ال`).
+        if has_al:
+            al_stem = "ال" + bare_stem
+            if al_stem in skel_map:
+                repl = skel_map[al_stem]
+                if elides_alif:
+                    # `لل` + `الرِّيَاض` -> `للرِّيَاض`
+                    return clean_prefix + _strip_leading_al_from_replacement(repl)
+                # `وال` = `و` + `ال`: take the pre-`ال` conjunction/preposition slice + `repl`
+                pre_al_len = len(proc_skel) - 2
+                pre_al_surface, _ = _split_arabic_surface_prefix(token, pre_al_len)
+                return pre_al_surface.replace(_ARABIC_TATWEEL, "") + repl
+
+            if bare_stem in skel_map:
+                repl = skel_map[bare_stem]
+                return clean_prefix + _strip_leading_al_from_replacement(repl)
+        else:
+            # Case B: proclitic without `ال` (e.g. `و`, `ف`, `ب`, `ك`, `ل`, `وب`, ...).
+            # Note: `والرياض` is already handled above via `وال` if `رياض` or `الرياض` is in skel_map,
+            # and if `bare_stem` starts with `ال` (e.g. `وبالرياض`), check `bare_stem` directly too.
+            if bare_stem in skel_map:
+                return clean_prefix + skel_map[bare_stem]
+
+    return token
+
 
 def _needs_boundary(ch: str) -> bool:
     return (ch.isalnum() or ch == "_") and not _NO_SPACE_CHAR.match(ch)
@@ -127,6 +283,21 @@ def apply_lexicon(text: str, lexicon: Optional[dict]) -> str:
     pattern, lookup = _compile(clean)
     if pattern is None:
         return text
+
+    exact_ar, skel_ar = _build_arabic_stem_index(clean)
+    if skel_ar and _has_arabic_letters(text):
+        ar_combined = re.compile(
+            f"(?:{pattern.pattern}|(?P<_ar_tok>{_ARABIC_WORD_TOKEN_PAT}))",
+            re.IGNORECASE,
+        )
+
+        def _repl_with_ar(m: re.Match) -> str:
+            grp = m.lastgroup
+            if grp == "_ar_tok":
+                return _resolve_arabic_token(m.group(0), exact_ar, skel_ar)
+            return lookup[grp]
+
+        return ar_combined.sub(_repl_with_ar, text)
 
     def _repl(m: re.Match) -> str:
         return lookup[m.lastgroup]

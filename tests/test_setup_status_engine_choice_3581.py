@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import pytest
 
-DEFAULT = "k2-fsa/OmniVoice"
+DEFAULT = "hexgrad/Kokoro-82M"
 
 
 class _Ready:
@@ -63,7 +63,7 @@ def test_an_installed_engine_without_its_weights_keeps_the_requirement(setup):
 
 def test_the_default_engine_still_needs_its_model(setup):
     wizard, choose = setup
-    choose("omnivoice", _Ready)
+    choose("kokoro", _Ready)
     status = wizard.setup_status()
     assert status["models_ready"] is False
     assert [m["repo_id"] for m in status["missing"]] == [DEFAULT]

@@ -70,6 +70,10 @@ def diarize_segments(
         assigned = assign_speakers_from_diarization([d for _, d in timed], diarization)
         for (index, _), item in zip(timed, assigned):
             labels[index] = item.get("speaker_id")
+            if 0 <= index < len(segments) and isinstance(segments[index], dict):
+                segments[index]["speaker_cluster"] = item.get("speaker_cluster")
+                segments[index]["identity_verified"] = False
+                segments[index]["speaker_label_anonymous"] = True
     except Exception:
         logger.exception("Transcript diarization failed")
         return [None] * len(segments), "DIARIZATION_FAILED"

@@ -53,6 +53,7 @@ import { availableBackendPort } from './backend-port';
 import { scopedStorage, scopedStorageEnv, type ScopedStorage } from './storage-scope';
 import { legacyStorageEnv } from './legacy-storage';
 import { spawn, spawnSync, type ChildProcess, type StdioOptions } from 'node:child_process';
+import { randomBytes } from 'node:crypto';
 import { EventEmitter } from 'node:events';
 import {
   accessSync,
@@ -744,6 +745,8 @@ export function managedBackendSpawnOptions(
 ): { env: NodeJS.ProcessEnv; stdio: StdioOptions; drainFd: number | null } {
   const drainFd = platform === 'win32' ? null : 3;
   const env = { ...childEnv(port, region, platform), ...backendOnlyEnv };
+  env.WISPRSTUDIO_STDIN_LAUNCH_TOKEN = '1';
+  env.OMNIVOICE_BIND_HOST = '127.0.0.1';
   if (drainFd !== null) env.OMNIVOICE_DESKTOP_DRAIN_FD = String(drainFd);
   return {
     env,
@@ -1072,6 +1075,7 @@ export class BackendSupervisor extends EventEmitter<{
   private exitSignal: string | null | undefined;
   private startedAt = Date.now();
   private child: ChildProcess | null = null;
+  private launchToken: string | null = null;
   private readonly log: string[] = [];
   /** Only the spawned process's own output, for quoting back in failure messages. */
   private readonly childLog: string[] = [];
@@ -1229,6 +1233,9 @@ export class BackendSupervisor extends EventEmitter<{
     // overriding Origin itself in net.fetch.
     return {
       'X-VoiceStudio-Desktop-Origin': APP_ORIGIN,
+      ...(this.launchToken && !this.remoteUrl
+        ? { 'X-WisprStudio-Launch-Token': this.launchToken }
+        : {}),
       ...(session ? { Authorization: `Bearer ${session.token}` } : {}),
     };
   }
@@ -1982,7 +1989,12 @@ export class BackendSupervisor extends EventEmitter<{
   }
 
   websocketUrl(path: '/ws/transcribe' | '/ws/events' | '/ws/tts'): Promise<string> {
-    return remoteWebSocketUrl(this.baseUrl, path, this.remoteUrl ? this.activeSession() : null);
+    return remoteWebSocketUrl(
+      this.baseUrl,
+      path,
+      this.remoteUrl ? this.activeSession() : null,
+      !this.remoteUrl && this.launchToken ? { authHeaders: this.requestHeaders() } : undefined,
+    );
   }
 
   private setStage(
@@ -2223,13 +2235,15 @@ export class BackendSupervisor extends EventEmitter<{
     console.log(`[backend] spawning in ${plan.cwd}: ${plan.argv.join(' ')}`);
     let child: ChildProcess;
     const processOptions = managedBackendSpawnOptions(this.port, this.runtimeRegion);
+    const launchToken = randomBytes(32).toString('hex');
     // Per launch: a failed spawn must not leave an older launch's log in place.
     this.launchLog = null;
+    this.launchToken = null;
     try {
       child = spawn(command, args, {
         cwd: plan.cwd,
         env: processOptions.env,
-        // stdin is the liveness contract: it stays open, unwritten, until quit.
+        // stdin carries the one-line 256-bit launch token, then stays open until quit for EOF liveness.
         stdio: processOptions.stdio,
         windowsHide: true,
         // POSIX: own process group so the whole tree can be signalled at once.
@@ -2244,6 +2258,7 @@ export class BackendSupervisor extends EventEmitter<{
       return;
     }
     this.child = child;
+    this.launchToken = launchToken;
     this.launchLog = { env: processOptions.env, cwd: plan.cwd, startedAt: Date.now() };
     if (processOptions.drainFd !== null) {
       // Python passes this child-side descriptor to every nested operation.
@@ -2262,6 +2277,8 @@ export class BackendSupervisor extends EventEmitter<{
     }
     // EPIPE on a dying child must never take main down with it.
     child.stdin?.on('error', () => {});
+    // Deliver the 256-bit launch token over stdin without closing the pipe (stdin EOF = parent death).
+    child.stdin?.write(`${launchToken}\n`);
     this.attachLineReader(child.stdout, 'out', gen);
     this.attachLineReader(child.stderr, 'err', gen);
     child.on('error', (err) => {
@@ -2289,6 +2306,7 @@ export class BackendSupervisor extends EventEmitter<{
     // A second VoiceStudio shell can deliberately replace this child between
     // process exit and its own listener becoming ready. Treat that handoff as
     // attachment, not a crash, and keep renderer requests paused meanwhile.
+    this.launchToken = null;
     this.setStage('attaching', { managed: false, message: undefined });
     const deadline = Date.now() + REPLACEMENT_ATTACH_GRACE_MS;
     while (gen === this.generation && !this.shuttingDown) {
@@ -2753,6 +2771,7 @@ export class BackendSupervisor extends EventEmitter<{
     const child = this.child;
     if (!child || child.pid === undefined || child.exitCode !== null) {
       this.child = null;
+      this.launchToken = null;
       return;
     }
     const pid = child.pid;
@@ -2784,7 +2803,10 @@ export class BackendSupervisor extends EventEmitter<{
     }
     child.stdin?.end();
     await Promise.race([exited, delay(3000)]);
-    if (this.child === child) this.child = null;
+    if (this.child === child) {
+      this.child = null;
+      this.launchToken = null;
+    }
   }
 }
 

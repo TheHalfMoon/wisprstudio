@@ -308,7 +308,7 @@ async def _convert_keeping_delivery(row, profile_id: str, source_path: str) -> d
     try:
         audio_tensor = await convert_recording(
             backend, source_path, cond["ref_audio_path"],
-            seed=used_seed, run_job=_run,
+            seed=used_seed, run_job=_run, voice_id=profile_id,
         )
     except GpuPoolBusyError as e:
         raise HTTPException(

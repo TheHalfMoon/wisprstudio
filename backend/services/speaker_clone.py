@@ -76,6 +76,7 @@ def extract_speaker_clones(
     *,
     labels_source: str | None = None,
     strict: bool = False,
+    consent_map: dict[str, str] | None = None,
 ) -> dict[str, dict]:
     """Build a per-speaker reference sample from `vocals_path` + `segments`.
 
@@ -162,6 +163,21 @@ def extract_speaker_clones(
             if strict:
                 raise
             continue
+        if consent_map and speaker_id in consent_map:
+            from services.consent_ledger import enforce_checkpoint_consent
+
+            try:
+                enforce_checkpoint_consent(
+                    consent_map[speaker_id],
+                    checkpoint="speaker_clone_enrollment",
+                    reference_path=ref_path,
+                )
+            except Exception:
+                try:
+                    os.remove(ref_path)
+                except OSError:
+                    pass
+                raise
 
         if any(seg.get("text") is None for _, seg in chosen):
             # A trimmed slice without word timestamps: its transcript is

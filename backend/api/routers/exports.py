@@ -1,6 +1,7 @@
 import os
 import uuid
 import time
+import wave
 import shutil
 import subprocess
 import platform
@@ -59,10 +60,65 @@ def _safe_source(filename: str) -> str:
 
 @router.post("/export", dependencies=[Depends(require_native_access)])
 def export_file(req: ExportRequest):
+    from core.config import VOICES_DIR
+    from core.path_security import contained_join
+    from services.consent_ledger import (
+        enforce_checkpoint_consent,
+        export_with_provenance,
+        write_provenance_sidecar_for_artifact,
+    )
+
     src = _safe_source(req.source_filename)
+    src_base = os.path.basename(src)
+
+    hist_profile_id: str | None = None
+    hist_duration_s: float = 1.0
+    with db_conn() as conn:
+        hist_row = conn.execute(
+            "SELECT profile_id, duration_seconds FROM generation_history "
+            "WHERE audio_path = ? OR audio_path LIKE ? ORDER BY created_at DESC LIMIT 1",
+            (src_base, f"%/{src_base}"),
+        ).fetchone()
+    if hist_row:
+        hist_profile_id = hist_row["profile_id"] or None
+        if hist_row["duration_seconds"]:
+            hist_duration_s = max(0.001, float(hist_row["duration_seconds"]))
+
+    effective_voice_id = (getattr(req, "voice_id", None) or "").strip() or hist_profile_id
+    ref_path: str | None = None
+    p_kind: str | None = None
+    if effective_voice_id:
+        with db_conn() as conn:
+            prof_row = conn.execute(
+                "SELECT * FROM voice_profiles WHERE id=?", (effective_voice_id,)
+            ).fetchone()
+        if prof_row:
+            try:
+                p_kind = prof_row["kind"] or "clone"
+            except (KeyError, IndexError):
+                p_kind = "clone"
+            rel = (
+                prof_row["locked_audio_path"]
+                if prof_row["is_locked"] and prof_row["locked_audio_path"]
+                else prof_row["ref_audio_path"]
+            )
+            if rel:
+                ref_path = contained_join(VOICES_DIR, rel)
+        if p_kind != "design" or ref_path:
+            enforce_checkpoint_consent(
+                effective_voice_id,
+                checkpoint="export_commit",
+                reference_path=ref_path,
+                has_ref_audio=bool(ref_path or p_kind == "clone"),
+                profile_kind=p_kind,
+            )
+
     dest = _authorized_destination(req.authorization)
+    export_id = str(uuid.uuid4())[:8]
+    prov_export_id = f"exp-{export_id}-{uuid.uuid4().hex[:8]}"
+    provenance_written = False
     try:
-        # Video exports: overlay VoiceStudio logo if visible watermark is enabled
+        # Video exports: overlay WisprStudio logo if visible watermark is enabled
         if src.lower().endswith(".mp4"):
             from services.watermark import is_visible_video_enabled, get_ffmpeg_overlay_args
             from services.ffmpeg_utils import find_ffmpeg, local_inputs_only
@@ -70,12 +126,6 @@ def export_file(req: ExportRequest):
             logo_path = os.path.realpath(logo_path)
             if is_visible_video_enabled() and os.path.exists(logo_path):
                 overlay_args = get_ffmpeg_overlay_args(logo_path)
-                # Resolve ffmpeg the way every other call site does. The bare
-                # name only works when a system ffmpeg is on PATH: the binary
-                # imageio-ffmpeg ships — the app's default source — is named
-                # `ffmpeg-<platform>-v<version>`, so spawning "ffmpeg" raised
-                # FileNotFoundError and the watermark the user asked for was
-                # silently dropped from the exported video.
                 ffmpeg = find_ffmpeg()
                 if overlay_args and ffmpeg:
                     try:
@@ -90,25 +140,51 @@ def export_file(req: ExportRequest):
                             timeout=120,
                         )
                     except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
-                        # Fallback: plain copy if ffmpeg overlay fails
                         shutil.copy2(src, dest)
                 else:
                     shutil.copy2(src, dest)
             else:
+                shutil.copy2(src, dest)
+        elif src.lower().endswith(".wav") and dest.lower().endswith(".wav"):
+            try:
+                export_with_provenance(
+                    dest,
+                    source_wav_path=src,
+                    voice_id=effective_voice_id if (p_kind != "design" or ref_path) else None,
+                    has_ref_audio=bool(ref_path or p_kind == "clone"),
+                    profile_kind=p_kind,
+                    export_id=prov_export_id,
+                )
+                provenance_written = True
+            except (ValueError, wave.Error):
                 shutil.copy2(src, dest)
         else:
             shutil.copy2(src, dest)
     except OSError as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-    export_id = str(uuid.uuid4())[:8]
+    if not provenance_written:
+        write_provenance_sidecar_for_artifact(
+            dest,
+            voice_id=effective_voice_id if (p_kind != "design" or ref_path) else None,
+            has_ref_audio=bool(ref_path or p_kind == "clone"),
+            profile_kind=p_kind,
+            duration_ms=max(1, int(round(hist_duration_s * 1000.0))),
+            export_id=prov_export_id,
+            enforce_consent=bool(effective_voice_id and (p_kind != "design" or ref_path)),
+        )
+
     with db_conn() as conn:
         conn.execute(
             "INSERT INTO export_history (id, filename, destination_path, mode, created_at) VALUES (?, ?, ?, ?, ?)",
             (export_id, req.source_filename, dest, req.mode, time.time()),
         )
     event_bus.emit("export_history", {"action": "exported", "id": export_id})
-    return {"success": True, "id": export_id}
+    return {
+        "success": True,
+        "id": export_id,
+        "provenance_path": f"{dest}.provenance.json",
+    }
 
 
 @router.post("/export/record", dependencies=[Depends(require_consumer)])

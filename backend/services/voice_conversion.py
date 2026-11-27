@@ -147,6 +147,7 @@ async def convert_recording(
     *,
     seed: Optional[int],
     run_job: Callable[[Callable[[], object], float], Awaitable[object]],
+    voice_id: Optional[str] = None,
 ):
     """Convert ``source_path`` into ``ref_audio_path``'s voice with ``backend``.
 
@@ -179,6 +180,14 @@ async def convert_recording(
         _write_wav(ref_wav, reference, DECODE_SR)
         outputs = []
         for index, (a, b) in enumerate(pieces):
+            if voice_id:
+                from services.consent_ledger import enforce_checkpoint_consent
+
+                enforce_checkpoint_consent(
+                    voice_id,
+                    checkpoint="voice_conversion_chunk",
+                    reference_path=ref_audio_path,
+                )
             piece_wav = os.path.join(workdir, f"source-{index:03d}.wav")
             _write_wav(piece_wav, source[a:b], DECODE_SR)
             seconds = (b - a) / DECODE_SR

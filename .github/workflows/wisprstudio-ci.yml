@@ -43,6 +43,8 @@ jobs:
         run: |
           pytest \
             tests/test_wisprstudio_st1_foundation.py \
+            tests/test_wisprstudio_qualification.py \
+            tests/test_tts_model_licence_gate.py \
             tests/test_voicestudio_branding.py \
             tests/test_contact_emails.py \
             tests/test_hf_mirror_settings.py \

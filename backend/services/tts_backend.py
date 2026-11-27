@@ -3775,6 +3775,274 @@ class SherpaOnnxBackend(TTSBackend):
         return wav
 
 
+class KokoroBackend(TTSBackend):
+    """hexgrad/Kokoro-82M — permissive Apache-2.0 82M local TTS engine."""
+
+    id = "kokoro"
+    display_name = "Kokoro-82M (Apache-2.0, commercial-ready local TTS)"
+    DEFAULT_REPO = "hexgrad/Kokoro-82M"
+    _DEFAULT_SAMPLE_RATE = 24000
+    gpu_compat = ("cuda", "mps", "cpu")
+    supports_cloning = False
+    supports_voice_design = False
+    PRESET_VOICES = (
+        "af_heart",
+        "af_bella",
+        "af_sarah",
+        "am_adam",
+        "am_michael",
+        "bf_emma",
+        "bm_george",
+    )
+    DEFAULT_VOICE = "af_heart"
+    _LANG_CODE_MAP = {
+        "en": "a",
+        "en-us": "a",
+        "en_us": "a",
+        "american": "a",
+        "en-gb": "b",
+        "en_gb": "b",
+        "british": "b",
+        "es": "e",
+        "spanish": "e",
+        "fr": "f",
+        "french": "f",
+        "hi": "h",
+        "hindi": "h",
+        "it": "i",
+        "italian": "i",
+        "pt": "p",
+        "pt-br": "p",
+        "portuguese": "p",
+        "ja": "j",
+        "japanese": "j",
+        "zh": "z",
+        "zh-cn": "z",
+        "chinese": "z",
+    }
+
+    def __init__(self) -> None:
+        self._pipeline = None
+        self._pipelines_by_lang: dict[str, Any] = {}
+
+    @classmethod
+    def configured_identity(cls) -> Optional[str]:
+        return os.environ.get("WISPRSTUDIO_KOKORO_MODEL", cls.DEFAULT_REPO)
+
+    def model_identity(self) -> Optional[str]:
+        return self.configured_identity()
+
+    @classmethod
+    def is_available(cls) -> tuple[bool, str]:
+        try:
+            import kokoro  # noqa: F401
+        except ImportError as exc:
+            return False, (
+                f"kokoro package not installed: {exc}. "
+                'Install with: pip install "kokoro>=0.9.2" soundfile'
+            )
+        return True, "ready"
+
+    @property
+    def sample_rate(self) -> int:
+        return self._DEFAULT_SAMPLE_RATE
+
+    @property
+    def supported_languages(self) -> list[str]:
+        return ["en", "es", "fr", "hi", "it", "pt", "ja", "zh"]
+
+    @classmethod
+    def _kokoro_lang_code(cls, language: Optional[str], voice: str) -> str:
+        if language:
+            norm = str(language).strip().lower()
+            if norm and norm != "auto":
+                if norm in cls._LANG_CODE_MAP:
+                    return cls._LANG_CODE_MAP[norm]
+                short = norm.split("-", 1)[0].split("_", 1)[0]
+                if short in cls._LANG_CODE_MAP:
+                    return cls._LANG_CODE_MAP[short]
+        if voice and len(voice) >= 2 and voice[0].lower() in {"a", "b", "e", "f", "h", "i", "p", "j", "z"}:
+            return voice[0].lower()
+        return "a"
+
+    @classmethod
+    def _resolve_repo_or_snapshot(cls, repo_id: str) -> str:
+        if os.path.isdir(repo_id):
+            return repo_id
+        try:
+            from core.config import hf_cache_dir
+            from services.hf_revisions import installed_revision
+
+            cache_root = hf_cache_dir()
+            rev = installed_revision(repo_id, cache_root)
+            snap = (
+                Path(cache_root)
+                / ("models--" + repo_id.replace("/", "--"))
+                / "snapshots"
+                / rev
+            )
+            if snap.is_dir():
+                return str(snap)
+        except Exception:
+            pass
+        return repo_id
+
+    def _ensure_loaded(self, lang_code: str = "a") -> Any:
+        if lang_code in self._pipelines_by_lang:
+            self._pipeline = self._pipelines_by_lang[lang_code]
+            return self._pipeline
+        if lang_code == "a" and self._pipeline is not None:
+            self._pipelines_by_lang["a"] = self._pipeline
+            return self._pipeline
+        from kokoro import KPipeline
+
+        repo_id = os.environ.get("WISPRSTUDIO_KOKORO_MODEL", self.DEFAULT_REPO)
+        resolved_repo = self._resolve_repo_or_snapshot(repo_id)
+        pipe = KPipeline(lang_code=lang_code, repo_id=resolved_repo)
+        self._pipelines_by_lang[lang_code] = pipe
+        self._pipeline = pipe
+        return pipe
+
+    def generate(self, text: str, **kw):
+        import numpy as np
+
+        if not (text or "").strip():
+            raise TTSInputError("Kokoro-82M: input text must not be empty.")
+        voice = kw.get("voice") or self.DEFAULT_VOICE
+        if voice not in self.PRESET_VOICES:
+            voice = self.DEFAULT_VOICE
+        lang_code = self._kokoro_lang_code(kw.get("language"), voice)
+        pipe = self._ensure_loaded(lang_code=lang_code)
+        speed = float(kw.get("speed", 1.0))
+        chunks = [
+            np.asarray(audio, dtype=np.float32)
+            for _, _, audio in pipe(text, voice=voice, speed=speed)
+            if audio is not None
+        ]
+        if not chunks:
+            raise TTSInputError("Kokoro-82M: no speakable audio produced.")
+        wav_np = np.concatenate(chunks, axis=-1)
+        if torch is not None:
+            return torch.from_numpy(wav_np).float().unsqueeze(0)
+        return wav_np[None, :]
+
+
+class PiperBackend(TTSBackend):
+    """rhasspy/piper-voices — permissive MIT ONNX CPU local TTS engine."""
+
+    id = "piper"
+    display_name = "Piper TTS (MIT, fast local ONNX CPU)"
+    DEFAULT_REPO = "rhasspy/piper-voices"
+    _DEFAULT_SAMPLE_RATE = 22050
+    gpu_compat = ("cpu", "cuda")
+    supports_cloning = False
+    supports_voice_design = False
+    PRESET_VOICES = ("en_US-lessac-medium", "en_GB-alba-medium")
+    DEFAULT_VOICE = "en_US-lessac-medium"
+
+    def __init__(self) -> None:
+        self._voice = None
+
+    @classmethod
+    def configured_identity(cls) -> Optional[str]:
+        return os.environ.get("WISPRSTUDIO_PIPER_MODEL", cls.DEFAULT_REPO)
+
+    def model_identity(self) -> Optional[str]:
+        return self.configured_identity()
+
+    @classmethod
+    def is_available(cls) -> tuple[bool, str]:
+        try:
+            import piper  # noqa: F401
+        except ImportError as exc:
+            return False, (
+                f"piper-tts not installed: {exc}. "
+                "Install with: pip install piper-tts"
+            )
+        return True, "ready"
+
+    @property
+    def sample_rate(self) -> int:
+        if self._voice is not None and getattr(self._voice, "config", None) is not None:
+            return int(getattr(self._voice.config, "sample_rate", self._DEFAULT_SAMPLE_RATE))
+        return self._DEFAULT_SAMPLE_RATE
+
+    @property
+    def supported_languages(self) -> list[str]:
+        return ["multi"]
+
+    @classmethod
+    def _resolve_cached_piper_onnx(cls, voice_name: str | None = None) -> str:
+        onnx_env = os.environ.get("WISPRSTUDIO_PIPER_ONNX", "").strip()
+        if onnx_env:
+            return onnx_env
+        target_voice = (voice_name or cls.DEFAULT_VOICE).strip() or cls.DEFAULT_VOICE
+        rel_map = {
+            "en_US-lessac-medium": "en/en_US/lessac/medium/en_US-lessac-medium.onnx",
+            "en_GB-alba-medium": "en/en_GB/alba/medium/en_GB-alba-medium.onnx",
+        }
+        rel_onnx = rel_map.get(target_voice, f"{target_voice}.onnx")
+        repo_id = cls.configured_identity() or cls.DEFAULT_REPO
+        try:
+            from core.config import hf_cache_dir
+            from services.hf_revisions import installed_revision
+
+            cache_root = hf_cache_dir()
+            repo_dir = Path(cache_root) / ("models--" + repo_id.replace("/", "--"))
+            try:
+                rev = installed_revision(repo_id, cache_root)
+                pinned = repo_dir / "snapshots" / rev / rel_onnx
+                if pinned.is_file():
+                    return str(pinned)
+            except Exception:
+                pass
+            snapshots_dir = repo_dir / "snapshots"
+            if snapshots_dir.is_dir():
+                for snap in sorted(snapshots_dir.iterdir()):
+                    candidate = snap / rel_onnx
+                    if candidate.is_file():
+                        return str(candidate)
+                    matches = list(snap.rglob(f"{target_voice}.onnx"))
+                    if matches:
+                        return str(matches[0])
+        except Exception:
+            pass
+        raise RuntimeError(
+            f"Piper ONNX voice {target_voice!r} not found in local Hugging Face cache ({repo_id}) "
+            "and WISPRSTUDIO_PIPER_ONNX is unset."
+        )
+
+    def _ensure_loaded(self, voice_name: str | None = None) -> None:
+        if self._voice is not None and voice_name is None:
+            return
+        from piper.voice import PiperVoice
+
+        onnx_path = self._resolve_cached_piper_onnx(voice_name)
+        self._voice = PiperVoice.load(onnx_path)
+
+    def generate(self, text: str, **kw):
+        import io
+        import wave
+        import numpy as np
+
+        if not (text or "").strip():
+            raise TTSInputError("Piper TTS: input text must not be empty.")
+        req_voice = kw.get("voice")
+        if req_voice not in self.PRESET_VOICES:
+            req_voice = None
+        self._ensure_loaded(voice_name=req_voice)
+        buf = io.BytesIO()
+        with wave.open(buf, "wb") as wf:
+            self._voice.synthesize(text, wf)
+        buf.seek(0)
+        with wave.open(buf, "rb") as rf:
+            pcm = np.frombuffer(rf.readframes(rf.getnframes()), dtype=np.int16)
+        wav_np = (pcm.astype(np.float32) / 32768.0)[None, :]
+        if torch is not None:
+            return torch.from_numpy(wav_np)
+        return wav_np
+
+
 # ── Registry ────────────────────────────────────────────────────────────────
 
 
@@ -3895,6 +4163,8 @@ class _LazyRegistry(dict):
 
 
 _REGISTRY: dict[str, type[TTSBackend]] = _LazyRegistry({
+    "kokoro":        KokoroBackend,
+    "piper":         PiperBackend,
     "omnivoice":     OmniVoiceBackend,
     "cosyvoice":     CosyVoiceBackend,
     "kittentts":     KittenTTSBackend,
@@ -3922,7 +4192,9 @@ _LAST_ERRORS: dict[str, str] = {}
 # Short install hints surfaced as tooltips on the Model Catalogue UI.
 # Helps users understand what pip package to install and where.
 _INSTALL_HINTS: dict[str, str] = {
-    "omnivoice":     "pip install omnivoice  (bundled — no extra install needed)",
+    "kokoro":        'pip install "kokoro>=0.9.2" soundfile  (Apache-2.0 weights, 82M, commercial-ready default)',
+    "piper":         "pip install piper-tts  (MIT ONNX CPU engine, fast local synthesis)",
+    "omnivoice":     "pip install omnivoice  (optional non-commercial CC-BY-NC zero-shot weights)",
     "omnivoice-subprocess": "No extra install; uses the host OmniVoice install. Opt in with OMNIVOICE_TTS_BACKEND=omnivoice-subprocess (same model in a killable sidecar, for unattended reliability).",
     "cosyvoice":     "git clone --recursive FunAudioLLM/CosyVoice + pip install -r requirements.txt + SoX",
     "kittentts":     "pip install kittentts  (ONNX, CPU-only, ~80 MB)",
@@ -3971,6 +4243,8 @@ _SETUP_SNIPPETS: dict[str, str] = {
 # Keyed on the engine id, so it stays correct when the doc filename does not
 # match the id (indextts2 → indextts.md).
 _ENGINE_DOCS: dict[str, str] = {
+    "kokoro":               "docs/engines/kokoro.md",
+    "piper":                "docs/engines/piper.md",
     "omnivoice":            "docs/engines/omnivoice.md",
     "omnivoice-subprocess": "docs/engines/omnivoice-subprocess.md",
     "omnivoice-gguf":       "docs/engines/omnivoice-gguf.md",
@@ -4558,10 +4832,9 @@ def gpu_routing_verdict() -> dict:
 
 
 def active_backend_id() -> str:
-    # Env var > persisted UI choice > default. Env wins so power-users can
-    # pin a backend without the Settings picker silently undoing it.
+    # Env var > persisted UI choice > permissive commercial-safe default (kokoro).
     from core import prefs
-    return prefs.resolve("tts_backend", env="OMNIVOICE_TTS_BACKEND", default="omnivoice")
+    return prefs.resolve("tts_backend", env="OMNIVOICE_TTS_BACKEND", default="kokoro")
 
 
 # Cached active backend instance + its id (MM2-01). Without this, every call

@@ -205,6 +205,23 @@ def delete_session(request: Request) -> Response:
 def create_ws_ticket(payload: WebSocketTicketRequest, request: Request) -> JSONResponse:
     principal = principal_for(request)
     if principal.kind is not PrincipalKind.ADMIN_SESSION:
+        from core.launch_auth import LAUNCH_TOKEN_HEADER, is_launch_auth_armed, verify_launch_token
+        from core.ws_ticket import issue_ws_ticket as issue_launch_ws_ticket
+
+        presented = request.headers.get(LAUNCH_TOKEN_HEADER)
+        if is_launch_auth_armed() and verify_launch_token(presented):
+            try:
+                local_ticket = issue_launch_ws_ticket(payload.path)
+            except ValueError as exc:
+                raise HTTPException(status_code=422, detail=str(exc)) from None
+            return JSONResponse(
+                {
+                    "ticket": local_ticket.token,
+                    "expires_at": local_ticket.expires_at,
+                    "expires_in": local_ticket.expires_in,
+                },
+                status_code=201,
+            )
         raise HTTPException(status_code=403, detail="admin session required")
     if (
         principal.transport is CredentialTransport.COOKIE

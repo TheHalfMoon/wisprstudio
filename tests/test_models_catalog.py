@@ -87,11 +87,16 @@ _CURATED_TAGS = {"all", "darwin-arm64", "darwin-x86_64", "cuda", "rocm", "cpu"}
 
 def test_only_tts_is_required():
     required = [m for m in _models() if m.get("required")]
-    assert [m["repo_id"] for m in required] == ["k2-fsa/OmniVoice"], (
-        "exactly one required model is allowed — the TTS engine. ASR models "
-        f"are optional curated picks (curated_on). Got: {required}"
+    assert [m["repo_id"] for m in required] == ["hexgrad/Kokoro-82M"], (
+        "exactly one required model is allowed — the permissive Apache-2.0 TTS engine. "
+        f"ASR models are optional curated picks (curated_on). Got: {required}"
     )
     assert required[0]["role"] == "TTS"
+    assert required[0].get("commercial_use") is True
+    omnivoice = next(m for m in _models() if m["repo_id"] == "k2-fsa/OmniVoice")
+    assert not omnivoice.get("required")
+    assert omnivoice.get("non_commercial") is True
+    assert omnivoice.get("commercial_use") is False
 
 
 def test_curated_on_tags_are_valid():

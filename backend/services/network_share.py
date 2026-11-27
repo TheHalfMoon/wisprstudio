@@ -5,6 +5,8 @@ serving the SAME FastAPI app object — so the loaded model and in-flight jobs
 are untouched (no restart). Disabling stops it, closing the 0.0.0.0 socket.
 Loopback-only by default: nothing binds 0.0.0.0 until enable() is called.
 """
+from __future__ import annotations
+
 import asyncio
 import ipaddress
 import logging
@@ -14,8 +16,14 @@ import socket
 from dataclasses import dataclass, field
 from typing import Optional
 
-import psutil
-import uvicorn
+try:
+    import psutil
+except ImportError:  # pragma: no cover - lightweight test env
+    psutil = None  # type: ignore[assignment]
+try:
+    import uvicorn
+except ImportError:  # pragma: no cover - lightweight test env
+    uvicorn = None  # type: ignore[assignment]
 
 from core.app_config import DEFAULT_BACKEND_PORT, DEFAULT_WEB_PORT
 

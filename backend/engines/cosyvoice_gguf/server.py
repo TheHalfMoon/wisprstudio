@@ -5,7 +5,11 @@ from __future__ import annotations
 import io
 
 import numpy as np
-import soundfile as sf
+
+try:
+    import soundfile as sf
+except ImportError:  # pragma: no cover - lightweight test env
+    sf = None  # type: ignore[assignment]
 
 
 def build_speech_payload(

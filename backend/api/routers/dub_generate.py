@@ -8,9 +8,10 @@ import asyncio
 import contextlib
 import shutil
 import tempfile
+
 try:
     import torch
-except ImportError:  # pragma: no cover - lightweight test env
+except ImportError:  # pragma: no cover - lightweight torch-free test env
     torch = None  # type: ignore[assignment]
 from fastapi import APIRouter, HTTPException
 
@@ -52,6 +53,97 @@ from services.dub_pipeline import (
 from omnivoice.utils.voice_design import heal_design_instruct
 
 logger = logging.getLogger("omnivoice.dub")
+
+def _resolve_dub_consent_target(job: dict, raw_pid: str | None, *, seg_id: str | None = None) -> tuple[str | None, str | None, bool, str | None]:
+    """Resolve a dub segment's `profile_id` / `voice_id` into `(consent_voice_id, ref_audio_path, has_ref_audio, profile_kind)`."""
+    if not raw_pid:
+        return None, None, False, None
+    pid = str(raw_pid).strip()
+    if not pid:
+        return None, None, False, None
+
+    if pid.startswith("auto:") or pid.startswith("auto-seg:"):
+        voice_map = job.get("voice_map") if isinstance(job.get("voice_map"), dict) else {}
+        suffix = pid.split(":", 1)[1] if ":" in pid else pid
+        mapped = voice_map.get(pid) or voice_map.get(suffix)
+        if isinstance(mapped, dict):
+            mapped_vid = str(mapped.get("voice_id") or mapped.get("profile_id") or "").strip()
+        elif isinstance(mapped, str) and mapped.strip():
+            mapped_vid = mapped.strip()
+        else:
+            mapped_vid = pid
+
+        auto_ref = None
+        if pid.startswith("auto-seg:"):
+            info = (job.get("segment_clones") or {}).get(suffix)
+            if isinstance(info, dict):
+                auto_ref = info.get("ref_audio")
+        else:
+            if seg_id is not None:
+                seg_info = (job.get("segment_clones") or {}).get(str(seg_id))
+                if isinstance(seg_info, dict) and seg_info.get("ref_audio"):
+                    auto_ref = seg_info.get("ref_audio")
+            if not auto_ref:
+                spk_info = (job.get("speaker_clones") or {}).get(suffix)
+                if isinstance(spk_info, dict):
+                    auto_ref = spk_info.get("ref_audio")
+        # If mapped_vid points to a saved voice_profiles row, resolve its reference path too.
+        if mapped_vid != pid:
+            row = None
+            try:
+                with db_conn() as conn:
+                    row = conn.execute("SELECT * FROM voice_profiles WHERE id=?", (mapped_vid,)).fetchone()
+            except Exception:
+                row = None
+            if row:
+                rel = row["locked_audio_path"] if row["is_locked"] and row["locked_audio_path"] else row["ref_audio_path"]
+                if rel:
+                    auto_ref = contained_join(VOICES_DIR, rel)
+        return mapped_vid, auto_ref, True, "clone"
+
+    row = None
+    try:
+        with db_conn() as conn:
+            row = conn.execute("SELECT * FROM voice_profiles WHERE id=?", (pid,)).fetchone()
+    except Exception:
+        row = None
+    if row:
+        try:
+            p_kind = row["kind"] or "clone"
+        except (KeyError, IndexError):
+            p_kind = "clone"
+        rel = row["locked_audio_path"] if row["is_locked"] and row["locked_audio_path"] else row["ref_audio_path"]
+        ref_path = contained_join(VOICES_DIR, rel) if rel else None
+        return pid, ref_path, bool(ref_path or p_kind == "clone"), p_kind
+    return pid, None, False, None
+
+
+def _enforce_dub_segment_consent(
+    job: dict,
+    raw_pid: str | None,
+    *,
+    checkpoint: str,
+    engine_id: str | None = None,
+    seg_id: str | None = None,
+) -> str | None:
+    """Enforce voice consent for a dub segment's `profile_id` / `voice_id` (including `auto:*` clones)."""
+    from services.consent_ledger import enforce_checkpoint_consent
+
+    target_vid, ref_path, has_ref, p_kind = _resolve_dub_consent_target(job, raw_pid, seg_id=seg_id)
+    if not target_vid:
+        return None
+    if p_kind == "design" and not has_ref:
+        return None
+    enforce_checkpoint_consent(
+        target_vid,
+        checkpoint=checkpoint,
+        reference_path=ref_path,
+        has_ref_audio=has_ref,
+        profile_kind=p_kind,
+        engine_id=engine_id,
+    )
+    return target_vid
+
 
 def _validate_render_languages(backend, req, seg_ids, regen_only):
     """Validate the final local render set, including repaired cache misses."""
@@ -522,6 +614,18 @@ async def dub_generate(job_id: str, req: DubRequest):
         )
         raise HTTPException(status_code=503, detail=payload["detail"]) from e
 
+    for _idx, _seg in enumerate(req.segments):
+        _seg_key = str((req.segment_ids or [])[_idx]) if req.segment_ids and _idx < len(req.segment_ids) else str(_idx)
+        for _cand in (getattr(_seg, "profile_id", None), getattr(_seg, "voice_id", None)):
+            if _cand:
+                _enforce_dub_segment_consent(
+                    job,
+                    _cand,
+                    checkpoint="dub_enqueue",
+                    engine_id=engine_id,
+                    seg_id=_seg_key,
+                )
+
     # Resolve the global profile once for this job. Explicit Production
     # overrides remain authoritative, while ordinary Dubbing now follows the
     # same Fast/Balanced/Quality/Max contract as Clone and long-form work.
@@ -531,14 +635,30 @@ async def dub_generate(job_id: str, req: DubRequest):
     _job_postprocess = _profile_defaults.get("postprocess_output", True)
 
     async def _stream(task_id):
-        # Every reference take the render resolves stays held until it ends,
-        # so the retired-voice sweep never deletes one mid-dub (#2535).
-        with voice_leases.VoiceFileLease() as voice_lease, _render_staging(job_id) as stage_dir:
-            async with contextlib.aclosing(_render(task_id, voice_lease, stage_dir)) as events:
-                async for event in events:
-                    yield event
+        from services.consent_ledger import register_active_render, unregister_active_render
 
-    async def _render(task_id, voice_lease, stage_dir):
+        dub_handles = []
+        seen_vids: set[str] = set()
+        for _idx, _seg in enumerate(req.segments):
+            _seg_key = str((req.segment_ids or [])[_idx]) if req.segment_ids and _idx < len(req.segment_ids) else str(_idx)
+            for _cand in (getattr(_seg, "profile_id", None), getattr(_seg, "voice_id", None)):
+                if _cand:
+                    _tvid, _, _, _ = _resolve_dub_consent_target(job, _cand, seg_id=_seg_key)
+                    if _tvid and _tvid not in seen_vids:
+                        seen_vids.add(_tvid)
+                        dub_handles.append(register_active_render(_tvid))
+        try:
+            # Every reference take the render resolves stays held until it ends,
+            # so the retired-voice sweep never deletes one mid-dub (#2535).
+            with voice_leases.VoiceFileLease() as voice_lease, _render_staging(job_id) as stage_dir:
+                async with contextlib.aclosing(_render(task_id, voice_lease, stage_dir, dub_handles)) as events:
+                    async for event in events:
+                        yield event
+        finally:
+            for _h in dub_handles:
+                unregister_active_render(_h)
+
+    async def _render(task_id, voice_lease, stage_dir, dub_handles=()):
         total = len(req.segments)
         all_segment_wavs = []
         sync_scores = []
@@ -946,13 +1066,29 @@ async def dub_generate(job_id: str, req: DubRequest):
 
             def _gen(text, lang, instruct_str, dur_s, nstep, cfg, spd, profile_id, effect_preset,
                      *, prepare_only=False, current_seg_id=None):
+                effective_seg_id = seg_id if current_seg_id is None else current_seg_id
+                if profile_id:
+                    from services.consent_ledger import ConsentRevokedError
+
+                    for _h in dub_handles:
+                        if _h.cancelled.is_set():
+                            raise ConsentRevokedError(
+                                f"Voice consent for {_h.voice_id!r} was revoked mid-dub; halted at Checkpoint 3",
+                                voice_id=_h.voice_id,
+                                checkpoint="pre_chunk_render",
+                            )
+                    _enforce_dub_segment_consent(
+                        job,
+                        profile_id,
+                        checkpoint="pre_chunk_render",
+                        engine_id=engine_id,
+                        seg_id=str(effective_seg_id),
+                    )
                 # Normalize once at the segment's text→engine choke point
                 # (covers the OOM-retry generate below too, which reuses this
                 # closure's `text`). Pref-gated, idempotent, never raises.
                 from services.text_normalization import normalize_for_tts
                 text = normalize_for_tts(text, lang)
-
-                effective_seg_id = seg_id if current_seg_id is None else current_seg_id
                 ref_audio = None
                 ref_text = None
                 used_seed = None
@@ -1923,6 +2059,13 @@ async def preview_segment(job_id: str, req: SegmentPreviewRequest):
     job = _get_job(job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
+    if req.profile_id:
+        _enforce_dub_segment_consent(
+            job,
+            req.profile_id,
+            checkpoint="dub_preview_enqueue",
+            seg_id=req.segment_id,
+        )
 
     # See the /dub/generate/{job_id} resolution above (issue #312 class) —
     # a segment preview resolves ref_audio from the same auto-clone /

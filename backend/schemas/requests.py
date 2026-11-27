@@ -7,6 +7,7 @@ class ExportRequest(BaseModel):
     source_filename: str
     authorization: str
     mode: str = "history"
+    voice_id: Optional[str] = None
 
 class ExportRecordRequest(BaseModel):
     filename: str

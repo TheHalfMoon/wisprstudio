@@ -1383,3 +1383,65 @@ it('does not take crash context from a backend process that was replaced', async
 
   expect(capture).toHaveBeenCalledOnce();
 });
+
+it('arms WISPRSTUDIO_STDIN_LAUNCH_TOKEN, writes 256-bit launch token to stdin without closing it, and mints local ws_ticket', async () => {
+  const spawnOpts = managedBackendSpawnOptions(3900);
+  expect(spawnOpts.env.WISPRSTUDIO_STDIN_LAUNCH_TOKEN).toBe('1');
+  expect(spawnOpts.env.OMNIVOICE_BIND_HOST).toBe('127.0.0.1');
+
+  const supervisor = new BackendSupervisor();
+  onTestFinished(() => supervisor.shutdown());
+  const writtenChunks: string[] = [];
+  let stdinEnded = false;
+  const fakeChild = Object.assign(new EventEmitter(), {
+    pid: 42424,
+    exitCode: null,
+    signalCode: null,
+    stdout: Object.assign(new EventEmitter(), { setEncoding: vi.fn() }),
+    stderr: Object.assign(new EventEmitter(), { setEncoding: vi.fn() }),
+    stdin: Object.assign(new EventEmitter(), {
+      write: vi.fn((chunk: string) => {
+        writtenChunks.push(chunk);
+        return true;
+      }),
+      end: vi.fn(() => {
+        stdinEnded = true;
+      }),
+    }),
+  });
+  mocks.spawn.mockReturnValueOnce(fakeChild);
+
+  const internals = supervisor as unknown as {
+    generation: number;
+    spawnChild: (plan: { argv: string[]; cwd: string }, gen: number) => void;
+  };
+  internals.spawnChild(
+    { argv: ['python', '-m', 'uvicorn', 'main:app', '--host', '127.0.0.1', '--port', '3900'], cwd: '/repo' },
+    internals.generation,
+  );
+
+  expect(writtenChunks).toHaveLength(1);
+  expect(writtenChunks[0]).toMatch(/^[0-9a-f]{64}\n$/);
+  expect(stdinEnded).toBe(false);
+
+  const token = writtenChunks[0].trim();
+  const headers = supervisor.requestHeaders();
+  expect(headers['X-WisprStudio-Launch-Token']).toBe(token);
+
+  const ticketToken = `ovs_ws_ticket_${'k'.repeat(43)}`;
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      expect(String(input)).toContain('/api/auth/ws-ticket');
+      const reqHeaders = (init?.headers ?? {}) as Record<string, string>;
+      expect(reqHeaders['X-WisprStudio-Launch-Token']).toBe(token);
+      return new Response(JSON.stringify({ ticket: ticketToken, expires_in: 30 }), {
+        status: 201,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }),
+  );
+
+  const wsUrl = await supervisor.websocketUrl('/ws/tts');
+  expect(wsUrl).toContain(`/ws/tts?ws_ticket=${ticketToken}`);
+});

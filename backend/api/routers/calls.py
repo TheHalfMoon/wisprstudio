@@ -134,11 +134,39 @@ class _CallBody(BaseModel):
 
 @router.post("", status_code=201)
 async def place_call(body: _CallBody):
+    from core.config import VOICES_DIR
+    from core.db import db_conn
+    from core.path_security import contained_join
+    from services.consent_ledger import enforce_checkpoint_consent
+
+    pid = body.profile_id.strip()
+    ref_path = None
+    p_kind = None
+    if pid:
+        with db_conn() as conn:
+            row = conn.execute("SELECT * FROM voice_profiles WHERE id=?", (pid,)).fetchone()
+        if row:
+            try:
+                p_kind = row["kind"] or "clone"
+            except (KeyError, IndexError):
+                p_kind = "clone"
+            rel = row["locked_audio_path"] if row["is_locked"] and row["locked_audio_path"] else row["ref_audio_path"]
+            if rel:
+                ref_path = contained_join(VOICES_DIR, rel)
+    if p_kind == "clone" or ref_path or (pid and row is None):
+        enforce_checkpoint_consent(
+            pid,
+            checkpoint="call_enqueue",
+            reference_path=ref_path,
+            has_ref_audio=bool(ref_path),
+            profile_kind=p_kind,
+            engine_id=(body.engine or "").strip() or None,
+        )
     try:
         session = calls.create_outbound(
             to=body.to,
             brief=body.brief,
-            profile_id=body.profile_id.strip(),
+            profile_id=pid,
             engine=(body.engine or "").strip(),
             language=(body.language or "").strip(),
             disclosure=body.disclosure,

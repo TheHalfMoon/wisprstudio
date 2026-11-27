@@ -175,28 +175,49 @@ def build_stream_kwargs(data: dict) -> dict:
     # Resolve voice profile
     voice = data.get("voice")
     if voice:
+        from services.consent_ledger import enforce_checkpoint_consent
+        from core.db import db_conn
+        from core.config import VOICES_DIR
+        from core.path_security import contained_join
+
+        row = None
         try:
-            from core.db import db_conn
-            from core.config import VOICES_DIR
-            from core.path_security import contained_join
             with db_conn() as conn:
                 row = conn.execute(
                     "SELECT * FROM voice_profiles WHERE id=?",
                     (voice,),
                 ).fetchone()
-            if row:
-                if row["is_locked"] and row["locked_audio_path"]:
-                    kw["ref_audio"] = contained_join(VOICES_DIR, row["locked_audio_path"])
-                elif row["ref_audio_path"]:
-                    kw["ref_audio"] = contained_join(VOICES_DIR, row["ref_audio_path"])
-                stored_ref_text = stored_reference_transcript(row)
-                if stored_ref_text:
-                    kw["ref_text"] = stored_ref_text
-                if row["instruct"] and not data.get("instruct"):
-                    kw["instruct"] = row["instruct"]
-            else:
-                kw["voice"] = voice
         except Exception:
+            row = None
+        if row:
+            if row["is_locked"] and row["locked_audio_path"]:
+                kw["ref_audio"] = contained_join(VOICES_DIR, row["locked_audio_path"])
+            elif row["ref_audio_path"]:
+                kw["ref_audio"] = contained_join(VOICES_DIR, row["ref_audio_path"])
+            try:
+                p_kind = row["kind"] or "clone"
+            except (KeyError, IndexError):
+                p_kind = "clone"
+            if p_kind == "clone" or kw.get("ref_audio"):
+                enforce_checkpoint_consent(
+                    row["id"],
+                    checkpoint="ws_tts_enqueue",
+                    reference_path=kw.get("ref_audio"),
+                    has_ref_audio=bool(kw.get("ref_audio")),
+                    profile_kind=p_kind,
+                    engine_id=data.get("engine"),
+                )
+            stored_ref_text = stored_reference_transcript(row)
+            if stored_ref_text:
+                kw["ref_text"] = stored_ref_text
+            if row["instruct"] and not data.get("instruct"):
+                kw["instruct"] = row["instruct"]
+        else:
+            enforce_checkpoint_consent(
+                voice,
+                checkpoint="ws_tts_enqueue",
+                engine_id=data.get("engine"),
+            )
             kw["voice"] = voice
     return kw
 
@@ -390,9 +411,17 @@ async def ws_tts(websocket: WebSocket):
                         "reason": scrub_text(_notice[1]) if _notice[1] else None,
                     })
 
+                from services.consent_ledger import ConsentGateError
                 from services.engine_memory import evict_other_tts_engines
                 try:
                     kw = build_stream_kwargs(data)
+                except ConsentGateError as exc:
+                    await websocket.send_json({
+                        "type": "error",
+                        "code": exc.code,
+                        "detail": str(exc),
+                    })
+                    continue
                 except ValueError as exc:
                     await websocket.send_json({"type": "error", "detail": str(exc)})
                     continue
