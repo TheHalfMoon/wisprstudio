@@ -175,11 +175,11 @@ async def search_youtube(
     category: str = Query("import", description="Free-form tag stored with results"),
     max_results: int = Query(5, ge=1, le=20),
 ):
-    """Search a source site (via yt-dlp) for clips matching the user's query.
+    """Search a source site (via yt-dlp) — disabled by default in WisprStudio."""
+    from core.url_safety import REMOTE_URL_INGEST_DISABLED_DETAIL, remote_url_ingest_enabled
 
-    The query is user-supplied; the project ships no celebrity/character seed
-    list. Users are responsible for the licensing of whatever they import.
-    """
+    if not remote_url_ingest_enabled():
+        raise HTTPException(status_code=403, detail=REMOTE_URL_INGEST_DISABLED_DETAIL)
     try:
         # yt-dlp is an importable module, never a PATH requirement — run it
         # via the interpreter (honors the Settings → Audio tools overlay).
@@ -238,7 +238,11 @@ async def download_youtube_clip(
     category: str = Query("import", description="Free-form tag stored with the clip"),
     description: str = Query("", description="Optional description"),
 ):
-    """Download a clip from YouTube for voice cloning."""
+    """Download a clip from YouTube — disabled by default in WisprStudio."""
+    from core.url_safety import REMOTE_URL_INGEST_DISABLED_DETAIL, remote_url_ingest_enabled
+
+    if not remote_url_ingest_enabled():
+        raise HTTPException(status_code=403, detail=REMOTE_URL_INGEST_DISABLED_DETAIL)
     try:
         video_url = await asyncio.to_thread(check_public_url, video_url)
     except UnsafeURLError as exc:

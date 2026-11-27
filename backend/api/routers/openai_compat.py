@@ -604,7 +604,12 @@ def _run_tts(backend, text: str, kw: dict):
     # while /generate marked the same text). Same failure semantics as
     # /generate: pref-gated, no-op without AudioSeal, passes audio through
     # unchanged on any failure — never blocks the response.
-    wav = mark_synthetic(wav, sr, context="openai_compat.speech")
+    wav = mark_synthetic(
+        wav,
+        sr,
+        context="openai_compat.speech",
+        watermark_required=bool(kw.get("ref_audio")),
+    )
     return wav, sr
 
 

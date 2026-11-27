@@ -68,7 +68,7 @@ private actor RangeServer: HTTPTransport {
     let failing = RangeServer(bytes: bytes, failAfter: 1)
     await #expect(throws: (any Error).self) { try await first.download(model, wifi: { true }, transport: failing) }
     #expect(await !first.installed(model))
-    #expect(await failing.requests.last?.url?.host == "hf-mirror.com")
+    #expect(await failing.requests.last?.url?.host == "huggingface.co")
     let restored = try ModelStore(root: root, available: { _ in 100_000_000_000 })
     let server = RangeServer(bytes: bytes)
     try await restored.download(model, wifi: { true }, transport: server)

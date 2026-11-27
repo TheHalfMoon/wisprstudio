@@ -613,13 +613,11 @@ def _fetch_pypi_ytdlp() -> tuple[str, str, str]:
 
 
 def update_ytdlp(wait: bool = False) -> dict:
-    """Install the newest yt-dlp into the overlay dir (background thread).
+    """Install the newest yt-dlp into the overlay dir (disabled by default in WisprStudio)."""
+    from core.url_safety import REMOTE_URL_INGEST_DISABLED_DETAIL, remote_url_ingest_enabled
 
-    The wheel is verified against PyPI's own sha256 digest before a single
-    byte lands in the overlay; the swap is atomic (staged dir + os.replace).
-    Takes effect on the next backend start (the running process already
-    imported the old module) — the UI shows the restart affordance.
-    """
+    if not remote_url_ingest_enabled():
+        raise PermissionError(REMOTE_URL_INGEST_DISABLED_DETAIL)
     with _lock:
         if _ops["ytdlp_update"]["state"] == "running":
             return dict(_ops["ytdlp_update"])

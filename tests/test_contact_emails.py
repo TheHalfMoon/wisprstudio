@@ -19,22 +19,21 @@ from pathlib import Path
 
 _REPO = Path(__file__).resolve().parents[1]
 _CONTACTS = {
-    "hi@voicestudio.sh",
-    "partner@voicestudio.sh",
-    "security@voicestudio.sh",
-    "sponsor@voicestudio.sh",
+    "opensource@wispral.dev",
+    "security@wispral.dev",
 }
 _EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
 _RESERVED_DOMAIN = re.compile(r"(^|\.)(example\.(com|net|org)|example|test|invalid|localhost|local)$", re.I)
 # GitHub no-reply commit addresses are identities, not contact addresses.
 _NOREPLY_DOMAIN = "users.noreply.github.com"
 _TEST_PATH = re.compile(r"(^|/)(tests?|__tests__|fixtures)/|\.test\.[a-z]+$|_test\.py$")
-# Vendored copyright notices retain upstream identities, not project contacts.
+# Vendored copyright notices and upstream release history retain upstream identities, not project contacts.
 _NATIVE_LICENCE_PATH = re.compile(
-    r"^mobile/(?:ios/VoiceStudio/Resources/NativeLicences/[^/]+\.txt"
+    r"^(?:NOTICE|CHANGELOG\.md"
+    r"|mobile/(?:ios/VoiceStudio/Resources/NativeLicences/[^/]+\.txt"
     r"|android/app/src/main/assets/licenses/native-[^/]+\.txt"
     # LAME (LGPL) is vendored unmodified for MP3 export; its source headers name its authors.
-    r"|ios/VoiceStudioKit/Sources/VSNative/Lame/.+)$"
+    r"|ios/VoiceStudioKit/Sources/VSNative/Lame/.+))$"
 )
 
 
@@ -74,7 +73,7 @@ def test_only_project_contact_addresses_are_published():
                     or _TEST_PATH.search(name)):
                 continue
             stray.append(f"{name}: {address}")
-    assert not stray, "Use hi@, partner@, security@ or sponsor@voicestudio.sh:\n" + "\n".join(stray)
+    assert not stray, "Use opensource@wispral.dev or security@wispral.dev:\n" + "\n".join(stray)
 
 
 def test_ssh_usernames_are_not_contact_addresses():

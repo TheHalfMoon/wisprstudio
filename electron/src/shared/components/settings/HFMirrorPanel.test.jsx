@@ -17,13 +17,13 @@ import HFMirrorPanel from './HFMirrorPanel';
 
 const PRESETS = [
   { label: 'Official (huggingface.co)', url: '' },
-  { label: 'hf-mirror.com (community, China)', url: 'https://hf-mirror.com' },
+  { label: 'Internal Mirror', url: 'https://mirror.internal.example' },
 ];
 
 // An existing explicit mirror config — loads as the matching MANUAL mode.
 const MANUAL_STATE = {
-  configured: 'https://hf-mirror.com',
-  effective: 'https://hf-mirror.com',
+  configured: 'https://mirror.internal.example',
+  effective: 'https://mirror.internal.example',
   presets: PRESETS,
   mode: 'manual',
   auto: null,
@@ -36,7 +36,7 @@ const AUTO_STATE = {
   presets: PRESETS,
   mode: 'auto',
   auto: {
-    endpoint: 'https://hf-mirror.com',
+    endpoint: 'https://huggingface.co',
     reachable: true,
     latency_ms: 87.3,
     checked_at: 1752200000,
@@ -79,7 +79,7 @@ describe('HFMirrorPanel', () => {
     apiJson.mockResolvedValue(MANUAL_STATE);
     render(<HFMirrorPanel />);
 
-    const mirror = await screen.findByTestId('hf-preset-https://hf-mirror.com');
+    const mirror = await screen.findByTestId('hf-preset-https://mirror.internal.example');
     expect(
       screen.getByRole('heading', { name: 'Hugging Face mirror' }).closest('section'),
     ).toHaveClass('models-settings-compact', '!py-[9px]');
@@ -133,7 +133,7 @@ describe('HFMirrorPanel', () => {
     expect(auto).toHaveAttribute('aria-pressed', 'true');
 
     const status = screen.getByTestId('hf-mirror-auto-status');
-    expect(status).toHaveTextContent('hf-mirror.com');
+    expect(status).toHaveTextContent('huggingface.co');
     expect(status).toHaveTextContent('87 ms');
     expect(status).toHaveTextContent('checked');
     expect(screen.getByTestId('hf-mirror-test')).toBeInTheDocument();
@@ -191,13 +191,13 @@ describe('HFMirrorPanel', () => {
     apiFetch.mockResolvedValue({
       json: async () => ({ ...MANUAL_STATE, restart_required: true }),
     });
-    fireEvent.click(screen.getByTestId('hf-preset-https://hf-mirror.com'));
+    fireEvent.click(screen.getByTestId('hf-preset-https://mirror.internal.example'));
     await waitFor(() =>
       expect(apiFetch).toHaveBeenLastCalledWith(
         '/api/settings/hf-mirror',
         expect.objectContaining({
           method: 'PUT',
-          body: JSON.stringify({ url: 'https://hf-mirror.com', mode: 'manual' }),
+          body: JSON.stringify({ url: 'https://mirror.internal.example', mode: 'manual' }),
         }),
       ),
     );

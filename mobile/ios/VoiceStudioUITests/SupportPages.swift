@@ -16,12 +16,12 @@ final class SupportPages: XCTestCase {
                     XCTAssertGreaterThanOrEqual(link.frame.height, 44)
                 }
             } else if route == "pro" {
-                let scope = app.staticTexts["Pro adds production tools to VoiceStudio on your computer. The phone app’s creative tools remain free."]
+                let scope = app.staticTexts["Pro adds production tools to WisprStudio on your computer. The phone app’s creative tools remain free."]
                 XCTAssertTrue(scope.exists)
                 XCTAssertFalse(app.buttons["Buy Pro"].exists)
                 XCTAssertFalse(app.textFields["Licence key"].exists)
             } else {
-                for id in ["opengtm", "opal", "supermetry", "spicrawl"] {
+                for id in ["opengtm", "opal", "spicrawl"] {
                     let link = app.descendants(matching: .any).matching(identifier: "support.project." + id).firstMatch
                     app.reveal(link); XCTAssertTrue(link.isHittable)
                 }

@@ -2,6 +2,8 @@ import importlib
 import os
 import sys
 
+os.environ.setdefault("PYTHONUTF8", "1")
+
 # Ensure `backend/` is on sys.path so bare imports like `from core.config`
 # work regardless of how uvicorn is invoked:
 #   - `uvicorn main:app`           (cwd = backend/)

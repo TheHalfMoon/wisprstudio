@@ -9,10 +9,10 @@ body:
         Thanks for considering sponsoring **VoiceStudio** 💛
 
         VoiceStudio is free, local-first, and AGPL-3.0 — sponsorship keeps development going.
-        See **[SPONSORS.md](https://github.com/debpalash/VoiceStudio/blob/main/SPONSORS.md)** for tiers, placements, and logo guidelines.
-        Prefer to just donate? [GitHub Sponsors](https://github.com/sponsors/debpalash) (monthly or one-time), [Ko-fi](https://ko-fi.com/debpalash) (recurring), or [PayPal](https://paypal.me/palashCoder) (one-time) — you don't need this form for that.
+        See **[SPONSORS.md](https://github.com/TheHalfMoon/wisprstudio/blob/main/SPONSORS.md)** for tiers, placements, and logo guidelines.
+        Prefer to just donate? [GitHub Sponsors](https://github.com/TheHalfMoon/wisprstudio#sponsors) (monthly or one-time), [Ko-fi](https://github.com/TheHalfMoon/wisprstudio#support) (recurring), or [PayPal](https://github.com/TheHalfMoon/wisprstudio/discussions) (one-time) — you don't need this form for that.
 
-        **This issue is public.** Only enter what you want shown. Send receipts and private details to partner@voicestudio.sh. Recognition starts after payment is verified.
+        **This issue is public.** Only enter what you want shown. Send receipts and private details to opensource@wispral.dev. Recognition starts after payment is verified.
   - type: input
     id: name
     attributes:
@@ -64,7 +64,7 @@ body:
     id: contact
     attributes:
       label: Public contact (optional)
-      description: GitHub notifies you on this issue. Don't enter a private email here; use partner@voicestudio.sh for that.
+      description: GitHub notifies you on this issue. Don't enter a private email here; use opensource@wispral.dev for that.
   - type: textarea
     id: notes
     attributes:

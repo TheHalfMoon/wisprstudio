@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "policyUrl": "https://voicestudio.sh/privacy",
+  "policyUrl": "https://github.com/TheHalfMoon/wisprstudio/blob/main/LICENSE-NOTICE.md",
   "defaultBehavior": {
     "accountRequired": false,
     "analyticsEnabled": false,
@@ -9,44 +9,17 @@
   },
   "localData": [
     "recorded and imported audio",
-    "generated audio and video",
-    "voice profiles and consent recordings",
+    "generated audio, video and provenance sidecars",
+    "voice profiles and signed consent ledger records",
     "project history and settings",
     "model weights and managed runtime files",
     "optional Hugging Face credential"
   ],
   "transmittedData": [
     {
-      "destination": "PostHog US",
-      "condition": "explicit analytics opt-in",
-      "purpose": "product analytics and sanitized error diagnostics",
-      "data": [
-        "random per-installation identifier",
-        "application version and platform",
-        "closed-set workflow and engine labels",
-        "counts, durations and text length without text",
-        "sanitized error class and stack frames without messages or local paths"
-      ],
-      "excluded": [
-        "audio",
-        "transcripts and prompts",
-        "voice and project names",
-        "filenames and local paths",
-        "credentials",
-        "DOM capture and session recordings"
-      ]
-    },
-    {
-      "destination": "GitHub API",
-      "condition": "public star badge is visible",
-      "purpose": "display the public repository star count",
-      "data": ["ordinary network request metadata"],
-      "excluded": ["credentials", "user content", "project data"]
-    },
-    {
       "destination": "User-selected download providers",
-      "condition": "explicit setup, model, gallery, update or media-tool action",
-      "purpose": "download the requested runtime, model, gallery asset, update or media tool",
+      "condition": "explicit setup, model, update or media-tool action",
+      "purpose": "download the requested runtime, model, update or media tool",
       "data": ["ordinary request metadata", "provider credential only when required"],
       "excluded": ["audio", "transcripts", "project content"]
     }

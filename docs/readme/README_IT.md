@@ -1,21 +1,18 @@
 <div align="center">
-  <h1><sub><img src="../../docs/logo.png" alt="" width="36" height="36" /></sub> VoiceStudio</h1>
+  <h1><sub><img src="../../docs/logo.png" alt="" width="36" height="36" /></sub> WisprStudio</h1>
   <p>
-    <a href="https://trendshift.io/repositories/28176?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-28176" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/28176" alt="Badge Trendshift che mostra la posizione di VoiceStudio tra i repository di tendenza" width="220" height="48" /></a>
-  </p>
-  <p>
-    <strong>🎉 <a href="https://github.com/debpalash/VoiceStudio/stargazers">100.000 stelle su GitHub — grazie!</a></strong>
+    <strong>🎉 <a href="https://github.com/TheHalfMoon/wisprstudio/stargazers">100.000 stelle su GitHub — grazie!</a></strong>
   </p>
   <h2>Studio vocale con IA. Sul tuo dispositivo.</h2>
   <h3>Clona e crea voci, doppia, detta, trascrivi e narra in 646 lingue.</h3>
   <p>Funziona su laptop, desktop, server, telefono, tablet e altro ancora</p>
   <p>
-    <a href="https://voicestudio.sh/?utm_source=github&utm_medium=readme&utm_campaign=project">Sito web</a> ·
-    <a href="https://github.com/debpalash/VoiceStudio/releases/latest">Scarica</a> ·
+    <a href="https://github.com/TheHalfMoon/wisprstudio">Sito web</a> ·
+    <a href="https://github.com/TheHalfMoon/wisprstudio/releases/latest">Scarica</a> ·
     <a href="#get-started">Per iniziare</a> ·
     <a href="#documentation">Documentazione</a> ·
-    <a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project">VoiceStudio Pro</a> ·
-    <a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project">VoiceStudio Cloud</a>
+    <a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Pro</a> ·
+    <a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Cloud</a>
   </p>
   <!-- README_LANGUAGES_START -->
   <a id="readme-languages"></a>
@@ -26,18 +23,10 @@
   <!-- README_LANGUAGES_END -->
 
   <p>
-    <a href="https://github.com/debpalash/VoiceStudio/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/debpalash/VoiceStudio/ci.yml?branch=main&amp;style=flat-square&amp;label=build&amp;labelColor=27272a" alt="CI" /></a>
-    <a href="https://github.com/debpalash/VoiceStudio/releases/latest"><img src="https://img.shields.io/github/v/release/debpalash/VoiceStudio?style=flat-square&amp;labelColor=27272a&amp;color=52525b" alt="Ultima versione" /></a>
+    <a href="https://github.com/TheHalfMoon/wisprstudio/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/TheHalfMoon/wisprstudio/ci.yml?branch=main&amp;style=flat-square&amp;label=build&amp;labelColor=27272a" alt="CI" /></a>
+    <a href="https://github.com/TheHalfMoon/wisprstudio/releases/latest"><img src="https://img.shields.io/github/v/release/TheHalfMoon/wisprstudio?style=flat-square&amp;labelColor=27272a&amp;color=52525b" alt="Ultima versione" /></a>
     <a href="../../LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-52525b?style=flat-square&amp;labelColor=27272a" alt="AGPL-3.0" /></a>
-    <a href="https://supermetry.com"><img src="https://app.supermetry.com/px/zfjiv7psp4ed.svg?c=VoiceStudio" alt="visualizzazioni" /></a>
     <a href="https://discord.gg/bzQavDfVV9"><img src="https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?style=flat-square&amp;logo=discord&amp;logoColor=white" alt="Join Discord" /></a>
-  </p>
-  <p>
-    <sub>Sponsor strategici</sub>      <a href="https://github.com/debpalash/OpenGTM?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opengtm-dark.svg" /><img src="../../docs/sponsors/opengtm.svg" alt="OpenGTM" height="32" align="middle" /></picture></a>
-    <a href="https://github.com/debpalash/Opal?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opal-dark.svg" /><img src="../../docs/sponsors/opal.svg" alt="Opal" height="32" align="middle" /></picture></a>
-    <a href="https://github.com/velixio/supermetry?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/supermetry-dark.svg" /><img src="../../docs/sponsors/supermetry.svg" alt="Supermetry" height="32" align="middle" /></picture></a>
-      ·   <sub>Sponsor speciale</sub> 
-    <a href="https://app.spicrawl.com/signup?utm_source=voicestudio&amp;utm_medium=github_readme&amp;utm_campaign=special_sponsor&amp;utm_content=logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/spicrawl-dark.svg" /><img src="../../docs/sponsors/spicrawl.svg" alt="Spicrawl" height="32" align="middle" /></picture></a>
   </p>
 </div>
 
@@ -53,10 +42,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/debpalash/VoiceStudio/releases/latest"><img src="https://img.shields.io/badge/Scarica-993f61?style=for-the-badge&amp;logo=github&amp;logoColor=ffffff" alt="Scarica" height="24" /></a>
+  <a href="https://github.com/TheHalfMoon/wisprstudio/releases/latest"><img src="https://img.shields.io/badge/Scarica-993f61?style=for-the-badge&amp;logo=github&amp;logoColor=ffffff" alt="Scarica" height="24" /></a>
   <a href="#get-started"><img src="https://img.shields.io/badge/Per%20iniziare-27272a?style=for-the-badge" alt="Per iniziare" height="24" /></a>
-  <a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=hero-badge"><img src="https://img.shields.io/badge/VoiceStudio%20Pro-27272a?style=for-the-badge" alt="VoiceStudio Pro" height="24" /></a>
-  <a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=hero-badge"><img src="https://img.shields.io/badge/VoiceStudio%20Cloud-27272a?style=for-the-badge" alt="VoiceStudio Cloud" height="24" /></a>
 </p>
 
 <a id="what-you-can-do"></a>
@@ -106,7 +93,7 @@ Scegli i tuoi motori e scarica solo i modelli che ti servono.
 - **Narra e raggruppa**: storie, audiolibri e lavori in coda
 - **Connetti e automatizza**: API locale, MCP, ricette riutilizzabili e cartelle esaminate
 
-Inizia con **VoiceStudio** (predefinito, basato su k2-fsa/OmniVoice) o scegli tra decine di altri motori nel Gestore modelli. Consulta il [catalogo delle funzionalità e del motore](../../docs/feature-catalog.md).
+Inizia con **WisprStudio** (predefinito, basato su k2-fsa/OmniVoice) o scegli tra decine di altri motori nel Gestore modelli. Consulta il [catalogo delle funzionalità e del motore](../../docs/feature-catalog.md).
 
 <p align="center"><a href="https://discord.gg/bzQavDfVV9"><img src="../../docs/assets/discord-community.svg" alt="Come say hello! Join us on Discord" height="64" /></a></p>
 
@@ -117,7 +104,7 @@ Tutto quanto sopra è gratuito, funziona sul tuo hardware e non richiede un acco
 <table>
   <tr>
     <td width="50%" valign="top">
-      <a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section"><img src="../assets/voicestudio-pro.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">VoiceStudio Pro</a></strong><br /><br />
+      <a href="https://github.com/TheHalfMoon/wisprstudio"><img src="../assets/voicestudio-pro.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Pro</a></strong><br /><br />
       Per lavori retribuiti per i clienti su più di un computer.
       <ul>
         <li>Una licenza commerciale per il lavoro con i clienti, inviata via e-mail</li>
@@ -126,10 +113,10 @@ Tutto quanto sopra è gratuito, funziona sul tuo hardware e non richiede un acco
         <li>Nuove funzioni e correzioni in anteprima</li>
       </ul>
       <sub>Build a codice chiuso, account richiesto, rimborso completo entro 7 giorni. L’app AGPL-3.0 resta gratuita, anche per l’uso commerciale secondo i suoi termini.</sub><br /><br />
-      <strong><a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">Vedi i piani Pro →</a></strong>
+      <strong><a href="https://github.com/TheHalfMoon/wisprstudio">Vedi i piani Pro →</a></strong>
     </td>
     <td width="50%" valign="top">
-      <a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section"><img src="../assets/voicestudio-cloud.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">VoiceStudio Cloud</a></strong><br /><br />
+      <a href="https://github.com/TheHalfMoon/wisprstudio"><img src="../assets/voicestudio-cloud.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Cloud</a></strong><br /><br />
       Un’API ospitata per voce e doppiaggio, in arrivo. Nessuna GPU necessaria.
       <ul>
         <li>Sintesi vocale, design della voce e clonazione vocale con consenso</li>
@@ -138,7 +125,7 @@ Tutto quanto sopra è gratuito, funziona sul tuo hardware e non richiede un acco
         <li>Lavori lunghi che procedono da soli</li>
       </ul>
       <sub>Non ancora disponibile: iscriviti all’accesso anticipato per ricevere crediti di utilizzo gratuiti. L’app desktop resta gratuita e locale.</sub><br /><br />
-      <strong><a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">Partecipa all’accesso anticipato a Cloud →</a></strong>
+      <strong><a href="https://github.com/TheHalfMoon/wisprstudio">Partecipa all’accesso anticipato a Cloud →</a></strong>
     </td>
   </tr>
 </table>
@@ -169,9 +156,9 @@ brew install --cask debpalash/tap/voicestudio
 <details>
 <summary>DMG</summary>
 
-Scarica DMG per il tuo Mac, aprilo e trascina VoiceStudio in Applicazioni.
+Scarica DMG per il tuo Mac, aprilo e trascina WisprStudio in Applicazioni.
 
-[Scarica](https://github.com/debpalash/VoiceStudio/releases/latest) · [Guida](../../docs/install/macos.md)
+[Scarica](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [Guida](../../docs/install/macos.md)
 
 </details>
 
@@ -179,7 +166,7 @@ Scarica DMG per il tuo Mac, aprilo e trascina VoiceStudio in Applicazioni.
 <summary>Programma di installazione con un solo comando</summary>
 
 ```sh
-curl -fsSL https://voicestudio.sh/install | sh
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh
 ```
 
 </details>
@@ -187,14 +174,14 @@ curl -fsSL https://voicestudio.sh/install | sh
 <details>
 <summary>Intel Mac · backend remoto · Limitato</summary>
 
-L'interfaccia utente dell'app funziona su Intel; collegalo al backend VoiceStudio su un altro computer.
+L'interfaccia utente dell'app funziona su Intel; collegalo al backend WisprStudio su un altro computer.
 
 [Guida](../../docs/install/macos.md)
 
 </details>
 
 > [!NOTE]
-> Su macOS, «VoiceStudio è danneggiato e non può essere aperto» significa che Gatekeeper ha bloccato l’app, non che il file scaricato sia danneggiato. [Risolvere il blocco di Gatekeeper](../../docs/install/macos.md#gatekeeper-quarantine).
+> Su macOS, «WisprStudio è danneggiato e non può essere aperto» significa che Gatekeeper ha bloccato l’app, non che il file scaricato sia danneggiato. [Risolvere il blocco di Gatekeeper](../../docs/install/macos.md#gatekeeper-quarantine).
 
 </blockquote>
 
@@ -210,17 +197,17 @@ L'interfaccia utente dell'app funziona su Intel; collegalo al backend VoiceStudi
 **Stabile · x64**<br />Windows 10/11 x64 · NVIDIA CUDA · AMD ROCm (opt-in) · CPU.
 
 ```powershell
-irm https://voicestudio.sh/install.ps1 | iex
+irm https://github.com/TheHalfMoon/wisprstudio | iex
 ```
 
-[Scarica il programma di installazione di Windows](https://github.com/debpalash/VoiceStudio/releases/latest) · [Guida](../../docs/install/windows.md) · [AMD ROCm](../../docs/install/windows-rocm.md)
+[Scarica il programma di installazione di Windows](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [Guida](../../docs/install/windows.md) · [AMD ROCm](../../docs/install/windows-rocm.md)
 
 <details>
 <summary>Windows su ARM · sperimentale</summary>
 
 Interfaccia utente nativa dell'app; il backend Python x64 viene eseguito in emulazione sulla CPU.
 
-[Scarica](https://github.com/debpalash/VoiceStudio/releases/latest) · [Guida](../../docs/install/windows.md)
+[Scarica](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [Guida](../../docs/install/windows.md)
 
 </details>
 
@@ -241,7 +228,7 @@ Interfaccia utente nativa dell'app; il backend Python x64 viene eseguito in emul
 <summary>Programma di installazione con un solo comando</summary>
 
 ```sh
-curl -fsSL https://voicestudio.sh/install | sh
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh
 ```
 
 </details>
@@ -279,10 +266,10 @@ sudo pacman -U ./voicestudio-bin-*.pkg.tar.zst
 
 Scarica `.deb` nella cartella corrente, quindi installalo:
 
-[Scarica](https://github.com/debpalash/VoiceStudio/releases/latest)
+[Scarica](https://github.com/TheHalfMoon/wisprstudio/releases/latest)
 
 ```sh
-sudo apt install ./VoiceStudio-*-linux-x64.deb
+sudo apt install ./WisprStudio-*-linux-x64.deb
 ```
 
 </details>
@@ -311,11 +298,11 @@ sudo snap connect voicestudio:audio-record
 
 Scarica AppImage nella cartella corrente, quindi avviala:
 
-[Scarica](https://github.com/debpalash/VoiceStudio/releases/latest)
+[Scarica](https://github.com/TheHalfMoon/wisprstudio/releases/latest)
 
 ```sh
-chmod +x VoiceStudio-*-linux-x64.AppImage
-./VoiceStudio-*-linux-x64.AppImage
+chmod +x WisprStudio-*-linux-x64.AppImage
+./WisprStudio-*-linux-x64.AppImage
 ```
 
 </details>
@@ -326,8 +313,8 @@ chmod +x VoiceStudio-*-linux-x64.AppImage
 Accedi all'ambiente di sviluppo FHS del repository, quindi esegui dal sorgente:
 
 ```sh
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/TheHalfMoon/wisprstudio.git
+cd WisprStudio
 nix develop .#fhs
 bun run dev
 ```
@@ -351,7 +338,7 @@ bun run dev
 
 Immagini container stabili · CPU · NVIDIA CUDA · AMD ROCm.
 
-<a href="https://github.com/debpalash/VoiceStudio/pkgs/container/voicestudio"><img src="https://img.shields.io/badge/GHCR-27272a?style=flat-square&amp;logo=github&amp;logoColor=ffffff" alt="GHCR" height="20" /></a>
+<a href="https://github.com/TheHalfMoon/wisprstudio/pkgs/container/voicestudio"><img src="https://img.shields.io/badge/GHCR-27272a?style=flat-square&amp;logo=github&amp;logoColor=ffffff" alt="GHCR" height="20" /></a>
 
 **Esegui localmente sulla CPU (Bash)**
 
@@ -385,15 +372,15 @@ Apri http://localhost:3900 e utilizza la chiave API stampata di seguito.
 
 Android 10+ · Anteprima · Sul dispositivo, offline dopo il download del modello.
 
-[Scarica APK](https://github.com/debpalash/VoiceStudio/releases/latest) · [Guida](../../docs/mobile.md#install)
+[Scarica APK](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [Guida](../../docs/mobile.md#install)
 
 <details>
-<summary>F-Droid · Archivio VoiceStudio</summary>
+<summary>F-Droid · Archivio WisprStudio</summary>
 
 Aggiungi questo repository in un client compatibile con F-Droid; verificare l'impronta digitale nella guida.
 
 ```text
-https://debpalash.github.io/VoiceStudio/fdroid/repo
+https://debpalash.github.io/WisprStudio/fdroid/repo
 ```
 
 [Guida](../../store/fdroid/README.md)
@@ -406,10 +393,10 @@ https://debpalash.github.io/VoiceStudio/fdroid/repo
 Aggiungi questa fonte in Obtainium o importa la configurazione fornita.
 
 ```text
-https://github.com/debpalash/VoiceStudio
+https://github.com/TheHalfMoon/wisprstudio
 ```
 
-[Importa configurazione](https://debpalash.github.io/VoiceStudio/obtainium.json)
+[Importa configurazione](https://debpalash.github.io/WisprStudio/obtainium.json)
 
 </details>
 
@@ -417,7 +404,7 @@ https://github.com/debpalash/VoiceStudio
 <summary>Installa tramite USB con adb</summary>
 
 ```sh
-adb install -r VoiceStudio-*-android.apk
+adb install -r WisprStudio-*-android.apk
 ```
 
 </details>
@@ -437,13 +424,13 @@ iOS/iPadOS 17+ · Anteprima · Sul dispositivo, offline dopo il download del mod
 
 Scarica l'IPA e segui le istruzioni per la firma e il sideload.
 
-[Scarica](https://github.com/debpalash/VoiceStudio/releases/latest) · [Guida](../../docs/mobile.md#install)
+[Scarica](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [Guida](../../docs/mobile.md#install)
 
 </blockquote>
 
 </details>
 
-I programmi di installazione per desktop e telefono si trovano sull'[ultima versione](https://github.com/debpalash/VoiceStudio/releases/latest); Le immagini Docker provengono da GHCR. Nessuna GPU? L'app è completamente utilizzabile sulla CPU, solo più lenta. I motori GGUF nativi possono anche utilizzare Vulkan su GPU AMD, Intel e NVIDIA; GGUF OmniVoice sceglie automaticamente la GPU e le dimensioni del modello su Windows e Linux ([OmniVoice](../../docs/engines/omnivoice-gguf.md#vulkan-acceleration), [CosyVoice](../../docs/engines/cosyvoice-gguf.md)). Velocità per motore e hardware: [prestazioni](../../docs/performance.md).
+I programmi di installazione per desktop e telefono si trovano sull'[ultima versione](https://github.com/TheHalfMoon/wisprstudio/releases/latest); Le immagini Docker provengono da GHCR. Nessuna GPU? L'app è completamente utilizzabile sulla CPU, solo più lenta. I motori GGUF nativi possono anche utilizzare Vulkan su GPU AMD, Intel e NVIDIA; GGUF OmniVoice sceglie automaticamente la GPU e le dimensioni del modello su Windows e Linux ([OmniVoice](../../docs/engines/omnivoice-gguf.md#vulkan-acceleration), [CosyVoice](../../docs/engines/cosyvoice-gguf.md)). Velocità per motore e hardware: [prestazioni](../../docs/performance.md).
 
 
 <a id="get-started"></a>
@@ -456,18 +443,18 @@ Installa utilizzando le opzioni sopra. Quindi apri **Clonazione vocale**, scegli
 <summary><strong>Altre opzioni di installazione</strong>: una versione specifica, corrente principale, disinstalla, dal sorgente, con un agente di codifica</summary>
 
 ```sh
-curl -fsSL https://voicestudio.sh/install | sh -s -- --version X.Y.Z   # a specific release
-curl -fsSL https://voicestudio.sh/install | sh -s -- --main            # build current main
-curl -fsSL https://voicestudio.sh/install | sh -s -- --uninstall       # remove the app, keep your data
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh -s -- --version X.Y.Z   # a specific release
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh -s -- --main            # build current main
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh -s -- --uninstall       # remove the app, keep your data
 ```
 
-Se `voicestudio.sh` non è raggiungibile, esegui lo script direttamente dal repository: `curl -fsSL https://raw.githubusercontent.com/debpalash/VoiceStudio/main/scripts/install.sh | sh`. Prerequisiti e comportamento: [guida all'installazione](../../docs/install/script.md).
+Se `voicestudio.sh` non è raggiungibile, esegui lo script direttamente dal repository: `curl -fsSL https://raw.githubusercontent.com/TheHalfMoon/wisprstudio/main/scripts/install.sh | sh`. Prerequisiti e comportamento: [guida all'installazione](../../docs/install/script.md).
 
 **Dalla fonte**
 
 ```bash
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/TheHalfMoon/wisprstudio.git
+cd WisprStudio
 bun run dev
 ```
 
@@ -478,8 +465,8 @@ Vedere [Configurazione dell'elettrone](../../electron/README.md).
 **Con un agente di codifica** (Claude Code, Codex, Cursor, …), incolla:
 
 ```text
-Install the VoiceStudio app on this device and verify it works, following
-https://github.com/debpalash/VoiceStudio/blob/main/docs/install/agent.md
+Install the WisprStudio app on this device and verify it works, following
+https://github.com/TheHalfMoon/wisprstudio/blob/main/docs/install/agent.md
 ```
 
 Aggiornamento dalla 0.5.3 o precedente (l'app Tauri)? [Installa la nuova app separatamente](../../docs/electron-migration.md).
@@ -501,34 +488,27 @@ Aggiornamento dalla 0.5.3 o precedente (l'app Tauri)? [Installa la nuova app sep
 | App del telefono | [iOS e Android](../../docs/mobile.md) |
 | Sviluppo | [Contribuire](../../.github/CONTRIBUTING.md) ([firmare il CLA](../../.github/CONTRIBUTING.md#contribution-licensing) prima del tuo primo PR) · [Changelog](../../CHANGELOG.md) |
 
-Competenze per gli agenti: `npx skills add debpalash/VoiceStudio` (**voicestudio** per l’audio, **voicestudio-maintainer** per il repository).
+Competenze per gli agenti: `npx skills add TheHalfMoon/wisprstudio` (**voicestudio** per l’audio, **voicestudio-maintainer** per il repository).
 
 <a id="sponsors"></a>
 
 ## Sponsor
 
-VoiceStudio è gratuito e non dipende da un servizio cloud a pagamento. Gli sponsor permettono di continuare lo sviluppo e le pubblicazioni, finanziando il lavoro dei manutentori, l’hardware di test, la firma del codice e l’infrastruttura di rilascio.
+WisprStudio è gratuito e non dipende da un servizio cloud a pagamento. Gli sponsor permettono di continuare lo sviluppo e le pubblicazioni, finanziando il lavoro dei manutentori, l’hardware di test, la firma del codice e l’infrastruttura di rilascio.
 
-<p>
-    <a href="https://github.com/debpalash/OpenGTM?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opengtm-dark.svg" /><img src="../../docs/sponsors/opengtm.svg" alt="OpenGTM" height="48" align="middle" /></picture></a>
-    <a href="https://github.com/debpalash/Opal?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opal-dark.svg" /><img src="../../docs/sponsors/opal.svg" alt="Opal" height="48" align="middle" /></picture></a>
-    <a href="https://github.com/velixio/supermetry?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/supermetry-dark.svg" /><img src="../../docs/sponsors/supermetry.svg" alt="Supermetry" height="48" align="middle" /></picture></a>
-</p>
 
-Per richieste di sponsorizzazione, contattare [sponsor@voicestudio.sh](mailto:sponsor@voicestudio.sh).
+Per richieste di sponsorizzazione, contattare [TheHalfMoon/wisprstudio](https://github.com/TheHalfMoon/wisprstudio).
 
 <a href="https://github.com/sponsors/debpalash"><img src="https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?logo=githubsponsors&logoColor=white" alt="Sponsor su GitHub Sponsor" /></a>
-[Ko-fi](https://ko-fi.com/debpalash) · [PayPal](https://paypal.me/palashCoder) · [Livelli e vantaggi](../../SPONSORS.md) · [Inserisci il tuo logo nell'elenco](https://github.com/debpalash/VoiceStudio/issues/new?template=sponsor.yml)
 
 <a id="other-projects"></a>
 
 ## Altri progetti
 
-Altri strumenti open source dalle persone che sviluppano VoiceStudio.
+Altri strumenti open source dalle persone che sviluppano WisprStudio.
 
-- **[OpenGTM](https://opengtm.palash.dev/?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=related-projects)** — Trova e arricchisci aziende e persone in uno spazio di lavoro go-to-market self-hosted. [Fonte](https://github.com/debpalash/OpenGTM).
-- **[Opal](https://opal.palash.dev/?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=related-projects)** — Guarda, riproduci in streaming e sfoglia i tuoi contenuti multimediali in un player nativo e open source. [Fonte](https://github.com/debpalash/Opal).
-- **[Supermetry](https://supermetry.com/?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=related-projects)** — Comprendi i tuoi siti web e i tuoi prodotti con analisi self-hosted e senza cookie. [Fonte](https://github.com/velixio/supermetry).
+- **[OpenGTM](https://github.com/debpalash/OpenGTM)** — Trova e arricchisci aziende e persone in uno spazio di lavoro go-to-market self-hosted. [Fonte](https://github.com/debpalash/OpenGTM).
+- **[Opal](https://github.com/debpalash/Opal)** — Guarda, riproduci in streaming e sfoglia i tuoi contenuti multimediali in un player nativo e open source. [Fonte](https://github.com/debpalash/Opal).
 
 Altri progetti: [debpalash](https://github.com/debpalash?tab=repositories) · [velixio](https://github.com/velixio?tab=repositories)
 
@@ -553,22 +533,22 @@ Altri progetti: [debpalash](https://github.com/debpalash?tab=repositories) · [v
 
 <a href="https://github.com/kevin9327"><img src="https://github.com/kevin9327.png?size=96" width="44" height="44" alt="@kevin9327" title="@kevin9327"></a> <a href="https://github.com/jaketame"><img src="https://github.com/jaketame.png?size=96" width="44" height="44" alt="@jaketame" title="@jaketame"></a> <a href="https://github.com/psiberfunk"><img src="https://github.com/psiberfunk.png?size=96" width="44" height="44" alt="@psiberfunk" title="@psiberfunk"></a> <a href="https://github.com/rudycelekli"><img src="https://github.com/rudycelekli.png?size=96" width="44" height="44" alt="@rudycelekli" title="@rudycelekli"></a> <a href="https://github.com/paoloantinori"><img src="https://github.com/paoloantinori.png?size=96" width="44" height="44" alt="@paoloantinori" title="@paoloantinori"></a> <a href="https://github.com/Chang-Jin-Lee"><img src="https://github.com/Chang-Jin-Lee.png?size=96" width="44" height="44" alt="@Chang-Jin-Lee" title="@Chang-Jin-Lee"></a> <a href="https://github.com/swadhinbiswas"><img src="https://github.com/swadhinbiswas.png?size=96" width="44" height="44" alt="@swadhinbiswas" title="@swadhinbiswas"></a> <a href="https://github.com/BichengWang"><img src="https://github.com/BichengWang.png?size=96" width="44" height="44" alt="@BichengWang" title="@BichengWang"></a> <a href="https://github.com/nirmalchatur"><img src="https://github.com/nirmalchatur.png?size=96" width="44" height="44" alt="@nirmalchatur" title="@nirmalchatur"></a> <a href="https://github.com/Shivendra-Coherent"><img src="https://github.com/Shivendra-Coherent.png?size=96" width="44" height="44" alt="@Shivendra-Coherent" title="@Shivendra-Coherent"></a> <a href="https://github.com/marreiradigital"><img src="https://github.com/marreiradigital.png?size=96" width="44" height="44" alt="@marreiradigital" title="@marreiradigital"></a> <a href="https://github.com/nvtoan0201-swe"><img src="https://github.com/nvtoan0201-swe.png?size=96" width="44" height="44" alt="@nvtoan0201-swe" title="@nvtoan0201-swe"></a>
 
-Grazie a tutti coloro che inviano codice, report, traduzioni e idee. [Tutti i contributori](https://github.com/debpalash/VoiceStudio/graphs/contributors) · [Contribuisci](../../.github/CONTRIBUTING.md)
+Grazie a tutti coloro che inviano codice, report, traduzioni e idee. [Tutti i contributori](https://github.com/TheHalfMoon/wisprstudio/graphs/contributors) · [Contribuisci](../../.github/CONTRIBUTING.md)
 
 <a id="license--responsible-use"></a>
 
 ## Licenza e uso responsabile
 
-[AGPL-3.0](../../LICENSE) copre l'app, incluso l'uso commerciale secondo i suoi termini. I pesi dei modelli, le voci e l'output generato hanno le proprie licenze, che il Gestore del modello mostra per ciascun modello ([inventario](../../docs/licensing/model-inventory.md)). Clona una voce solo con il permesso del suo proprietario. Dettagli: [LICENSE-NOTICE.md](../../LICENSE-NOTICE.md).
+[AGPL-3.0](../../LICENSE) copre l'app, incluso l'uso commerciale secondo i suoi termini. I pesi dei modelli, le voci e l'output generato hanno le proprie licenze, che il Gestore del modello mostra per ciascun modello ([inventario](../../docs/licensing/model-inventory.md)). Clona una voce solo con il permesso del suo proprietario. Dettagli: [LICENSE-NOTICE.md](../../LICENSE-NOTICE.md) · [AGPL-3.0 Source](https://github.com/TheHalfMoon/wisprstudio).
 
 <a id="community-tutorials"></a>
 
 ## Tutorial della comunità
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=I-u-A-oisIU&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/I-u-A-oisIU/hqdefault.jpg" alt="VoiceStudio tutorial by Nafay 3D on YouTube" width="30%" /></a>
-  <a href="https://www.youtube.com/watch?v=hsLRbXLBP4U&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/hsLRbXLBP4U/hqdefault.jpg" alt="VoiceStudio tutorial by Samuel Gregory on YouTube" width="30%" /></a>
-  <a href="https://www.youtube.com/watch?v=2KemGhEI0Ck&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/2KemGhEI0Ck/hqdefault.jpg" alt="VoiceStudio tutorial by kilObit on YouTube" width="30%" /></a><br />
+  <a href="https://www.youtube.com/watch?v=I-u-A-oisIU&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/I-u-A-oisIU/hqdefault.jpg" alt="WisprStudio tutorial by Nafay 3D on YouTube" width="30%" /></a>
+  <a href="https://www.youtube.com/watch?v=hsLRbXLBP4U&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/hsLRbXLBP4U/hqdefault.jpg" alt="WisprStudio tutorial by Samuel Gregory on YouTube" width="30%" /></a>
+  <a href="https://www.youtube.com/watch?v=2KemGhEI0Ck&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/2KemGhEI0Ck/hqdefault.jpg" alt="WisprStudio tutorial by kilObit on YouTube" width="30%" /></a><br />
   <sub>Nafay 3D · Samuel Gregory · kilObit</sub>
 </p>
 

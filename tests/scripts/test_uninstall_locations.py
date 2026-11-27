@@ -128,12 +128,12 @@ def test_scripts_no_longer_cite_the_removed_tauri_backend():
 def test_ps1_targets_electron_folders_and_its_uninstaller():
     with open(PS1, encoding="utf-8-sig") as handle:
         text = handle.read()
-    assert "$electronAppName = 'VoiceStudio'" in text
+    assert "$electronAppName = 'WisprStudio'" in text
     assert "Join-Path $appData $electronAppName" in text
-    assert "$electronUpdaterCache = 'voicestudio-electron-updater'" in text
+    assert "$electronUpdaterCache = 'wisprstudio-electron-updater'" in text
     assert "runtime-location.json" in text and "$location.owned -eq $true" in text
     assert "(Join-Path $root 'project') -PathType Container" in text
-    assert "'Uninstall VoiceStudio.exe'" in text
+    assert "'Uninstall WisprStudio.exe'" in text
     # App removal is refused before cleanup when the caller is elevated.
     # Behavioral coverage lives in test_uninstall_elevation.py.
     assert "if ($Yes -and $isElevated)" in text

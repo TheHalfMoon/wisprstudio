@@ -1,0 +1,46 @@
+# WisprStudio — Copyright & Attribution Notice
+
+SPDX-License-Identifier: AGPL-3.0-only
+
+## Application License & Complete Corresponding Source Code Offer
+
+WisprStudio is free and open-source software licensed strictly under the
+**GNU Affero General Public License, Version 3.0 only (`AGPL-3.0-only`)**.
+See [`LICENSE`](LICENSE) for the full verbatim license text.
+
+In accordance with Sections 6 and 13 of the GNU Affero General Public License v3.0,
+the complete corresponding source code for WisprStudio (including all modifications,
+build scripts, and interface definitions) is publicly available at:
+
+- **Source Repository:** <https://github.com/TheHalfMoon/wisprstudio>
+
+No closed-source or proprietary relicensing exception is offered for WisprStudio
+modifications.
+
+## Upstream Copyright Attributions
+
+WisprStudio incorporates and builds upon open-source upstream works whose copyright
+notices and license terms are preserved below:
+
+- **VoiceStudio** — Copyright 2024-present Palash Debnath (`Debpalash`) and
+  VoiceStudio contributors (<https://github.com/debpalash/VoiceStudio>),
+  licensed under `AGPL-3.0-only`.
+- **OmniVoice (`omnivoice/`)** — Copyright Han Zhu and k2-fsa contributors
+  (<https://github.com/k2-fsa/OmniVoice>), separately licensed upstream under
+  the **Apache License, Version 2.0** (`Apache-2.0`, compatible with `AGPL-3.0-only`).
+- **T3 Code UI components (`electron/`)** — Portions adapted from T3 Code under the
+  MIT License; see [`electron/T3CODE-LICENSE.txt`](electron/T3CODE-LICENSE.txt).
+- **WisprStudio Platform Modifications** — Copyright 2026 Wispral Contributors
+  (<https://github.com/TheHalfMoon/wisprstudio>), licensed under `AGPL-3.0-only`.
+  JSON contract schemas in `backend/contracts/schemas/` are vendored one-way from
+  Wispral Core (`Apache-2.0` -> `AGPL-3.0-only`).
+
+## Third-Party Model Weights & Assets
+
+Downloaded or user-imported model weights, tokenizers, and audio assets retain
+their respective upstream licenses (see `backend/config/model_licenses.json` and
+`docs/model-credits.md`). In particular, `k2-fsa/OmniVoice` pretrained weights
+carry `CC-BY-NC-4.0` upstream terms alongside Boson Higgs Audio 2 and Meta Llama
+community terms in `omnivoice/audio_tokenizer/LICENSE`; commercially permissive
+local engines (such as `Kokoro-82M` under `Apache-2.0` and `Piper` under `MIT`)
+are preferred by default for commercial synthesis workflows.

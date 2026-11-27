@@ -49,13 +49,13 @@ if (
 ) {
   throw new Error(`Unsupported Electron update channel: ${updateChannel}`);
 }
-const updateUrl = 'https://github.com/debpalash/VoiceStudio/releases/latest/download';
+const updateUrl = 'https://github.com/TheHalfMoon/wisprstudio/releases/latest/download';
 
 export function distributionPackaging(target = DISTRIBUTION_TARGET) {
   if (target === 'snap-store') {
     return {
       linuxTargets: ['snap'],
-      linuxExecutableName: 'voicestudio',
+      linuxExecutableName: 'wisprstudio',
       snapcraft: {
         // Core 22 uses electron-builder's reproducible Electron snap template;
         // strict confinement is explicit so a future default cannot weaken it.
@@ -151,7 +151,7 @@ export default {
     voicestudioDistribution: DISTRIBUTION_TARGET,
     voicestudioUpdateOwner: DISTRIBUTION_PROFILE.applicationUpdates,
     ...(DISTRIBUTION_TARGET === 'microsoft-store'
-      ? { author: { name: storeIdentity.publisherLegalName, email: 'hi@voicestudio.sh' } }
+      ? { author: { name: storeIdentity.publisherLegalName, email: 'opensource@wispral.dev' } }
       : {}),
   },
   directories: { output: 'release', buildResources: 'build' },
@@ -197,6 +197,7 @@ export default {
     { from: '../scripts/smoke_windows_rocm.py', to: 'scripts/smoke_windows_rocm.py' },
     { from: '../README.md', to: 'README.md' },
     { from: '../LICENSE', to: 'LICENSE' },
+    { from: '../NOTICE', to: 'NOTICE' },
     { from: '../LICENSE-NOTICE.md', to: 'LICENSE-NOTICE.md' },
     { from: '../config/app.json', to: 'config/app.json' },
     { from: 'T3CODE-LICENSE.txt', to: 'electron/T3CODE-LICENSE.txt' },

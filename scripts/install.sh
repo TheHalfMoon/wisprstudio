@@ -2,15 +2,15 @@
 # Install Electron from a release, or build and install current main.
 set -eu
 
-die() { printf 'VoiceStudio: %s\n' "$*" >&2; exit 1; }
+die() { printf 'WisprStudio: %s\n' "$*" >&2; exit 1; }
 have() { command -v "$1" >/dev/null 2>&1; }
 usage() {
     cat <<'HELP'
-VoiceStudio Electron installer (macOS / Linux)
+WisprStudio Electron installer (macOS / Linux)
 
-  curl -fsSL https://voicestudio.sh/install | sh
-  curl -fsSL https://voicestudio.sh/install | sh -s -- --version X.Y.Z
-  curl -fsSL https://voicestudio.sh/install | sh -s -- --main
+  curl -fsSL https://raw.githubusercontent.com/TheHalfMoon/wisprstudio/main/scripts/install.sh | sh
+  curl -fsSL https://raw.githubusercontent.com/TheHalfMoon/wisprstudio/main/scripts/install.sh | sh -s -- --version X.Y.Z
+  curl -fsSL https://raw.githubusercontent.com/TheHalfMoon/wisprstudio/main/scripts/install.sh | sh -s -- --main
 
   --version VERSION  Install a published Electron version (optional v prefix)
   --main, --source   Clone main, build Electron, and install the desktop app
@@ -20,7 +20,7 @@ VoiceStudio Electron installer (macOS / Linux)
 
 Release installs require curl and a SHA-256 tool. Main builds also require
 Git, Node.js 22+, Bun, Rust/Cargo, and native build dependencies (see README).
-The installer preserves settings, models, and projects. Quit VoiceStudio first.
+The installer preserves settings, models, and projects. Quit WisprStudio first.
 Versions without Electron artifacts are not supported; Tauri is archived.
 HELP
 }
@@ -63,8 +63,8 @@ if [ -n "${VOICESTUDIO_INSTALL_DIR:-}" ]; then
     [ -d "$VOICESTUDIO_INSTALL_DIR" ] && [ -w "$VOICESTUDIO_INSTALL_DIR" ] || die 'Custom install directory must exist and be writable.'
 fi
 require_closed() {
-    if have pgrep && { pgrep -f '/VoiceStudio[.]app/Contents/MacOS/VoiceStudio([[:space:]]|$)' >/dev/null 2>&1 || pgrep -x VoiceStudio >/dev/null 2>&1 || pgrep -f '(^|/)voicestudio-electron([[:space:]]|$)' >/dev/null 2>&1; }; then
-        die 'Quit VoiceStudio completely (macOS: Command-Q), then run this command again. No app files were changed.'
+    if have pgrep && { pgrep -f '/WisprStudio[.]app/Contents/MacOS/WisprStudio([[:space:]]|$)' >/dev/null 2>&1 || pgrep -x WisprStudio >/dev/null 2>&1 || pgrep -f '(^|/)(wisprstudio|voicestudio-electron)([[:space:]]|$)' >/dev/null 2>&1; }; then
+        die 'Quit WisprStudio completely (macOS: Command-Q), then run this command again. No app files were changed.'
     fi
 }
 require_closed
@@ -84,7 +84,7 @@ if [ "$UNINSTALL" = 1 ]; then
             # Hidden .app backups inside Applications still appear in Launchpad.
             # Trash keeps recovery possible without leaving a launchable duplicate.
             mkdir -p "$HOME/.Trash"
-            recovery=$(mktemp -d "$HOME/.Trash/VoiceStudio-uninstalled.XXXXXXXX")
+            recovery=$(mktemp -d "$HOME/.Trash/WisprStudio-uninstalled.XXXXXXXX")
             # lsregister may return -10814 even after removing a stale record.
             # Moving to Trash is still required to prevent rediscovery.
             lsregister -u "$target" || printf 'Warning: macOS could not refresh the old registration; moving the app to Trash.\n' >&2
@@ -94,16 +94,16 @@ if [ "$UNINSTALL" = 1 ]; then
         mv "$target" "$recovery/" || die "Could not remove $target; check permissions."
         printf 'Uninstalled: %s\nRecoverable copy: %s\n' "$target" "$recovery"
     }
-    printf 'Quit VoiceStudio before uninstalling.\n'
+    printf 'Quit WisprStudio before uninstalling.\n'
     if [ -n "${VOICESTUDIO_INSTALL_DIR:-}" ]; then
         case "$VOICESTUDIO_INSTALL_DIR" in /*) ;; *) die 'Install directory must be absolute';; esac
-        if [ "$OS" = mac ]; then remove_app "$VOICESTUDIO_INSTALL_DIR/VoiceStudio.app";
-        else remove_app "$VOICESTUDIO_INSTALL_DIR/VoiceStudio"; fi
+        if [ "$OS" = mac ]; then remove_app "$VOICESTUDIO_INSTALL_DIR/WisprStudio.app";
+        else remove_app "$VOICESTUDIO_INSTALL_DIR/WisprStudio"; fi
     elif [ "$OS" = mac ]; then
-        remove_app /Applications/VoiceStudio.app
-        remove_app "$HOME/Applications/VoiceStudio.app"
+        remove_app /Applications/WisprStudio.app
+        remove_app "$HOME/Applications/WisprStudio.app"
     else
-        remove_app "$HOME/.local/bin/VoiceStudio"
+        remove_app "$HOME/.local/bin/WisprStudio"
     fi
     printf 'Uninstall complete. Settings, models and projects are preserved.\n'
     exit 0
@@ -141,16 +141,16 @@ install_app() {
     if [ "$OS" = mac ]; then
         DEST_DIR=${VOICESTUDIO_INSTALL_DIR:-/Applications}
         if [ ! -w "$DEST_DIR" ]; then DEST_DIR="$HOME/Applications"; mkdir -p "$DEST_DIR"; fi
-        DEST="$DEST_DIR/VoiceStudio.app"
+        DEST="$DEST_DIR/WisprStudio.app"
         STAGED=$(mktemp -d "$DEST_DIR/.voicestudio-install.XXXXXXXX")
         # Copy and validate first, retaining the prior app until the copy succeeds.
-        ditto "$1" "$STAGED/VoiceStudio.app"
-        [ -f "$STAGED/VoiceStudio.app/Contents/Info.plist" ] || die 'Invalid application bundle.'
+        ditto "$1" "$STAGED/WisprStudio.app"
+        [ -f "$STAGED/WisprStudio.app/Contents/Info.plist" ] || die 'Invalid application bundle.'
         if [ -e "$DEST" ]; then
             BACKUP="$STAGED/previous.app"
             mv "$DEST" "$BACKUP"
         fi
-        mv "$STAGED/VoiceStudio.app" "$DEST"
+        mv "$STAGED/WisprStudio.app" "$DEST"
         # Releases without a Developer ID are only ad-hoc signed, and some were
         # shipped with a bundle signature that no longer matches (#2763, #2829,
         # #2681), which macOS reports as "damaged". Clear any quarantine flag and
@@ -166,14 +166,14 @@ install_app() {
     else
         DEST_DIR=${VOICESTUDIO_INSTALL_DIR:-"$HOME/.local/bin"}
         mkdir -p "$DEST_DIR"
-        DEST="$DEST_DIR/VoiceStudio"
+        DEST="$DEST_DIR/WisprStudio"
         STAGED=$(mktemp -d "$DEST_DIR/.voicestudio-install.XXXXXXXX")
-        cp "$1" "$STAGED/VoiceStudio"
-        chmod +x "$STAGED/VoiceStudio"
-        mv -f "$STAGED/VoiceStudio" "$DEST"
+        cp "$1" "$STAGED/WisprStudio"
+        chmod +x "$STAGED/WisprStudio"
+        mv -f "$STAGED/WisprStudio" "$DEST"
     fi
     printf 'Installed Electron: %s\n' "$DEST"
-    printf 'Open VoiceStudio to configure its local backend and choose models. Existing data is preserved.\n'
+    printf 'Open WisprStudio to configure its local backend and choose models. Existing data is preserved.\n'
     if [ "$OS" = mac ]; then printf 'Launch the installed app: open "%s"\n' "$DEST"; fi
     if [ "$OS" = mac ] && [ "$ARCH" = x64 ]; then
         printf 'Note: this is an Intel Mac. The app UI runs, but the local backend needs Apple Silicon; connect to a backend on another machine (docs/install/macos.md).\n'
@@ -188,7 +188,7 @@ if [ "$MODE" = main ]; then
     node -e 'if (Number(process.versions.node.split(".")[0]) < 22) process.exit(1)' || die 'Node.js 22 or newer is required.'
     printf 'Building and installing Electron from main (this may take several minutes).\n'
     # Never pull into, reset, or build from an existing user checkout.
-    git clone --depth 1 --branch main --single-branch https://github.com/debpalash/VoiceStudio.git "$WORK/source"
+    git clone --depth 1 --branch main --single-branch https://github.com/TheHalfMoon/wisprstudio.git "$WORK/source"
     (
         cd "$WORK/source"
         printf 'Source commit: '; git rev-parse HEAD
@@ -210,7 +210,7 @@ if [ "$MODE" = main ]; then
     valid_version "$VS_VERSION" || die 'Invalid version in source checkout.'
     PACKAGE_DIR="$WORK/source/electron/release"
 else
-    RELEASES=https://github.com/debpalash/VoiceStudio/releases
+    RELEASES=https://github.com/TheHalfMoon/wisprstudio/releases
     if [ -z "$VS_VERSION" ]; then
         # latest.json is the frozen Tauri feed. Resolve the release tag instead.
         URL=$(curl --proto '=https' --proto-redir '=https' --connect-timeout 30 --max-time 60 -fLsS --retry 3 -o /dev/null -w '%{url_effective}' "$RELEASES/latest")
@@ -223,7 +223,7 @@ fi
 # keep pinned installs of those versions working.
 case "$VS_VERSION" in
     0.[0-4].*|0.5.[0-6]|0.5.[0-6]-*|0.5.7-beta.[1-3]) ASSET_PREFIX=VoiceStudio-Electron ;;
-    *) ASSET_PREFIX=VoiceStudio ;;
+    *) ASSET_PREFIX=WisprStudio ;;
 esac
 case "$OS" in
     mac) ASSET="$ASSET_PREFIX-$VS_VERSION-mac-$ARCH.dmg" ;;
@@ -248,8 +248,8 @@ if [ "$OS" = mac ]; then
     MOUNT="$WORK/mount"
     mkdir "$MOUNT"
     hdiutil attach -readonly -nobrowse -mountpoint "$MOUNT" "$PACKAGE" >/dev/null || die "Could not open the disk image $ASSET (checksum was verified). Free some disk space and retry."
-    [ -d "$MOUNT/VoiceStudio.app" ] || die 'VoiceStudio.app is missing from the disk image.'
-    install_app "$MOUNT/VoiceStudio.app"
+    [ -d "$MOUNT/WisprStudio.app" ] || die 'WisprStudio.app is missing from the disk image.'
+    install_app "$MOUNT/WisprStudio.app"
 else
     install_app "$PACKAGE"
 fi

@@ -125,7 +125,6 @@ const groups = [
       'Turso|https://turso.tech',
       'PlanetScale|https://planetscale.com',
       'Sentry|https://sentry.io',
-      'PostHog|https://posthog.com',
       'Grafana|https://grafana.com',
     ],
   ],

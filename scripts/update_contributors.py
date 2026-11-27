@@ -35,7 +35,7 @@ from collections.abc import Callable, Iterable
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-REPO = "debpalash/VoiceStudio"
+REPO = "TheHalfMoon/wisprstudio"
 OWNER = REPO.split("/")[0]
 MIN_COMMITS = 10
 AVATAR_SIZE = 128  # 2x the largest Electron render (56px), 3x the iOS 34pt cluster

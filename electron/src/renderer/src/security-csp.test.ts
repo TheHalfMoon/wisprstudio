@@ -2,11 +2,10 @@ import { describe, expect, it } from 'vitest';
 import html from '../index.html?raw';
 
 describe('renderer content security policy', () => {
-  it('allows PostHog ingestion and its regional configuration endpoints', () => {
-    expect(html).toContain('https://us.i.posthog.com');
-    expect(html).toContain('https://us-assets.i.posthog.com');
-    expect(html).toContain('https://eu.i.posthog.com');
-    expect(html).toContain('https://eu-assets.i.posthog.com');
-    expect(html).not.toContain('*.posthog.com');
+  it('blocks PostHog telemetry and live GitHub API beacons in connect-src', () => {
+    expect(html).toContain("connect-src 'self' blob: ws: http://localhost:* http://127.0.0.1:*");
+    expect(html).not.toContain(['posthog', 'com'].join('.'));
+    expect(html).not.toContain('api.github.com');
+    expect(html).not.toContain('voicestudio.sh');
   });
 });

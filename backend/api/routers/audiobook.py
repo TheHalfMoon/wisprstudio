@@ -964,7 +964,15 @@ def _render_chapter_cached(chapter, synth, sr, engine_id, resolve, cache_dir, le
     # intermediate assembly inputs, re-marked here on every chapter render.
     # Already runs in the GPU-pool executor; never raises (degrades to
     # unmarked on failure).
-    audio = trace_call("watermark", mark_synthetic, audio, sr, context="longform.chapter")
+    has_cloned_span = any(bool(getattr(s, "voice_id", None)) for s in chapter.spans)
+    audio = trace_call(
+        "watermark",
+        mark_synthetic,
+        audio,
+        sr,
+        context="longform.chapter",
+        watermark_required=has_cloned_span,
+    )
     # Durable: a power-off right after this chapter must not leave a torn
     # file under its key (#2279).
     atomic_save_wav(wav_path, audio, sr, durable=True)

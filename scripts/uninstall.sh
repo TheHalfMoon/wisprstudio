@@ -44,8 +44,8 @@ done
 LEGACY_IDENTIFIER="com.debpalash.omnivoice-studio"
 # Electron app folder (app.getPath('userData'); electron/src/main/app-identity.ts)
 # and electron-updater's download cache (package name + "-updater").
-ELECTRON_APP_NAME="VoiceStudio"
-ELECTRON_UPDATER_CACHE="voicestudio-electron-updater"
+ELECTRON_APP_NAME="WisprStudio"
+ELECTRON_UPDATER_CACHE="wisprstudio-electron-updater"
 OS="$(uname -s)"
 
 # ── Resolve platform default paths (mirrors the app) ────────────────────────
@@ -110,7 +110,7 @@ electron_owned_runtime() {
   root=$(printf '%s' "$content" | sed -n 's/^[[:space:]]*{[[:space:]]*"root"[[:space:]]*:[[:space:]]*"\([^"\\]*\)"[[:space:]]*,[[:space:]]*"owned"[[:space:]]*:[[:space:]]*true[[:space:]]*}[[:space:]]*$/\1/p')
   case "$root" in /*) ;; *) return 0 ;; esac
   [ "$root" = "$electron_user_data/runtime" ] && return 0
-  [ "$(basename "$root" | tr '[:upper:]' '[:lower:]')" = "voicestudio" ] || return 0
+  case "$(basename "$root" | tr '[:upper:]' '[:lower:]')" in wisprstudio|voicestudio) ;; *) return 0 ;; esac
   [ -d "$root/project" ] || return 0
   printf '%s\n' "$root"
 }
@@ -170,35 +170,7 @@ if [ "$APPLY" -ne 1 ]; then
   exit 0
 fi
 
-# ── Opt-in uninstall ping (before anything is deleted) ──────────────────────
-# If — and only if — the user opted in to anonymous analytics, send a single
-# best-effort `app_uninstalled` event before the data (and the consent record
-# it lives in) goes away. The backend writes analytics_info.json next to
-# prefs.json ONLY while analytics is enabled (explicit consent + a build that
-# ships a token) and deletes it on opt-out, so the file's presence is itself
-# consent-gated; the prefs.json check is belt and braces. Content-free: the
-# event carries the app version, the OS name, and the random per-install id —
-# nothing else. Never blocks or fails the uninstall (2s timeout, silent
-# failure). Not opted in ⇒ nothing is sent and nothing is printed.
-send_uninstall_ping() {
-  local info="$DATA_DIR/analytics_info.json" prefs="$DATA_DIR/prefs.json"
-  [ -f "$info" ] && [ -f "$prefs" ] || return 0
-  grep -q '"analytics_enabled"[[:space:]]*:[[:space:]]*true' "$prefs" 2>/dev/null || return 0
-  command -v curl >/dev/null 2>&1 || return 0
-  local token host distinct_id app_version platform
-  token=$(sed -n 's/.*"token"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$info" | head -n1)
-  host=$(sed -n 's/.*"host"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$info" | head -n1)
-  distinct_id=$(sed -n 's/.*"distinct_id"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$info" | head -n1)
-  app_version=$(sed -n 's/.*"app_version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$info" | head -n1)
-  platform=$(sed -n 's/.*"platform"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$info" | head -n1)
-  [ -n "$token" ] && [ -n "$host" ] && [ -n "$distinct_id" ] || return 0
-  echo "Sending anonymous uninstall ping (you opted in to analytics)."
-  curl -m 2 -s -o /dev/null -X POST "$host/capture/" \
-    -H 'Content-Type: application/json' \
-    -d "{\"api_key\":\"$token\",\"event\":\"app_uninstalled\",\"distinct_id\":\"$distinct_id\",\"properties\":{\"app_version\":\"$app_version\",\"platform\":\"$platform\"}}" \
-    || true
-}
-send_uninstall_ping
+# Zero-telemetry policy: WisprStudio never transmits an uninstall beacon.
 
 # ── Delete ──────────────────────────────────────────────────────────────────
 deleted=0

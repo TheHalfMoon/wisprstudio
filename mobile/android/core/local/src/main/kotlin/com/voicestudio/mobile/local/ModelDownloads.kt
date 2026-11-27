@@ -28,7 +28,7 @@ class ModelDownloads internal constructor(
     private val wifi: () -> Boolean, private val freeBytes: () -> Long,
     private val client: OkHttpClient = OkHttpClient.Builder().followRedirects(false).followSslRedirects(false)
         .connectTimeout(30,java.util.concurrent.TimeUnit.SECONDS).readTimeout(120,java.util.concurrent.TimeUnit.SECONDS).build(),
-    private val endpoints: List<String> = listOf("https://huggingface.co", "https://hf-mirror.com"),
+    private val endpoints: List<String> = listOf("https://huggingface.co"),
     private val allowTestHttp: Boolean = false,
     private val bundledAssets: ((String)->java.io.InputStream)? = null,
     private val digest: (File, ()->Unit)->String = ::sha256,
@@ -341,7 +341,7 @@ class ModelDownloads internal constructor(
     // Keep in step with iOS ModelRedirectDelegate.allowed (SPEC M2): mirror CDN
     // subdomains download like the apex host, and other ports are refused, on every platform.
     internal fun allowed(url: HttpUrl): Boolean = allowTestHttp || (url.scheme=="https" && url.port==443 && url.username.isEmpty() && url.password.isEmpty() &&
-        (url.host in setOf("huggingface.co","hf-mirror.com","hf.co","github.com","release-assets.githubusercontent.com","objects.githubusercontent.com") || url.host.endsWith(".huggingface.co") || url.host.endsWith(".hf.co") || url.host.endsWith(".hf-mirror.com")))
+        (url.host in setOf("huggingface.co","hf.co","github.com","release-assets.githubusercontent.com","objects.githubusercontent.com") || url.host.endsWith(".huggingface.co") || url.host.endsWith(".hf.co")))
     private suspend fun transfer(endpoint: String, model: PhoneModel, file: ModelFile, partial: File, allowMobile: Boolean, report: (Long)->Unit, lower: Long=0, upper: Long=file.size-1,wholeFile: Boolean=false) = connections.withPermit {
         exchange(endpoint,model,file,partial,allowMobile,report,lower,upper,wholeFile)
     }

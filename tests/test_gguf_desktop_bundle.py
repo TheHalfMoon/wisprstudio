@@ -17,9 +17,11 @@ from pathlib import Path
 import pytest
 import yaml
 
+from core.shell_tools import posix_bash_env, resolve_posix_bash
+
 REPO = Path(__file__).resolve().parents[1]
 WORKFLOWS = REPO / ".github" / "workflows"
-BASH = shutil.which("bash") if os.name != "nt" else "C:/Program Files/Git/bin/bash.exe"
+BASH = resolve_posix_bash()
 
 # What backend/engines/omnivoice_gguf/backend.py::_platform_slug() returns on
 # each installer target. Windows on ARM runs the emulated x64 Python runtime.
@@ -111,19 +113,21 @@ def _run_windows_build(tmp_path: Path, runtime: dict[str, str]):
                  ' printf lib > build/Release/ggml-cpu-haswell.dll; fi',
     }
     for name, body in tools.items():
-        (fake / name).write_text("#!/usr/bin/env bash\nset -euo pipefail\n" + body + "\n")
+        (fake / name).write_text("#!/usr/bin/env bash\nset -euo pipefail\n" + body + "\n", encoding="utf-8")
         (fake / name).chmod(0o755)
     msvc = tmp_path / "msvc"
     msvc.mkdir()
     for dll, body in runtime.items():
-        (msvc / dll).write_text(body)
-    env = {**os.environ, "PATH": f"{fake}:/usr/bin:/bin",
-           "OMNIVOICE_MSVC_RUNTIME_DIR": msvc.as_posix()}
+        (msvc / dll).write_text(body, encoding="utf-8")
+    env = {
+        **posix_bash_env([fake], bash_executable=BASH),
+        "OMNIVOICE_MSVC_RUNTIME_DIR": msvc.as_posix(),
+    }
     env.pop("VULKAN_SDK", None)
     return subprocess.run(
         [BASH, str(scripts / "build-omnivoice-tts.sh"), "--platform", "windows-x86_64",
          "--commit-sha", "a" * 40],
-        env=env, cwd=tmp_path, capture_output=True, text=True, timeout=60, check=False,
+        env=env, cwd=tmp_path, capture_output=True, text=True, encoding="utf-8", timeout=60, check=False,
     )
 
 
@@ -135,7 +139,7 @@ def test_windows_build_ships_its_cpp_runtime_with_checksums(tmp_path):
         "vcruntime140_1.dll": "vcrt1", "vcomp140.dll": "omp",
     })
     assert result.returncode == 0, result.stdout + result.stderr
-    manifest = (tmp_path / "bin" / "checksums.sha256").read_text()
+    manifest = (tmp_path / "bin" / "checksums.sha256").read_text(encoding="utf-8")
     for name in ("omnivoice-tts-windows-x86_64.exe", "ggml-cpu-haswell.dll", "msvcp140.dll",
                  "vcruntime140.dll", "vcruntime140_1.dll", "vcomp140.dll"):
         assert (tmp_path / "bin" / name).is_file(), name

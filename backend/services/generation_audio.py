@@ -1,6 +1,12 @@
 """Deterministic WAV encoding of the final, already provenance-marked take."""
+from __future__ import annotations
+
 import numpy as np
-import torch
+
+try:
+    import torch
+except ImportError:  # pragma: no cover - lightweight torch-free test env
+    torch = None  # type: ignore[assignment]
 
 from services.audio_io import _describe_write_failure, _safe_soundfile_write
 

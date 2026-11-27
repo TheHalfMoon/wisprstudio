@@ -19,7 +19,7 @@ def test_support_catalog_uses_existing_donation_destinations():
     source = (ROOT / "electron/src/shared/utils/donateLinks.js").read_text(encoding="utf-8")
     assert {row["url"] for row in data["donations"]} == set(re.findall(r"export const \w+ = '(https://[^']+)'", source))
     assert len({row["id"] for row in data["projects"]}) == len(data["projects"])
-    assert {row["name"] for row in data["projects"]} == {"OpenGTM", "Opal", "Supermetry", "Spicrawl"}
+    assert {row["name"] for row in data["projects"]} == {"OpenGTM", "Opal", "Spicrawl"}
     for row in data["donations"] + data["projects"]:
         assert urlparse(row["url"]).scheme == "https"
         assert urlparse(row["url"]).hostname

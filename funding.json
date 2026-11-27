@@ -5,7 +5,7 @@
     "type": "group",
     "role": "owner",
     "name": "VoiceStudio",
-    "email": "partner@voicestudio.sh",
+    "email": "opensource@wispral.dev",
     "description": "Maintainers of VoiceStudio, the open-source, fully local voice cloning, voice design, dubbing and dictation app.",
     "webpageUrl": { "url": "https://voicestudio.sh" }
   },
@@ -15,7 +15,7 @@
       "name": "VoiceStudio",
       "description": "A free, fully local alternative to ElevenLabs: voice cloning, voice design, video dubbing and real-time dictation across 646 languages on desktop and phone, with no accounts, API keys or cloud.",
       "webpageUrl": { "url": "https://voicestudio.sh" },
-      "repositoryUrl": { "url": "https://github.com/debpalash/VoiceStudio" },
+      "repositoryUrl": { "url": "https://github.com/TheHalfMoon/wisprstudio" },
       "licenses": ["spdx:AGPL-3.0-only"],
       "tags": ["text-to-speech", "voice-cloning", "speech-recognition", "dubbing", "desktop-app", "privacy", "open-source"]
     }
@@ -25,18 +25,18 @@
       {
         "guid": "github-sponsors",
         "type": "payment-provider",
-        "address": "https://github.com/sponsors/debpalash",
+        "address": "https://github.com/TheHalfMoon/wisprstudio#sponsors",
         "description": "GitHub Sponsors; tiers and what each includes are listed in SPONSORS.md."
       },
       {
         "guid": "ko-fi",
         "type": "payment-provider",
-        "address": "https://ko-fi.com/debpalash"
+        "address": "https://github.com/TheHalfMoon/wisprstudio#support"
       },
       {
         "guid": "paypal",
         "type": "payment-provider",
-        "address": "https://paypal.me/palashCoder"
+        "address": "https://github.com/TheHalfMoon/wisprstudio/discussions"
       }
     ],
     "plans": [

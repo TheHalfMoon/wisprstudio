@@ -1,4 +1,5 @@
-import { resolve } from 'node:path';
+import { tmpdir } from 'node:os';
+import { join, resolve } from 'node:path';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 
@@ -23,7 +24,10 @@ export default defineConfig({
       name: 'retired-tauri-styles',
       enforce: 'pre',
       resolveId(source, importer) {
-        if (source === '../index.css' && importer?.includes('/src/shared/ui/')) {
+        if (
+          source === '../index.css' &&
+          importer?.replaceAll('\\', '/').includes('/src/shared/ui/')
+        ) {
           return retiredStylesStub;
         }
       },
@@ -39,6 +43,7 @@ export default defineConfig({
     ],
     dedupe: ['react', 'react-dom'],
   },
+  cacheDir: join(tmpdir(), 'wisprstudio-vite-shared-cache'),
   test: {
     environment: 'jsdom',
     globals: true,
@@ -48,7 +53,7 @@ export default defineConfig({
     execArgv: ['--no-experimental-webstorage'],
     // Shared release runners (Intel macOS, Windows ARM) run the suite many times slower
     // than a laptop; a real hang still fails, a busy runner no longer does.
-    testTimeout: process.env.CI ? 30_000 : 5_000,
+    testTimeout: 20000,
     include: ['src/shared/**/*.test.{js,jsx,ts,tsx}'],
     css: false,
   },

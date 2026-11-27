@@ -1636,7 +1636,10 @@ async def _finalize_generation(
     if not already_marked:
         from services.watermark import mark_synthetic_async
         audio_tensor = await mark_synthetic_async(
-            audio_tensor, sample_rate, context="generate.finalize",
+            audio_tensor,
+            sample_rate,
+            context="generate.finalize",
+            watermark_required=bool(ref_audio_path or resolved_profile_id),
         )
     gen_time = round(time.time() - start_time, 2)
 
@@ -2506,6 +2509,7 @@ async def generate_speech(
                     _preview = await mark_synthetic_async(
                         audio_tensor, sample_rate,
                         context="generate.stream_preview",
+                        watermark_required=bool(ref_audio_path or resolved_profile_id),
                     )
                     yield _line({"type": "chunk", "seq": 0, "pcm": _pcm16_b64(_preview)})
                 else:
@@ -2542,6 +2546,7 @@ async def generate_speech(
                         preview = await mark_synthetic_async(
                             preview, sample_rate,
                             context="generate.stream_preview",
+                            watermark_required=bool(ref_audio_path or resolved_profile_id),
                         )
                         if i == 0:
                             # After the first render so lazy-loading engines

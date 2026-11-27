@@ -71,7 +71,7 @@ const FIX_ROUTES: Record<string, string> = {
 function reportText(report: DiagnosticReport) {
   const marker: Record<CheckStatus, string> = { ok: '[ OK ]', warn: '[WARN]', fail: '[FAIL]' };
   const lines = [
-    `VoiceStudio diagnostics - v${report.app_version} on ${report.platform}`,
+    `WisprStudio diagnostics - v${report.app_version} on ${report.platform}`,
     '',
     ...report.checks.flatMap((check) => [
       `${marker[check.status]} ${check.label}: ${check.detail}`,
@@ -264,6 +264,16 @@ export function DiagnosticsSettings() {
           <span className="max-w-xl break-all text-right font-mono text-xs">
             {system?.outputs_dir || t('common.loading')}
           </span>
+        </SettingsRow>
+        <SettingsRow id="diagnostics-agpl-source" title="License (AGPL-3.0-only)">
+          <a
+            href="https://github.com/TheHalfMoon/wisprstudio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-right font-mono text-xs text-primary underline-offset-4 hover:underline"
+          >
+            https://github.com/TheHalfMoon/wisprstudio
+          </a>
         </SettingsRow>
       </SettingsSection>
 

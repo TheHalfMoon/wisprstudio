@@ -320,17 +320,8 @@ if (process.env.VOICESTUDIO_ALLOW_MULTIPLE_INSTANCES !== '1' && !app.requestSing
           quitting = true;
         },
       );
-      const startupUpdateCheck = setTimeout(
-        () => observeMainProcessTask(updater.check(true), mainErrors, 'Startup update check'),
-        10_000,
-      );
-      const periodicUpdateCheck = setInterval(
-        () => observeMainProcessTask(updater.check(true), mainErrors, 'Periodic update check'),
-        6 * 60 * 60 * 1_000,
-      );
+      // Strictly manual/opt-in updates: no unsolicited startup or periodic timers.
       closeUpdates = () => {
-        clearTimeout(startupUpdateCheck);
-        clearInterval(periodicUpdateCheck);
         closeUpdateIpc();
       };
       mainWindow = createWindow();

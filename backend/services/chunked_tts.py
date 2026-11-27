@@ -112,16 +112,30 @@ def trim_edge_silence(audio, sample_rate, *, threshold_db=DEFAULT_TRIM_THRESHOLD
     if audio is None or audio.shape[-1] == 0:
         return audio
     level = 10 ** (threshold_db / 20)
-    magnitude = audio.abs()
-    if magnitude.dim() > 1:
-        magnitude = magnitude.reshape(-1, magnitude.shape[-1]).amax(dim=0)
-    loud = (magnitude > level).nonzero()
-    if loud.numel() == 0:
-        return audio
-    margin = int(sample_rate * keep_ms / 1000)
-    total = audio.shape[-1]
-    start = max(0, int(loud[0].item()) - margin)
-    end = min(total, int(loud[-1].item()) + 1 + margin)
+    if hasattr(audio, "dim"):
+        magnitude = audio.abs()
+        if magnitude.dim() > 1:
+            magnitude = magnitude.reshape(-1, magnitude.shape[-1]).amax(dim=0)
+        loud = (magnitude > level).nonzero()
+        if loud.numel() == 0:
+            return audio
+        margin = int(sample_rate * keep_ms / 1000)
+        total = audio.shape[-1]
+        start = max(0, int(loud[0].item()) - margin)
+        end = min(total, int(loud[-1].item()) + 1 + margin)
+    else:
+        import numpy as np
+
+        magnitude = np.abs(audio)
+        if magnitude.ndim > 1:
+            magnitude = magnitude.reshape(-1, magnitude.shape[-1]).max(axis=0)
+        loud = np.flatnonzero(magnitude > level)
+        if loud.size == 0:
+            return audio
+        margin = int(sample_rate * keep_ms / 1000)
+        total = audio.shape[-1]
+        start = max(0, int(loud[0]) - margin)
+        end = min(total, int(loud[-1]) + 1 + margin)
     if start == 0 and end == total:
         return audio
     return audio[..., start:end]
@@ -362,18 +376,38 @@ def _normalize_chunk_shapes(chunks: list) -> list:
     callers keep their exact output shape; a genuine channel conflict
     (e.g. 2 vs 3 channels) still raises, which is the honest outcome.
     """
-    target = max(c.dim() for c in chunks)
-    if any(c.dim() != target for c in chunks):
+    if hasattr(chunks[0], "dim"):
+        target = max(c.dim() for c in chunks)
+        if any(c.dim() != target for c in chunks):
+            promoted = []
+            for c in chunks:
+                while c.dim() < target:
+                    c = c.unsqueeze(0)
+                promoted.append(c)
+            chunks = promoted
+        if target > 1:
+            lead = tuple(max(c.shape[i] for c in chunks) for i in range(target - 1))
+            chunks = [c if tuple(c.shape[:-1]) == lead else c.expand(*lead, -1)
+                      for c in chunks]
+        return chunks
+
+    import numpy as np
+
+    chunks = [np.asarray(c) for c in chunks]
+    target = max(c.ndim for c in chunks)
+    if any(c.ndim != target for c in chunks):
         promoted = []
         for c in chunks:
-            while c.dim() < target:
-                c = c.unsqueeze(0)
+            while c.ndim < target:
+                c = np.expand_dims(c, axis=0)
             promoted.append(c)
         chunks = promoted
     if target > 1:
         lead = tuple(max(c.shape[i] for c in chunks) for i in range(target - 1))
-        chunks = [c if tuple(c.shape[:-1]) == lead else c.expand(*lead, -1)
-                  for c in chunks]
+        chunks = [
+            c if tuple(c.shape[:-1]) == lead else np.broadcast_to(c, (*lead, c.shape[-1]))
+            for c in chunks
+        ]
     return chunks
 
 
@@ -486,7 +520,10 @@ def concatenate_audio_chunks(chunks: list, sample_rate: int,
     now reaches the log, and callers that know the text can pass ``texts`` to
     have the dropped slices named.
     """
-    import torch
+    try:
+        import torch
+    except ImportError:  # pragma: no cover - lightweight torch-free test env
+        torch = None  # type: ignore[assignment]
 
     kept, dropped = [], []
     for i, c in enumerate(chunks):
@@ -498,7 +535,11 @@ def concatenate_audio_chunks(chunks: list, sample_rate: int,
         report_dropped_chunks(dropped, len(chunks), texts, sink)
     chunks = kept
     if not chunks:
-        return torch.zeros(1, dtype=torch.float32)
+        if torch is not None:
+            return torch.zeros(1, dtype=torch.float32)
+        import numpy as np
+
+        return np.zeros(1, dtype=np.float32)
     if len(chunks) == 1:
         return chunks[0]
     chunks = _normalize_chunk_shapes(chunks)
@@ -518,15 +559,31 @@ def concatenate_audio_chunks(chunks: list, sample_rate: int,
         joined += n - ov
 
     first = chunks[0]
-    out = torch.empty((*first.shape[:-1], joined), dtype=first.dtype, device=first.device)
-    out[..., : first.shape[-1]] = first
+    if torch is not None and hasattr(first, "dim"):
+        out = torch.empty((*first.shape[:-1], joined), dtype=first.dtype, device=first.device)
+        out[..., : first.shape[-1]] = first
+        for chunk, ov, start in zip(chunks[1:], overlaps, starts):
+            chunk = chunk.to(device=out.device, dtype=out.dtype)
+            if ov > 0:
+                fade_out = torch.linspace(1, 0, ov, device=out.device, dtype=out.dtype)
+                fade_in = torch.linspace(0, 1, ov, device=out.device, dtype=out.dtype)
+                out[..., start : start + ov] = (
+                    out[..., start : start + ov] * fade_out + chunk[..., :ov] * fade_in
+                )
+            out[..., start + ov : start + chunk.shape[-1]] = chunk[..., ov:]
+        return out
+
+    import numpy as np
+
+    out_np = np.empty((*first.shape[:-1], joined), dtype=first.dtype)
+    out_np[..., : first.shape[-1]] = first
     for chunk, ov, start in zip(chunks[1:], overlaps, starts):
-        chunk = chunk.to(device=out.device, dtype=out.dtype)
+        chunk_np = np.asarray(chunk, dtype=out_np.dtype)
         if ov > 0:
-            fade_out = torch.linspace(1, 0, ov, device=out.device, dtype=out.dtype)
-            fade_in = torch.linspace(0, 1, ov, device=out.device, dtype=out.dtype)
-            out[..., start : start + ov] = (
-                out[..., start : start + ov] * fade_out + chunk[..., :ov] * fade_in
+            fade_out = np.linspace(1.0, 0.0, ov, dtype=out_np.dtype)
+            fade_in = np.linspace(0.0, 1.0, ov, dtype=out_np.dtype)
+            out_np[..., start : start + ov] = (
+                out_np[..., start : start + ov] * fade_out + chunk_np[..., :ov] * fade_in
             )
-        out[..., start + ov : start + chunk.shape[-1]] = chunk[..., ov:]
-    return out
+        out_np[..., start + ov : start + chunk_np.shape[-1]] = chunk_np[..., ov:]
+    return out_np

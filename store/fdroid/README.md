@@ -19,7 +19,7 @@ in-place update between differently signed installations.
 
 ## Obtainium
 
-Add `https://github.com/debpalash/VoiceStudio` in Obtainium, or import
+Add `https://github.com/TheHalfMoon/wisprstudio` in Obtainium, or import
 [the generated import file](https://debpalash.github.io/VoiceStudio/obtainium.json).
 The repository's landing page also has
 an import link. Obtainium follows published APK releases, not CI artifacts or

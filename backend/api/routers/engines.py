@@ -22,8 +22,15 @@ import threading
 from time import perf_counter
 
 from fastapi import APIRouter, Depends, HTTPException, Request
-from huggingface_hub import utils as hf_utils
-from huggingface_hub.errors import HFValidationError
+
+try:
+    from huggingface_hub import utils as hf_utils
+    from huggingface_hub.errors import HFValidationError
+except ImportError:  # pragma: no cover - lightweight offline test env
+    hf_utils = None  # type: ignore[assignment]
+
+    class HFValidationError(ValueError):  # type: ignore[no-redef]
+        pass
 from pydantic import BaseModel, Field
 
 from api.dependencies import require_admin, require_admin_action, require_desktop, is_loopback

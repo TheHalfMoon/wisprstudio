@@ -36,17 +36,18 @@ def test_current_version_is_in_lockstep_everywhere() -> None:
 
 def test_visible_brand_surfaces_say_voicestudio() -> None:
     visible_files = ("electron/build/Info.plist", "electron/src/renderer/index.html")
-    product_name = json.loads((ROOT / "config/app.json").read_text())["productName"]
-    assert product_name == "VoiceStudio"
+    product_name = json.loads((ROOT / "config/app.json").read_text(encoding="utf-8"))["productName"]
+    assert product_name == "WisprStudio"
     for path in visible_files:
-        text = (ROOT / path).read_text()
+        text = (ROOT / path).read_text(encoding="utf-8")
         assert "__APP_PRODUCT_NAME__" in text, path
         assert "OmniVoice needs" not in text, path
         assert "OmniVoice may" not in text, path
         assert "OmniVoice Gallery" not in text, path
 
-    readme = (ROOT / "README.md").read_text()
-    assert "**VoiceStudio** (default, powered by k2-fsa/OmniVoice)" in readme
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "WisprStudio" in readme
+    assert "https://github.com/TheHalfMoon/wisprstudio" in readme
     assert "**OmniVoice** (default)" not in readme
 
 
@@ -122,9 +123,9 @@ def test_canonical_logo_changes_run_mobile_builds(event: str) -> None:
 
 
 def test_python_package_metadata_points_to_voicestudio() -> None:
-    pyproject = (ROOT / "pyproject.toml").read_text()
-    assert 'Homepage = "https://github.com/debpalash/VoiceStudio"' in pyproject
-    assert 'Repository = "https://github.com/debpalash/VoiceStudio"' in pyproject
+    pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert 'Homepage = "https://github.com/TheHalfMoon/wisprstudio"' in pyproject
+    assert 'Repository = "https://github.com/TheHalfMoon/wisprstudio"' in pyproject
     assert '"Upstream TTS Model" = "https://github.com/k2-fsa/OmniVoice"' in pyproject
 
 
@@ -146,11 +147,11 @@ def test_engine_help_names_the_app_not_the_upstream_model() -> None:
 
 
 def test_compatibility_identifiers_stay_stable() -> None:
-    package = json.loads((ROOT / "package.json").read_text())
-    assert package["name"] == "omnivoice-studio-monorepo"
-    assert 'name = "omnivoice"' in (ROOT / "pyproject.toml").read_text()
-    app_config = json.loads((ROOT / "config/app.json").read_text())
-    assert app_config["appId"] == "com.voicestudio.desktop"
+    package = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))
+    assert package["name"] == "wisprstudio-monorepo"
+    assert 'name = "omnivoice"' in (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    app_config = json.loads((ROOT / "config/app.json").read_text(encoding="utf-8"))
+    assert app_config["appId"] == "com.wispral.wisprstudio"
 
 
 def test_active_source_launch_is_electron_and_web_ports_clean_quietly() -> None:

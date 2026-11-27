@@ -1,21 +1,18 @@
 <div align="center">
-  <h1><sub><img src="../../docs/logo.png" alt="" width="36" height="36" /></sub> VoiceStudio</h1>
+  <h1><sub><img src="../../docs/logo.png" alt="" width="36" height="36" /></sub> WisprStudio</h1>
   <p>
-    <a href="https://trendshift.io/repositories/28176?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-28176" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/28176" alt="Trendshift의 VoiceStudio 인기 순위 배지" width="220" height="48" /></a>
-  </p>
-  <p>
-    <strong>🎉 <a href="https://github.com/debpalash/VoiceStudio/stargazers">GitHub 스타 10만 개 달성 — 감사합니다!</a></strong>
+    <strong>🎉 <a href="https://github.com/TheHalfMoon/wisprstudio/stargazers">GitHub 스타 10만 개 달성 — 감사합니다!</a></strong>
   </p>
   <h2>AI 보이스 스튜디오를, 내 기기에서.</h2>
   <h3>646개 언어로 음성 복제, 보이스 디자인, 더빙, 받아쓰기, 전사, 내레이션을 만드세요.</h3>
   <p>노트북, 데스크톱, 서버, 휴대폰, 태블릿 등에서 실행됩니다</p>
   <p>
-    <a href="https://voicestudio.sh/?utm_source=github&utm_medium=readme&utm_campaign=project">웹사이트</a> ·
-    <a href="https://github.com/debpalash/VoiceStudio/releases/latest">내려받기</a> ·
+    <a href="https://github.com/TheHalfMoon/wisprstudio">웹사이트</a> ·
+    <a href="https://github.com/TheHalfMoon/wisprstudio/releases/latest">내려받기</a> ·
     <a href="#시작하기">시작 안내</a> ·
     <a href="#문서">문서</a> ·
-    <a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project">VoiceStudio Pro</a> ·
-    <a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project">VoiceStudio Cloud</a>
+    <a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Pro</a> ·
+    <a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Cloud</a>
   </p>
   <!-- README_LANGUAGES_START -->
   <a id="readme-languages"></a>
@@ -27,18 +24,10 @@
 
 
   <p>
-    <a href="https://github.com/debpalash/VoiceStudio/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/debpalash/VoiceStudio/ci.yml?branch=main&amp;style=flat-square&amp;label=build&amp;labelColor=27272a" alt="CI 상태" /></a>
-    <a href="https://github.com/debpalash/VoiceStudio/releases/latest"><img src="https://img.shields.io/github/v/release/debpalash/VoiceStudio?style=flat-square&amp;labelColor=27272a&amp;color=52525b" alt="최신 릴리스" /></a>
+    <a href="https://github.com/TheHalfMoon/wisprstudio/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/TheHalfMoon/wisprstudio/ci.yml?branch=main&amp;style=flat-square&amp;label=build&amp;labelColor=27272a" alt="CI 상태" /></a>
+    <a href="https://github.com/TheHalfMoon/wisprstudio/releases/latest"><img src="https://img.shields.io/github/v/release/TheHalfMoon/wisprstudio?style=flat-square&amp;labelColor=27272a&amp;color=52525b" alt="최신 릴리스" /></a>
     <a href="../../LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-52525b?style=flat-square&amp;labelColor=27272a" alt="AGPL-3.0 라이선스" /></a>
-    <a href="https://supermetry.com"><img src="https://app.supermetry.com/px/zfjiv7psp4ed.svg?c=VoiceStudio" alt="조회수" /></a>
     <a href="https://discord.gg/bzQavDfVV9"><img src="https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?style=flat-square&amp;logo=discord&amp;logoColor=white" alt="Join Discord" /></a>
-  </p>
-  <p>
-    <sub>전략 스폰서</sub>      <a href="https://github.com/debpalash/OpenGTM?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opengtm-dark.svg" /><img src="../../docs/sponsors/opengtm.svg" alt="OpenGTM" height="32" align="middle" /></picture></a>
-    <a href="https://github.com/debpalash/Opal?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opal-dark.svg" /><img src="../../docs/sponsors/opal.svg" alt="Opal" height="32" align="middle" /></picture></a>
-    <a href="https://github.com/velixio/supermetry?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/supermetry-dark.svg" /><img src="../../docs/sponsors/supermetry.svg" alt="Supermetry" height="32" align="middle" /></picture></a>
-      ·   <sub>특별 후원사</sub> 
-    <a href="https://app.spicrawl.com/signup?utm_source=voicestudio&amp;utm_medium=github_readme&amp;utm_campaign=special_sponsor&amp;utm_content=logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/spicrawl-dark.svg" /><img src="../../docs/sponsors/spicrawl.svg" alt="Spicrawl" height="32" align="middle" /></picture></a>
   </p>
 </div>
 
@@ -54,10 +43,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/debpalash/VoiceStudio/releases/latest"><img src="https://img.shields.io/badge/%EB%82%B4%EB%A0%A4%EB%B0%9B%EA%B8%B0-993f61?style=for-the-badge&amp;logo=github&amp;logoColor=ffffff" alt="내려받기" height="24" /></a>
+  <a href="https://github.com/TheHalfMoon/wisprstudio/releases/latest"><img src="https://img.shields.io/badge/%EB%82%B4%EB%A0%A4%EB%B0%9B%EA%B8%B0-993f61?style=for-the-badge&amp;logo=github&amp;logoColor=ffffff" alt="내려받기" height="24" /></a>
   <a href="#시작하기"><img src="https://img.shields.io/badge/%EC%8B%9C%EC%9E%91%20%EC%95%88%EB%82%B4-27272a?style=for-the-badge" alt="시작 안내" height="24" /></a>
-  <a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=hero-badge"><img src="https://img.shields.io/badge/VoiceStudio%20Pro-27272a?style=for-the-badge" alt="VoiceStudio Pro" height="24" /></a>
-  <a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=hero-badge"><img src="https://img.shields.io/badge/VoiceStudio%20Cloud-27272a?style=for-the-badge" alt="VoiceStudio Cloud" height="24" /></a>
 </p>
 
 <a id="what-you-can-do"></a>
@@ -107,7 +94,7 @@
 - **내레이션과 일괄 처리** — 스토리, 오디오북, 대기열 작업
 - **연결과 자동화** — 로컬 API, MCP, 재사용 가능한 레시피와 감시 폴더
 
-기본 엔진인 **VoiceStudio**(k2-fsa/OmniVoice 기반)로 시작하거나, 모델 관리자에서 수십 가지 다른 엔진 중 하나를 고르세요. [기능 및 엔진 카탈로그](../../docs/feature-catalog.md)를 참고하세요.
+기본 엔진인 **WisprStudio**(k2-fsa/OmniVoice 기반)로 시작하거나, 모델 관리자에서 수십 가지 다른 엔진 중 하나를 고르세요. [기능 및 엔진 카탈로그](../../docs/feature-catalog.md)를 참고하세요.
 
 <p align="center"><a href="https://discord.gg/bzQavDfVV9"><img src="../../docs/assets/discord-community.svg" alt="Come say hello! Join us on Discord" height="64" /></a></p>
 
@@ -118,7 +105,7 @@
 <table>
   <tr>
     <td width="50%" valign="top">
-      <a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section"><img src="../assets/voicestudio-pro.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">VoiceStudio Pro</a></strong><br /><br />
+      <a href="https://github.com/TheHalfMoon/wisprstudio"><img src="../assets/voicestudio-pro.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Pro</a></strong><br /><br />
       여러 대의 컴퓨터로 유료 클라이언트 작업을 하는 분께.
       <ul>
         <li>클라이언트 작업용 상업용 라이선스를 이메일로 전달</li>
@@ -127,10 +114,10 @@
         <li>새 기능과 수정 사항을 먼저 이용</li>
       </ul>
       <sub>비공개 소스 빌드, 계정 필요, 7일 내 전액 환불. AGPL-3.0 앱은 해당 조건에 따른 상업적 사용을 포함해 계속 무료입니다.</sub><br /><br />
-      <strong><a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">Pro 요금제 보기 →</a></strong>
+      <strong><a href="https://github.com/TheHalfMoon/wisprstudio">Pro 요금제 보기 →</a></strong>
     </td>
     <td width="50%" valign="top">
-      <a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section"><img src="../assets/voicestudio-cloud.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">VoiceStudio Cloud</a></strong><br /><br />
+      <a href="https://github.com/TheHalfMoon/wisprstudio"><img src="../assets/voicestudio-cloud.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Cloud</a></strong><br /><br />
       호스팅형 음성 및 더빙 API, 곧 출시됩니다. GPU가 필요 없습니다.
       <ul>
         <li>음성 합성, 음성 디자인, 동의 기반 음성 복제</li>
@@ -139,7 +126,7 @@
         <li>알아서 실행되는 긴 작업</li>
       </ul>
       <sub>아직 이용할 수 없습니다. 얼리 액세스에 참여하면 무료 사용 크레딧을 받습니다. 데스크톱 앱은 계속 무료이며 로컬에서 실행됩니다.</sub><br /><br />
-      <strong><a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">Cloud 얼리 액세스 참여 →</a></strong>
+      <strong><a href="https://github.com/TheHalfMoon/wisprstudio">Cloud 얼리 액세스 참여 →</a></strong>
     </td>
   </tr>
 </table>
@@ -170,9 +157,9 @@ brew install --cask debpalash/tap/voicestudio
 <details>
 <summary>DMG</summary>
 
-Mac에 맞는 DMG를 내려받아 열고 VoiceStudio를 Applications로 드래그하세요.
+Mac에 맞는 DMG를 내려받아 열고 WisprStudio를 Applications로 드래그하세요.
 
-[다운로드](https://github.com/debpalash/VoiceStudio/releases/latest) · [가이드](../../docs/install/macos.md)
+[다운로드](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [가이드](../../docs/install/macos.md)
 
 </details>
 
@@ -180,7 +167,7 @@ Mac에 맞는 DMG를 내려받아 열고 VoiceStudio를 Applications로 드래�
 <summary>명령 한 줄로 설치</summary>
 
 ```sh
-curl -fsSL https://voicestudio.sh/install | sh
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh
 ```
 
 </details>
@@ -188,14 +175,14 @@ curl -fsSL https://voicestudio.sh/install | sh
 <details>
 <summary>Intel Mac · 원격 백엔드 · 제한됨</summary>
 
-Intel Mac에서는 앱 UI를 사용할 수 있습니다. 다른 컴퓨터의 VoiceStudio 백엔드에 연결하세요.
+Intel Mac에서는 앱 UI를 사용할 수 있습니다. 다른 컴퓨터의 WisprStudio 백엔드에 연결하세요.
 
 [가이드](../../docs/install/macos.md)
 
 </details>
 
 > [!NOTE]
-> macOS에서 "VoiceStudio가 손상되었기 때문에 열 수 없습니다"라는 메시지는 Gatekeeper가 앱을 차단했다는 뜻이지, 다운로드한 파일이 손상되었다는 뜻이 아닙니다. [Gatekeeper 해결 방법](../../docs/install/macos.md#gatekeeper-quarantine)을 참고하세요.
+> macOS에서 "WisprStudio가 손상되었기 때문에 열 수 없습니다"라는 메시지는 Gatekeeper가 앱을 차단했다는 뜻이지, 다운로드한 파일이 손상되었다는 뜻이 아닙니다. [Gatekeeper 해결 방법](../../docs/install/macos.md#gatekeeper-quarantine)을 참고하세요.
 
 </blockquote>
 
@@ -211,17 +198,17 @@ Intel Mac에서는 앱 UI를 사용할 수 있습니다. 다른 컴퓨터의 Voi
 **안정 · x64**<br />Windows 10/11 x64 · NVIDIA CUDA · AMD ROCm(선택하여 활성화) · CPU.
 
 ```powershell
-irm https://voicestudio.sh/install.ps1 | iex
+irm https://github.com/TheHalfMoon/wisprstudio | iex
 ```
 
-[Windows 설치 프로그램 다운로드](https://github.com/debpalash/VoiceStudio/releases/latest) · [가이드](../../docs/install/windows.md) · [AMD ROCm](../../docs/install/windows-rocm.md)
+[Windows 설치 프로그램 다운로드](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [가이드](../../docs/install/windows.md) · [AMD ROCm](../../docs/install/windows-rocm.md)
 
 <details>
 <summary>Windows on ARM · 실험적</summary>
 
 앱 UI는 네이티브로 실행되며 x64 Python 백엔드는 CPU 에뮬레이션으로 실행됩니다.
 
-[다운로드](https://github.com/debpalash/VoiceStudio/releases/latest) · [가이드](../../docs/install/windows.md)
+[다운로드](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [가이드](../../docs/install/windows.md)
 
 </details>
 
@@ -242,7 +229,7 @@ irm https://voicestudio.sh/install.ps1 | iex
 <summary>명령 한 줄로 설치</summary>
 
 ```sh
-curl -fsSL https://voicestudio.sh/install | sh
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh
 ```
 
 </details>
@@ -280,10 +267,10 @@ sudo pacman -U ./voicestudio-bin-*.pkg.tar.zst
 
 `.deb`를 현재 폴더에 내려받은 뒤 설치하세요:
 
-[다운로드](https://github.com/debpalash/VoiceStudio/releases/latest)
+[다운로드](https://github.com/TheHalfMoon/wisprstudio/releases/latest)
 
 ```sh
-sudo apt install ./VoiceStudio-*-linux-x64.deb
+sudo apt install ./WisprStudio-*-linux-x64.deb
 ```
 
 </details>
@@ -312,11 +299,11 @@ sudo snap connect voicestudio:audio-record
 
 AppImage를 현재 폴더에 내려받은 뒤 실행하세요:
 
-[다운로드](https://github.com/debpalash/VoiceStudio/releases/latest)
+[다운로드](https://github.com/TheHalfMoon/wisprstudio/releases/latest)
 
 ```sh
-chmod +x VoiceStudio-*-linux-x64.AppImage
-./VoiceStudio-*-linux-x64.AppImage
+chmod +x WisprStudio-*-linux-x64.AppImage
+./WisprStudio-*-linux-x64.AppImage
 ```
 
 </details>
@@ -327,8 +314,8 @@ chmod +x VoiceStudio-*-linux-x64.AppImage
 저장소의 FHS 개발 환경에 들어간 뒤 소스에서 실행하세요:
 
 ```sh
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/TheHalfMoon/wisprstudio.git
+cd WisprStudio
 nix develop .#fhs
 bun run dev
 ```
@@ -352,7 +339,7 @@ bun run dev
 
 안정 버전 이미지 · CPU · NVIDIA CUDA · AMD ROCm.
 
-<a href="https://github.com/debpalash/VoiceStudio/pkgs/container/voicestudio"><img src="https://img.shields.io/badge/GHCR-27272a?style=flat-square&amp;logo=github&amp;logoColor=ffffff" alt="GHCR" height="20" /></a>
+<a href="https://github.com/TheHalfMoon/wisprstudio/pkgs/container/voicestudio"><img src="https://img.shields.io/badge/GHCR-27272a?style=flat-square&amp;logo=github&amp;logoColor=ffffff" alt="GHCR" height="20" /></a>
 
 **로컬 CPU로 실행(Bash)**
 
@@ -386,15 +373,15 @@ http://localhost:3900을 열고 아래에 출력된 API 키를 사용하세요.
 
 Android 10+ · 미리보기 · 모델 다운로드 후 기기에서 오프라인 실행.
 
-[APK 다운로드](https://github.com/debpalash/VoiceStudio/releases/latest) · [가이드](../../docs/mobile.md#install)
+[APK 다운로드](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [가이드](../../docs/mobile.md#install)
 
 <details>
-<summary>F-Droid · VoiceStudio 저장소</summary>
+<summary>F-Droid · WisprStudio 저장소</summary>
 
 F-Droid 호환 클라이언트에 이 저장소를 추가하고 가이드에서 지문을 확인하세요.
 
 ```text
-https://debpalash.github.io/VoiceStudio/fdroid/repo
+https://debpalash.github.io/WisprStudio/fdroid/repo
 ```
 
 [가이드](../../store/fdroid/README.md)
@@ -407,10 +394,10 @@ https://debpalash.github.io/VoiceStudio/fdroid/repo
 Obtainium에 이 소스를 추가하거나 제공된 설정을 가져오세요.
 
 ```text
-https://github.com/debpalash/VoiceStudio
+https://github.com/TheHalfMoon/wisprstudio
 ```
 
-[설정 가져오기](https://debpalash.github.io/VoiceStudio/obtainium.json)
+[설정 가져오기](https://debpalash.github.io/WisprStudio/obtainium.json)
 
 </details>
 
@@ -418,7 +405,7 @@ https://github.com/debpalash/VoiceStudio
 <summary>USB와 adb로 설치</summary>
 
 ```sh
-adb install -r VoiceStudio-*-android.apk
+adb install -r WisprStudio-*-android.apk
 ```
 
 </details>
@@ -438,13 +425,13 @@ iOS / iPadOS 17+ · 미리보기 · 모델 다운로드 후 기기에서 오프�
 
 IPA를 내려받고 서명 및 사이드로드 안내를 따르세요.
 
-[다운로드](https://github.com/debpalash/VoiceStudio/releases/latest) · [가이드](../../docs/mobile.md#install)
+[다운로드](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [가이드](../../docs/mobile.md#install)
 
 </blockquote>
 
 </details>
 
-데스크톱과 휴대폰 설치 파일은 [최신 릴리스](https://github.com/debpalash/VoiceStudio/releases/latest)에 있고, Docker 이미지는 GHCR에서 받을 수 있습니다. GPU가 없나요? CPU만으로도 모든 기능을 쓸 수 있으며, 속도만 느립니다. 선택 기능인 네이티브 GGUF 엔진은 AMD GPU를 포함해 Vulkan도 사용할 수 있습니다([OmniVoice](../../docs/engines/omnivoice-gguf.md#vulkan-acceleration), [CosyVoice](../../docs/engines/cosyvoice-gguf.md)). 엔진과 하드웨어별 속도는 [성능](../../docs/performance.md) 문서를 참고하세요.
+데스크톱과 휴대폰 설치 파일은 [최신 릴리스](https://github.com/TheHalfMoon/wisprstudio/releases/latest)에 있고, Docker 이미지는 GHCR에서 받을 수 있습니다. GPU가 없나요? CPU만으로도 모든 기능을 쓸 수 있으며, 속도만 느립니다. 선택 기능인 네이티브 GGUF 엔진은 AMD GPU를 포함해 Vulkan도 사용할 수 있습니다([OmniVoice](../../docs/engines/omnivoice-gguf.md#vulkan-acceleration), [CosyVoice](../../docs/engines/cosyvoice-gguf.md)). 엔진과 하드웨어별 속도는 [성능](../../docs/performance.md) 문서를 참고하세요.
 
 
 <a id="get-started"></a>
@@ -457,20 +444,20 @@ IPA를 내려받고 서명 및 사이드로드 안내를 따르세요.
 <summary><strong>다른 설치 방법</strong>: 특정 버전, 최신 main, 제거, 소스에서 설치, 코딩 에이전트로 설치</summary>
 
 ```sh
-curl -fsSL https://voicestudio.sh/install | sh -s -- --version X.Y.Z   # 특정 릴리스
-curl -fsSL https://voicestudio.sh/install | sh -s -- --main            # 최신 main 빌드
-curl -fsSL https://voicestudio.sh/install | sh -s -- --uninstall       # 데이터는 남기고 앱만 제거
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh -s -- --version X.Y.Z   # 특정 릴리스
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh -s -- --main            # 최신 main 빌드
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh -s -- --uninstall       # 데이터는 남기고 앱만 제거
 ```
 
 `voicestudio.sh`에 접속할 수 없다면 저장소에서 스크립트를 바로 실행하세요:
-`curl -fsSL https://raw.githubusercontent.com/debpalash/VoiceStudio/main/scripts/install.sh | sh`.
+`curl -fsSL https://raw.githubusercontent.com/TheHalfMoon/wisprstudio/main/scripts/install.sh | sh`.
 요구 사항과 동작: [설치 스크립트 가이드](../../docs/install/script.md).
 
 **소스에서 설치**
 
 ```bash
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/TheHalfMoon/wisprstudio.git
+cd WisprStudio
 bun run dev
 ```
 
@@ -481,8 +468,8 @@ bun run dev
 **코딩 에이전트로 설치** (Claude Code, Codex, Cursor 등): 다음 내용을 붙여 넣으세요.
 
 ```text
-Install the VoiceStudio app on this device and verify it works, following
-https://github.com/debpalash/VoiceStudio/blob/main/docs/install/agent.md
+Install the WisprStudio app on this device and verify it works, following
+https://github.com/TheHalfMoon/wisprstudio/blob/main/docs/install/agent.md
 ```
 
 0.5.3 이하 버전(Tauri 앱)에서 업그레이드하나요? [새 앱을 별도로 설치](../../docs/electron-migration.md)하세요.
@@ -504,34 +491,27 @@ https://github.com/debpalash/VoiceStudio/blob/main/docs/install/agent.md
 | 휴대폰 앱 | [iOS 및 Android](../../docs/mobile.md) |
 | 개발 | [기여하기](../../.github/CONTRIBUTING.md) (첫 PR 전에 [CLA 서명](../../.github/CONTRIBUTING.md#contribution-licensing) 필요) · [변경 기록](../../CHANGELOG.md) |
 
-에이전트 스킬: `npx skills add debpalash/VoiceStudio` (오디오 작업에는 **voicestudio**, 저장소 관리에는 **voicestudio-maintainer**).
+에이전트 스킬: `npx skills add TheHalfMoon/wisprstudio` (오디오 작업에는 **voicestudio**, 저장소 관리에는 **voicestudio-maintainer**).
 
 <a id="sponsors"></a>
 
 ## 후원사
 
-VoiceStudio 앱은 무료이며 유료 클라우드가 필요하지 않습니다. 후원사 덕분에 개발이 계속됩니다. 후원금은 메인테이너의 작업 시간, 테스트 하드웨어, 코드 서명과 릴리스 인프라에 쓰입니다.
+WisprStudio 앱은 무료이며 유료 클라우드가 필요하지 않습니다. 후원사 덕분에 개발이 계속됩니다. 후원금은 메인테이너의 작업 시간, 테스트 하드웨어, 코드 서명과 릴리스 인프라에 쓰입니다.
 
-<p>
-    <a href="https://github.com/debpalash/OpenGTM?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opengtm-dark.svg" /><img src="../../docs/sponsors/opengtm.svg" alt="OpenGTM" height="48" align="middle" /></picture></a>
-    <a href="https://github.com/debpalash/Opal?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opal-dark.svg" /><img src="../../docs/sponsors/opal.svg" alt="Opal" height="48" align="middle" /></picture></a>
-    <a href="https://github.com/velixio/supermetry?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/supermetry-dark.svg" /><img src="../../docs/sponsors/supermetry.svg" alt="Supermetry" height="48" align="middle" /></picture></a>
-</p>
 
-후원에 관심이 있으시면 [sponsor@voicestudio.sh](mailto:sponsor@voicestudio.sh)로 문의해 주세요.
+후원에 관심이 있으시면 [TheHalfMoon/wisprstudio](https://github.com/TheHalfMoon/wisprstudio)로 문의해 주세요.
 
 <a href="https://github.com/sponsors/debpalash"><img src="https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?logo=githubsponsors&logoColor=white" alt="GitHub Sponsors로 후원하기" /></a>
-[Ko-fi](https://ko-fi.com/debpalash) · [PayPal](https://paypal.me/palashCoder) · [등급과 혜택](../../SPONSORS.md) · [로고 게재 신청](https://github.com/debpalash/VoiceStudio/issues/new?template=sponsor.yml)
 
 <a id="other-projects"></a>
 
 ## 다른 프로젝트
 
-VoiceStudio 개발자들이 만드는 다른 오픈 소스 도구도 살펴보세요.
+WisprStudio 개발자들이 만드는 다른 오픈 소스 도구도 살펴보세요.
 
-- **[OpenGTM](https://opengtm.palash.dev/?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=related-projects)** — 셀프 호스팅 시장 개척 워크스페이스에서 기업과 담당자를 찾고 관련 정보를 보강하세요. [소스 코드](https://github.com/debpalash/OpenGTM).
-- **[Opal](https://opal.palash.dev/?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=related-projects)** — 하나의 네이티브 오픈 소스 플레이어에서 미디어를 재생하고 스트리밍하고 탐색하세요. [소스 코드](https://github.com/debpalash/Opal).
-- **[Supermetry](https://supermetry.com/?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=related-projects)** — 셀프 호스팅 쿠키 없는 분석으로 웹사이트와 제품의 사용 현황을 파악하세요. [소스 코드](https://github.com/velixio/supermetry).
+- **[OpenGTM](https://github.com/debpalash/OpenGTM)** — 셀프 호스팅 시장 개척 워크스페이스에서 기업과 담당자를 찾고 관련 정보를 보강하세요. [소스 코드](https://github.com/debpalash/OpenGTM).
+- **[Opal](https://github.com/debpalash/Opal)** — 하나의 네이티브 오픈 소스 플레이어에서 미디어를 재생하고 스트리밍하고 탐색하세요. [소스 코드](https://github.com/debpalash/Opal).
 
 더 많은 프로젝트: [debpalash](https://github.com/debpalash?tab=repositories) · [velixio](https://github.com/velixio?tab=repositories)
 
@@ -556,22 +536,22 @@ VoiceStudio 개발자들이 만드는 다른 오픈 소스 도구도 살펴보�
 
 <a href="https://github.com/kevin9327"><img src="https://github.com/kevin9327.png?size=96" width="44" height="44" alt="@kevin9327" title="@kevin9327"></a> <a href="https://github.com/jaketame"><img src="https://github.com/jaketame.png?size=96" width="44" height="44" alt="@jaketame" title="@jaketame"></a> <a href="https://github.com/psiberfunk"><img src="https://github.com/psiberfunk.png?size=96" width="44" height="44" alt="@psiberfunk" title="@psiberfunk"></a> <a href="https://github.com/rudycelekli"><img src="https://github.com/rudycelekli.png?size=96" width="44" height="44" alt="@rudycelekli" title="@rudycelekli"></a> <a href="https://github.com/paoloantinori"><img src="https://github.com/paoloantinori.png?size=96" width="44" height="44" alt="@paoloantinori" title="@paoloantinori"></a> <a href="https://github.com/Chang-Jin-Lee"><img src="https://github.com/Chang-Jin-Lee.png?size=96" width="44" height="44" alt="@Chang-Jin-Lee" title="@Chang-Jin-Lee"></a> <a href="https://github.com/swadhinbiswas"><img src="https://github.com/swadhinbiswas.png?size=96" width="44" height="44" alt="@swadhinbiswas" title="@swadhinbiswas"></a> <a href="https://github.com/BichengWang"><img src="https://github.com/BichengWang.png?size=96" width="44" height="44" alt="@BichengWang" title="@BichengWang"></a> <a href="https://github.com/nirmalchatur"><img src="https://github.com/nirmalchatur.png?size=96" width="44" height="44" alt="@nirmalchatur" title="@nirmalchatur"></a> <a href="https://github.com/Shivendra-Coherent"><img src="https://github.com/Shivendra-Coherent.png?size=96" width="44" height="44" alt="@Shivendra-Coherent" title="@Shivendra-Coherent"></a> <a href="https://github.com/marreiradigital"><img src="https://github.com/marreiradigital.png?size=96" width="44" height="44" alt="@marreiradigital" title="@marreiradigital"></a> <a href="https://github.com/nvtoan0201-swe"><img src="https://github.com/nvtoan0201-swe.png?size=96" width="44" height="44" alt="@nvtoan0201-swe" title="@nvtoan0201-swe"></a>
 
-코드, 버그 제보, 번역, 아이디어를 보내 주신 모든 분께 감사드립니다. [전체 기여자](https://github.com/debpalash/VoiceStudio/graphs/contributors) · [기여하기](../../.github/CONTRIBUTING.md)
+코드, 버그 제보, 번역, 아이디어를 보내 주신 모든 분께 감사드립니다. [전체 기여자](https://github.com/TheHalfMoon/wisprstudio/graphs/contributors) · [기여하기](../../.github/CONTRIBUTING.md)
 
 <a id="license--responsible-use"></a>
 
 ## 라이선스와 책임 있는 사용
 
-앱에는 [AGPL-3.0](../../LICENSE)이 적용되며, 그 조건에 따른 상업적 사용도 가능합니다. 모델 가중치, 음성, 생성 결과물에는 각각의 라이선스가 있으며, 모델 관리자에서 모델별로 확인할 수 있습니다([목록](../../docs/licensing/model-inventory.md)). 목소리는 반드시 그 주인의 허락을 받은 경우에만 복제하세요. 자세한 내용: [LICENSE-NOTICE.md](../../LICENSE-NOTICE.md).
+앱에는 [AGPL-3.0](../../LICENSE)이 적용되며, 그 조건에 따른 상업적 사용도 가능합니다. 모델 가중치, 음성, 생성 결과물에는 각각의 라이선스가 있으며, 모델 관리자에서 모델별로 확인할 수 있습니다([목록](../../docs/licensing/model-inventory.md)). 목소리는 반드시 그 주인의 허락을 받은 경우에만 복제하세요. 자세한 내용: [LICENSE-NOTICE.md](../../LICENSE-NOTICE.md) · [AGPL-3.0 Source](https://github.com/TheHalfMoon/wisprstudio).
 
 <a id="community-tutorials"></a>
 
 ## 커뮤니티 튜토리얼
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=I-u-A-oisIU&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/I-u-A-oisIU/hqdefault.jpg" alt="VoiceStudio tutorial by Nafay 3D on YouTube" width="30%" /></a>
-  <a href="https://www.youtube.com/watch?v=hsLRbXLBP4U&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/hsLRbXLBP4U/hqdefault.jpg" alt="VoiceStudio tutorial by Samuel Gregory on YouTube" width="30%" /></a>
-  <a href="https://www.youtube.com/watch?v=2KemGhEI0Ck&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/2KemGhEI0Ck/hqdefault.jpg" alt="VoiceStudio tutorial by kilObit on YouTube" width="30%" /></a><br />
+  <a href="https://www.youtube.com/watch?v=I-u-A-oisIU&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/I-u-A-oisIU/hqdefault.jpg" alt="WisprStudio tutorial by Nafay 3D on YouTube" width="30%" /></a>
+  <a href="https://www.youtube.com/watch?v=hsLRbXLBP4U&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/hsLRbXLBP4U/hqdefault.jpg" alt="WisprStudio tutorial by Samuel Gregory on YouTube" width="30%" /></a>
+  <a href="https://www.youtube.com/watch?v=2KemGhEI0Ck&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/2KemGhEI0Ck/hqdefault.jpg" alt="WisprStudio tutorial by kilObit on YouTube" width="30%" /></a><br />
   <sub>Nafay 3D · Samuel Gregory · kilObit</sub>
 </p>
 

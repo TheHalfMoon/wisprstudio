@@ -59,7 +59,11 @@ import tempfile
 from typing import Any, BinaryIO, Union
 
 import numpy as np
-import torch
+
+try:
+    import torch
+except ImportError:  # pragma: no cover - lightweight torch-free test env
+    torch = None  # type: ignore[assignment]
 
 # torchaudio can fail to import outright (missing TorchCodec shared libraries,
 # a broken wheel on arm64 CUDA hosts). An unguarded module-level import here

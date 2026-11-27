@@ -50,7 +50,7 @@ it('maps the account to the renderer-safe profile', async () => {
       { id: 'Or5tG7hJ9kL1zX3c', slug: 'ana', displayName: 'Ana', role: 'owner', kind: 'personal' },
     ],
   });
-  expect(fetchImpl.mock.calls[0][0]).toBe('https://appapi.voicestudio.sh/v1/account');
+  expect(fetchImpl.mock.calls[0][0]).toBe('http://127.0.0.1:8080/v1/account');
   expect((fetchImpl.mock.calls[0][1] as RequestInit).headers).toMatchObject({
     authorization: 'Bearer tok',
   });
@@ -188,7 +188,7 @@ it('reads the plan, storage and what the plan includes for an Organization', asy
     proDesktop: false,
   });
   expect(fetchImpl.mock.calls[0][0]).toBe(
-    'https://appapi.voicestudio.sh/v1/account/organizations/Or5tG7hJ9kL1zX3c/entitlements',
+    'http://127.0.0.1:8080/v1/account/organizations/Or5tG7hJ9kL1zX3c/entitlements',
   );
 });
 

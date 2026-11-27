@@ -716,7 +716,7 @@ async def _run_batch_pipeline_leased(job_id: str, job: dict, lease: voice_leases
         # next language's segments on 1-worker hosts.
         from services.watermark import mark_synthetic_async
         full_audio = await mark_synthetic_async(
-            full_audio, sr, context="batch.dub_track",
+            full_audio, sr, context="batch.dub_track", watermark_required=True,
         )
 
         # Same assembly pattern as dub_generate.py:390 — `full_audio` is a

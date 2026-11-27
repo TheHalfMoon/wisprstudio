@@ -31,7 +31,7 @@ import RestartBadge from './RestartBadge';
 /** Normalize a mirror URL for equality checks (trailing slashes, whitespace). */
 const normalizeMirror = (u) => (u || '').trim().replace(/\/+$/, '');
 
-/** Host of the auto pick ("hf-mirror.com"), for compact display. */
+/** Host of the active endpoint ("huggingface.co"), for compact display. */
 const hostOf = (url) => {
   try {
     return new URL(url).hostname || url;
@@ -220,7 +220,7 @@ export default function HFMirrorPanel() {
               title={t('models.mirror_auto_title', { defaultValue: 'Automatic selection' })}
               hint={t('models.mirror_auto_hint', {
                 defaultValue:
-                  'VoiceStudio probes huggingface.co and the community mirror, then uses whichever actually works — preferring the official endpoint unless the mirror is decisively faster. Downloads are checksum-verified by Hugging Face regardless of endpoint, so a mirror can never corrupt models.',
+                  'WisprStudio uses the official huggingface.co endpoint by default unless you configure an explicit custom endpoint below. Downloads are checksum-verified regardless of endpoint.',
               })}
               control={
                 <>
@@ -263,7 +263,7 @@ export default function HFMirrorPanel() {
                   className="!max-w-none !rounded-[8px] !px-[8px] !py-[5px]"
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
-                  placeholder="https://hf-mirror.com"
+                  placeholder="https://huggingface.example.internal"
                   name="hugging-face-mirror-url"
                   autoComplete="off"
                   spellCheck={false}

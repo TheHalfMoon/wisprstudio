@@ -12,8 +12,14 @@ Filters, compression, gate and reverb use Spotify's `pedalboard` library; when
 it isn't installed those stages are skipped (audio returned unmodified). The
 leveler and the peak limiter are pure numpy (#3412), so they always run.
 """
+from __future__ import annotations
+
 import logging
-import torch
+
+try:
+    import torch
+except ImportError:  # pragma: no cover - lightweight torch-free test env
+    torch = None  # type: ignore[assignment]
 
 logger = logging.getLogger("omnivoice.dsp")
 
@@ -553,7 +559,10 @@ def _room_tone_profile(spans: list):
 
     blocks = []
     for audio in spans:
-        x = audio.detach().to(torch.float32).cpu().numpy()
+        if torch is not None and isinstance(audio, torch.Tensor):
+            x = audio.detach().to(torch.float32).cpu().numpy()
+        else:
+            x = np.asarray(audio, dtype=np.float32)
         if x.ndim > 1:
             x = x.reshape(-1, x.shape[-1]).mean(axis=0)
         n = x.shape[0] // _TONE_FRAME
@@ -608,7 +617,10 @@ def fill_gaps(items: list, sample_rate: int, mode: str | None = None) -> list:
     mode = pause_fill_mode() if mode is None else mode
     ref = next((t for kind, t in items if kind == "a"), None)
     if ref is None:
-        return [torch.zeros(n, dtype=torch.float32) for kind, n in items if kind == "s"]
+        if torch is not None:
+            return [torch.zeros(n, dtype=torch.float32) for kind, n in items if kind == "s"]
+        return [np.zeros(n, dtype=np.float32) for kind, n in items if kind == "s"]
+    is_tensor = torch is not None and isinstance(ref, torch.Tensor)
     # Adjacent gaps are one gap: one noise run, one pair of fades.
     merged: list = []
     for kind, val in items:
@@ -626,23 +638,41 @@ def fill_gaps(items: list, sample_rate: int, mode: str | None = None) -> list:
             continue
         shape = list(ref.shape[:-1]) + [n]
         if profile is None:
-            parts[i] = torch.zeros(*shape, dtype=ref.dtype, device=ref.device)
+            if is_tensor:
+                parts[i] = torch.zeros(*shape, dtype=ref.dtype, device=ref.device)
+            else:
+                parts[i] = np.zeros(shape, dtype=np.asarray(ref).dtype)
             continue
         prev = parts[i - 1] if i > 0 and merged[i - 1][0] == "a" else None
         nxt = parts[i + 1] if i + 1 < len(merged) and merged[i + 1][0] == "a" else None
         lead = min(fade_max, prev.shape[-1]) if prev is not None else 0
         tail = min(fade_max, nxt.shape[-1]) if nxt is not None else 0
         noise = _room_tone(profile, lead + n + tail, _TONE_SEED + i)
-        if prev is not None and lead:
-            ramp = np.linspace(0.0, 1.0, lead, endpoint=False)
-            prev = prev.clone()
-            prev[..., -lead:] += torch.as_tensor(noise[:lead] * ramp, dtype=prev.dtype, device=prev.device)
-            parts[i - 1] = prev
-        gap = torch.as_tensor(noise[lead:lead + n], dtype=ref.dtype, device=ref.device)
-        parts[i] = gap.expand(*shape).clone() if len(shape) > 1 else gap
-        if nxt is not None and tail:
-            ramp = np.linspace(1.0, 0.0, tail, endpoint=False)
-            nxt = nxt.clone()
-            nxt[..., :tail] += torch.as_tensor(noise[lead + n:] * ramp, dtype=nxt.dtype, device=nxt.device)
-            parts[i + 1] = nxt
+        if is_tensor:
+            if prev is not None and lead:
+                ramp = np.linspace(0.0, 1.0, lead, endpoint=False)
+                prev = prev.clone()
+                prev[..., -lead:] += torch.as_tensor(noise[:lead] * ramp, dtype=prev.dtype, device=prev.device)
+                parts[i - 1] = prev
+            gap = torch.as_tensor(noise[lead:lead + n], dtype=ref.dtype, device=ref.device)
+            parts[i] = gap.expand(*shape).clone() if len(shape) > 1 else gap
+            if nxt is not None and tail:
+                ramp = np.linspace(1.0, 0.0, tail, endpoint=False)
+                nxt = nxt.clone()
+                nxt[..., :tail] += torch.as_tensor(noise[lead + n:] * ramp, dtype=nxt.dtype, device=nxt.device)
+                parts[i + 1] = nxt
+        else:
+            ref_dtype = np.asarray(ref).dtype
+            if prev is not None and lead:
+                ramp = np.linspace(0.0, 1.0, lead, endpoint=False)
+                prev = np.array(prev, copy=True)
+                prev[..., -lead:] += np.asarray(noise[:lead] * ramp, dtype=prev.dtype)
+                parts[i - 1] = prev
+            gap = np.asarray(noise[lead:lead + n], dtype=ref_dtype)
+            parts[i] = np.broadcast_to(gap, shape).copy() if len(shape) > 1 else gap
+            if nxt is not None and tail:
+                ramp = np.linspace(1.0, 0.0, tail, endpoint=False)
+                nxt = np.array(nxt, copy=True)
+                nxt[..., :tail] += np.asarray(noise[lead + n:] * ramp, dtype=nxt.dtype)
+                parts[i + 1] = nxt
     return parts

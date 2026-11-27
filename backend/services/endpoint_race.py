@@ -55,7 +55,7 @@ from services.hf_auth import CANONICAL_ENDPOINT, host_gets_auth
 
 logger = logging.getLogger("omnivoice.endpoint_race")
 
-COMMUNITY_MIRROR = "https://hf-mirror.com"
+COMMUNITY_MIRROR = ""
 
 # Hard env opt-out: any of these values disables auto selection entirely.
 MODE_ENV = "OMNIVOICE_HF_ENDPOINT_MODE"
@@ -86,7 +86,7 @@ _FAILOVER_ATTEMPTED: set[str] = set()
 
 
 def _is_allowed_probe_endpoint(endpoint: str) -> bool:
-    """Only probe the two fixed HTTPS origins shipped by VoiceStudio."""
+    """Only probe the canonical HTTPS origin; unsolicited third-party mirrors are prohibited."""
     try:
         parsed = urlsplit(endpoint)
         port = parsed.port
@@ -94,8 +94,7 @@ def _is_allowed_probe_endpoint(endpoint: str) -> bool:
         return False
     return (
         parsed.scheme == "https"
-        and parsed.hostname in {urlsplit(CANONICAL_ENDPOINT).hostname,
-                                urlsplit(COMMUNITY_MIRROR).hostname}
+        and parsed.hostname == urlsplit(CANONICAL_ENDPOINT).hostname
         and port in (None, 443)
         and parsed.username is None
         and parsed.password is None
@@ -270,12 +269,9 @@ def cn_probe_hint(
 
 
 def candidates(cn_hint: Optional[bool] = None) -> list[str]:
-    """The endpoint registry, probe-ordered by the locale/timezone hint."""
-    if cn_hint is None:
-        cn_hint = cn_probe_hint()
-    if cn_hint:
-        return [COMMUNITY_MIRROR, CANONICAL_ENDPOINT]
-    return [CANONICAL_ENDPOINT, COMMUNITY_MIRROR]
+    """Return only the canonical endpoint; WisprStudio never races unsolicited mirrors."""
+    _ = cn_hint
+    return [CANONICAL_ENDPOINT]
 
 
 # ── Mode / explicit-setting resolution ──────────────────────────────────────

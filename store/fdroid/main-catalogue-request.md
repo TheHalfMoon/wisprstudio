@@ -4,7 +4,7 @@ This is a packaging-assistance request, not a claim that the current build has
 passed F-Droid's source-build checks. The publisher authorizes inclusion.
 
 - Application ID: `sh.voicestudio.mobile`
-- Source: https://github.com/debpalash/VoiceStudio
+- Source: https://github.com/TheHalfMoon/wisprstudio
 - Licence: AGPL-3.0-only
 - Android source: `mobile/android/`
 - Latest published version at preparation: `v0.5.7`, version code `3586502`
@@ -12,7 +12,7 @@ passed F-Droid's source-build checks. The publisher authorizes inclusion.
   `A4CDFD177375F4B8F9448996C34E246C73F1FFA97447A47B842051E27EA74730`
 - Metadata, icon and real Android screenshots:
   `fastlane/metadata/android/en-US/` (introduced in upstream PR #3765)
-- Issue tracker/contact: https://github.com/debpalash/VoiceStudio/issues
+- Issue tracker/contact: https://github.com/TheHalfMoon/wisprstudio/issues
 - Privacy policy: https://voicestudio.sh/privacy
 
 VoiceStudio runs speech synthesis, voice cloning with consent, transcription

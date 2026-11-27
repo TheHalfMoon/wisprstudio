@@ -118,7 +118,7 @@ class WorkflowTests(unittest.TestCase):
     def test_source_change_requires_new_plan(self):
         p = self.prepare()
         self.source = "https://hf-mirror.com"
-        self.assert_code("plan_changed", self.commit, p)
+        self.assert_code("review_required", self.commit, p)
 
     def test_target_change_rejected(self):
         p = self.prepare()

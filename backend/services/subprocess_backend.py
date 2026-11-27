@@ -56,7 +56,10 @@ from pathlib import Path
 from typing import Optional
 
 import numpy as np
-import torch
+try:
+    import torch
+except ImportError:  # pragma: no cover - lightweight test env
+    torch = None  # type: ignore[assignment]
 
 from core.contained_subprocess import spawn_owned
 from services.tts_backend import TTSBackend

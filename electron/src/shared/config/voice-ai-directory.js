@@ -82,7 +82,7 @@ export const VOICE_AI_DIRECTORY = [
   },
   {
     name: 'VoiceStudio API',
-    url: 'https://github.com/debpalash/VoiceStudio',
+    url: 'https://github.com/TheHalfMoon/wisprstudio',
     logoUrl: voiceStudioLogo,
   },
 ];

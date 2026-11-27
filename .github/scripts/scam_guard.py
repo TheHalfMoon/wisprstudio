@@ -35,8 +35,8 @@ TRUSTED_ASSOCIATIONS = {"OWNER", "MEMBER", "COLLABORATOR"}
 # (host, path prefix) pairs that README/docs tell people to pipe into a shell.
 ALLOWED_SOURCES = [
     ("voicestudio.sh", "/"),
-    ("raw.githubusercontent.com", "/debpalash/VoiceStudio/"),
-    ("github.com", "/debpalash/VoiceStudio/"),
+    ("raw.githubusercontent.com", "/TheHalfMoon/wisprstudio/"),
+    ("github.com", "/TheHalfMoon/wisprstudio/"),
     ("bun.sh", "/"),
     ("astral.sh", "/"),
     ("sh.rustup.rs", "/"),
@@ -47,7 +47,7 @@ ISSUE_BODY = f"""{WARNING_MARKER}
 > [!CAUTION]
 > This issue told people to run a command that downloads and runs a program from an unknown website. That is how malware gets installed, so the instructions were removed.
 >
-> **VoiceStudio maintainers never ask you to paste commands from an issue or comment.** Install and update VoiceStudio only from the [Releases page](https://github.com/debpalash/VoiceStudio/releases) or the commands in the README.
+> **VoiceStudio maintainers never ask you to paste commands from an issue or comment.** Install and update VoiceStudio only from the [Releases page](https://github.com/TheHalfMoon/wisprstudio/releases) or the commands in the README.
 >
 > If you already ran it: disconnect from the internet, run a full antivirus scan, and change passwords you use on that computer from a different device.
 """
@@ -55,7 +55,7 @@ COMMENT_WARNING = f"""{WARNING_MARKER}
 > [!CAUTION]
 > A comment on this thread told people to run a command that downloads and runs a program from an unknown website. It was removed because that is how malware gets installed.
 >
-> **VoiceStudio maintainers never ask you to paste commands from an issue or comment.** Install and update VoiceStudio only from the [Releases page](https://github.com/debpalash/VoiceStudio/releases) or the commands in the README.
+> **VoiceStudio maintainers never ask you to paste commands from an issue or comment.** Install and update VoiceStudio only from the [Releases page](https://github.com/TheHalfMoon/wisprstudio/releases) or the commands in the README.
 """
 
 

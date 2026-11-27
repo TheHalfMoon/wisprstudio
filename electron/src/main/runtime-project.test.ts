@@ -126,7 +126,7 @@ describe('packaged runtime setup', () => {
     vi.stubEnv('UV_HTTP_TIMEOUT', '1800');
     expect(runtimeDownloadEnv('global').UV_HTTP_TIMEOUT).toBe('1800');
   });
-  it('passes the timeout to both the mirrored sync and its origin fallback', async () => {
+  it('passes the timeout to the canonical sync without rewriting lock hosts', async () => {
     vi.stubEnv('UV_HTTP_TIMEOUT', '');
     const { bundle, project } = await fixture();
     await writeFile(
@@ -138,7 +138,6 @@ describe('packaged runtime setup', () => {
       async (_command: string, args: string[], _cwd: string, env?: NodeJS.ProcessEnv) => {
         if (args[0] !== 'sync' || args.includes('--dry-run')) return undefined;
         environments.push(env ?? {});
-        if (environments.length === 1) throw new Error('mirror connection reset');
         await interpreter(project);
         return undefined;
       },
@@ -152,8 +151,8 @@ describe('packaged runtime setup', () => {
       undefined,
       'china',
     );
-    expect(environments).toHaveLength(2);
-    for (const env of environments) expect(env.UV_HTTP_TIMEOUT).toBe('900');
+    expect(environments).toHaveLength(1);
+    expect(environments[0]!.UV_HTTP_TIMEOUT).toBe('900');
   });
   it.each(['win32', 'linux'] as const)(
     'does not import torch for the CUDA compatibility probe on a %s CPU runtime',
@@ -1354,7 +1353,7 @@ describe('regional PyPI mirror for the frozen sync (#3444)', () => {
     return { run, seen };
   }
 
-  it('syncs the china region from the aliyun mirror and restores the bundled lock', async () => {
+  it('keeps the china region on canonical PyPI without unsolicited third-party mirrors', async () => {
     const { bundle, project } = await lockedFixture();
     const { run, seen } = recordingRun(project);
     const log = vi.fn();
@@ -1370,13 +1369,8 @@ describe('regional PyPI mirror for the frozen sync (#3444)', () => {
         log,
       },
     );
-    expect(seen).toHaveLength(1);
-    expect(seen[0]).toContain(
-      `url = "https://mirrors.aliyun.com/pypi/${WHEEL}", hash = "sha256:e943"`,
-    );
-    expect(seen[0]).toContain('https://download-r2.pytorch.org/whl/cu128/torch.whl');
-    expect(seen[0]).not.toContain('files.pythonhosted.org');
-    expect(log).toHaveBeenCalledWith(expect.stringContaining('mirrors.aliyun.com'));
+    expect(seen).toEqual([LOCK]);
+    expect(seen[0]).not.toContain('mirrors.aliyun.com');
     expect(await readFile(join(project, 'uv.lock'), 'utf8')).toBe(LOCK);
     expect(await runtimeReady(bundle, project)).toBe(true);
     expect(await runtimeCompatible(bundle, project)).toBe(true);
@@ -1401,10 +1395,10 @@ describe('regional PyPI mirror for the frozen sync (#3444)', () => {
   );
 
   describe('the auto region', () => {
-    // Big enough for the speed check to sample.
     const SAMPLED = LOCK.replace('size = 1 }', 'size = 1048576 }');
     async function autoInstall(fetchImpl: (url: string) => Promise<Response>) {
-      vi.stubGlobal('fetch', vi.fn(fetchImpl));
+      const fetchSpy = vi.fn(fetchImpl);
+      vi.stubGlobal('fetch', fetchSpy);
       const { bundle, project } = await fixture();
       await writeFile(join(bundle, 'uv.lock'), SAMPLED);
       const { run, seen } = recordingRun(project);
@@ -1421,68 +1415,28 @@ describe('regional PyPI mirror for the frozen sync (#3444)', () => {
           log,
         },
       );
-      return { seen, log };
+      return { seen, log, fetchSpy };
     }
     const body = () => new Response(new Uint8Array(PYPI_SPEED_SAMPLE_BYTES), { status: 206 });
 
-    it('uses the aliyun mirror when it answers and PyPI does not', async () => {
-      const { seen, log } = await autoInstall(async (url) => {
-        if (url.includes('files.pythonhosted.org')) throw new Error('ETIMEDOUT');
-        return body();
-      });
-      expect(seen).toHaveLength(1);
-      expect(seen[0]).toContain(`url = "https://mirrors.aliyun.com/pypi/${WHEEL}"`);
-      expect(log).toHaveBeenCalledWith(expect.stringContaining('PyPI speed check'));
-    });
-
-    it('stays on PyPI when the mirror does not answer', async () => {
-      const { seen } = await autoInstall(async (url) => {
-        if (url.includes('mirrors.aliyun.com')) throw new Error('ECONNREFUSED');
-        return body();
-      });
+    it('never contacts unsolicited mirrors in auto mode', async () => {
+      const { seen, fetchSpy } = await autoInstall(async () => body());
       expect(seen).toEqual([SAMPLED]);
+      expect(fetchSpy).not.toHaveBeenCalled();
     });
   });
 
-  it('retries once from the original URLs when the mirrored sync fails', async () => {
+  it('preserves the bundled lock when canonical sync fails', async () => {
     const { bundle, project } = await lockedFixture();
     const { run, seen } = recordingRun(project, 1);
-    const log = vi.fn();
-    const pypiHost = vi.fn();
-    await installRuntime(
-      bundle,
-      project,
-      'uv',
-      run,
-      new AbortController().signal,
-      undefined,
-      'china',
-      {
-        log,
-        pypiHost,
-      },
-    );
-    expect(seen).toHaveLength(2);
-    expect(seen[0]).toContain('mirrors.aliyun.com');
-    expect(seen[1]).toBe(LOCK);
-    expect(pypiHost).toHaveBeenCalledWith('files.pythonhosted.org');
-    expect(log).toHaveBeenCalledWith(
-      expect.stringContaining('retrying from files.pythonhosted.org'),
-    );
-    expect(await runtimeReady(bundle, project)).toBe(true);
-  });
-
-  it('restores the bundled lock when both attempts fail', async () => {
-    const { bundle, project } = await lockedFixture();
-    const { run, seen } = recordingRun(project, 2);
     await expect(
       installRuntime(bundle, project, 'uv', run, new AbortController().signal, undefined, 'china'),
     ).rejects.toThrow('code 2');
-    expect(seen).toHaveLength(2);
+    expect(seen).toHaveLength(1);
     expect(await readFile(join(project, 'uv.lock'), 'utf8')).toBe(LOCK);
   });
 
-  it('treats a lock left on the mirror as the same dependency graph', async () => {
+  it('rejects a modified lock host or hash when checking runtime compatibility', async () => {
     const { bundle, project } = await lockedFixture();
     await installRuntime(
       bundle,
@@ -1492,10 +1446,6 @@ describe('regional PyPI mirror for the frozen sync (#3444)', () => {
       new AbortController().signal,
       undefined,
       'global',
-    );
-    await writeFile(
-      join(project, 'uv.lock'),
-      LOCK.replace('https://files.pythonhosted.org/', 'https://mirrors.aliyun.com/pypi/'),
     );
     expect(await runtimeCompatible(bundle, project)).toBe(true);
     await writeFile(join(project, 'uv.lock'), LOCK.replace('sha256:e943', 'sha256:0000'));

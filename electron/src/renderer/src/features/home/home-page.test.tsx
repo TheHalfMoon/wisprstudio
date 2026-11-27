@@ -43,15 +43,15 @@ it('keeps the heading and description together beside the contributor artwork', 
 });
 
 it('previews the official website only when the title is clicked', () => {
-  browser.open.mockClear();
+  files.openExternal.mockClear();
   render(<HomePage />);
   const title = screen.getByRole('link', { name: 'homeUi.title' });
-  expect(en.homeUi.title).toBe('VoiceStudio.sh Open Source');
-  expect(title).toHaveAttribute('href', 'https://voicestudio.sh');
+  expect(en.homeUi.title).toBe('WisprStudio Open Source');
+  expect(title).toHaveAttribute('href', 'https://github.com/TheHalfMoon/wisprstudio');
   fireEvent.mouseEnter(title);
-  expect(browser.open).not.toHaveBeenCalled();
+  expect(files.openExternal).not.toHaveBeenCalled();
   fireEvent.click(title);
-  expect(browser.open).toHaveBeenCalledWith('https://voicestudio.sh');
+  expect(files.openExternal).toHaveBeenCalledWith('https://github.com/TheHalfMoon/wisprstudio');
 });
 
 it('names the feature Dubbing consistently while preserving the existing route', () => {
@@ -79,11 +79,11 @@ it('credits qualifying contributors and opens their GitHub profiles externally',
   const all = screen.getByRole('link', { name: 'homeUi.allContributors' });
   expect(all).toHaveAttribute(
     'href',
-    'https://github.com/debpalash/VoiceStudio/graphs/contributors',
+    'https://github.com/TheHalfMoon/wisprstudio/graphs/contributors',
   );
   fireEvent.click(all);
   expect(files.openExternal).toHaveBeenCalledWith(
-    'https://github.com/debpalash/VoiceStudio/graphs/contributors',
+    'https://github.com/TheHalfMoon/wisprstudio/graphs/contributors',
   );
   for (const { login } of homeContributors) {
     if (login === 'debpalash' || login === 'velixio') continue;

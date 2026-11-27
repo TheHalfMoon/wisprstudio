@@ -1,21 +1,18 @@
 <div align="center">
-  <h1><sub><img src="../../docs/logo.png" alt="" width="36" height="36" /></sub> VoiceStudio</h1>
+  <h1><sub><img src="../../docs/logo.png" alt="" width="36" height="36" /></sub> WisprStudio</h1>
   <p>
-    <a href="https://trendshift.io/repositories/28176?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-28176" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/28176" alt="Lencana pergeseran tren menunjukkan peringkat VoiceStudio di antara repositori yang sedang tren" width="220" height="48" /></a>
-  </p>
-  <p>
-    <strong>🎉 <a href="https://github.com/debpalash/VoiceStudio/stargazers">100.000 bintang GitHub — terima kasih!</a></strong>
+    <strong>🎉 <a href="https://github.com/TheHalfMoon/wisprstudio/stargazers">100.000 bintang GitHub — terima kasih!</a></strong>
   </p>
   <h2>Studio suara AI. Di perangkat Anda.</h2>
   <h3>Kloning, desain suara, sulih suara, dikte, transkripsi, dan narasi dalam 646 bahasa.</h3>
   <p>Berjalan di laptop, desktop, server, ponsel, tablet, dan lainnya</p>
   <p>
-    <a href="https://voicestudio.sh/?utm_source=github&utm_medium=readme&utm_campaign=project">Situs web</a> ·
-    <a href="https://github.com/debpalash/VoiceStudio/releases/latest">Unduh</a> ·
+    <a href="https://github.com/TheHalfMoon/wisprstudio">Situs web</a> ·
+    <a href="https://github.com/TheHalfMoon/wisprstudio/releases/latest">Unduh</a> ·
     <a href="#get-started">Mulai</a> ·
     <a href="#documentation">Dokumentasi</a> ·
-    <a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project">VoiceStudio Pro</a> ·
-    <a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project">VoiceStudio Cloud</a>
+    <a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Pro</a> ·
+    <a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Cloud</a>
   </p>
   <!-- README_LANGUAGES_START -->
   <a id="readme-languages"></a>
@@ -26,18 +23,10 @@
   <!-- README_LANGUAGES_END -->
 
   <p>
-    <a href="https://github.com/debpalash/VoiceStudio/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/debpalash/VoiceStudio/ci.yml?branch=main&amp;style=flat-square&amp;label=build&amp;labelColor=27272a" alt="CI" /></a>
-    <a href="https://github.com/debpalash/VoiceStudio/releases/latest"><img src="https://img.shields.io/github/v/release/debpalash/VoiceStudio?style=flat-square&amp;labelColor=27272a&amp;color=52525b" alt="Rilis terbaru" /></a>
+    <a href="https://github.com/TheHalfMoon/wisprstudio/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/TheHalfMoon/wisprstudio/ci.yml?branch=main&amp;style=flat-square&amp;label=build&amp;labelColor=27272a" alt="CI" /></a>
+    <a href="https://github.com/TheHalfMoon/wisprstudio/releases/latest"><img src="https://img.shields.io/github/v/release/TheHalfMoon/wisprstudio?style=flat-square&amp;labelColor=27272a&amp;color=52525b" alt="Rilis terbaru" /></a>
     <a href="../../LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-52525b?style=flat-square&amp;labelColor=27272a" alt="AGPL-3.0" /></a>
-    <a href="https://supermetry.com"><img src="https://app.supermetry.com/px/zfjiv7psp4ed.svg?c=VoiceStudio" alt="tayangan" /></a>
     <a href="https://discord.gg/bzQavDfVV9"><img src="https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?style=flat-square&amp;logo=discord&amp;logoColor=white" alt="Join Discord" /></a>
-  </p>
-  <p>
-    <sub>Sponsor strategis</sub>      <a href="https://github.com/debpalash/OpenGTM?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opengtm-dark.svg" /><img src="../../docs/sponsors/opengtm.svg" alt="OpenGTM" height="32" align="middle" /></picture></a>
-    <a href="https://github.com/debpalash/Opal?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opal-dark.svg" /><img src="../../docs/sponsors/opal.svg" alt="Opal" height="32" align="middle" /></picture></a>
-    <a href="https://github.com/velixio/supermetry?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/supermetry-dark.svg" /><img src="../../docs/sponsors/supermetry.svg" alt="Supermetry" height="32" align="middle" /></picture></a>
-      ·   <sub>Sponsor khusus</sub> 
-    <a href="https://app.spicrawl.com/signup?utm_source=voicestudio&amp;utm_medium=github_readme&amp;utm_campaign=special_sponsor&amp;utm_content=logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/spicrawl-dark.svg" /><img src="../../docs/sponsors/spicrawl.svg" alt="Spicrawl" height="32" align="middle" /></picture></a>
   </p>
 </div>
 
@@ -53,10 +42,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/debpalash/VoiceStudio/releases/latest"><img src="https://img.shields.io/badge/Unduh-993f61?style=for-the-badge&amp;logo=github&amp;logoColor=ffffff" alt="Unduh" height="24" /></a>
+  <a href="https://github.com/TheHalfMoon/wisprstudio/releases/latest"><img src="https://img.shields.io/badge/Unduh-993f61?style=for-the-badge&amp;logo=github&amp;logoColor=ffffff" alt="Unduh" height="24" /></a>
   <a href="#get-started"><img src="https://img.shields.io/badge/Mulai-27272a?style=for-the-badge" alt="Mulai" height="24" /></a>
-  <a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=hero-badge"><img src="https://img.shields.io/badge/VoiceStudio%20Pro-27272a?style=for-the-badge" alt="VoiceStudio Pro" height="24" /></a>
-  <a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=hero-badge"><img src="https://img.shields.io/badge/VoiceStudio%20Cloud-27272a?style=for-the-badge" alt="VoiceStudio Cloud" height="24" /></a>
 </p>
 
 <a id="what-you-can-do"></a>
@@ -106,7 +93,7 @@ Pilih mesin Anda dan unduh hanya model yang Anda perlukan.
 - **Narasikan & kumpulan** — Cerita, buku audio, dan tugas yang antri
 - **Hubungkan & otomatisasi** — API lokal, MCP, resep yang dapat digunakan kembali, dan folder tontonan
 
-Mulailah dengan **VoiceStudio** (default, didukung oleh k2-fsa/OmniVoice), atau pilih dari lusinan mesin lain di Model Manager. Lihat [katalog fitur & mesin](../../docs/feature-catalog.md).
+Mulailah dengan **WisprStudio** (default, didukung oleh k2-fsa/OmniVoice), atau pilih dari lusinan mesin lain di Model Manager. Lihat [katalog fitur & mesin](../../docs/feature-catalog.md).
 
 <p align="center"><a href="https://discord.gg/bzQavDfVV9"><img src="../../docs/assets/discord-community.svg" alt="Come say hello! Join us on Discord" height="64" /></a></p>
 
@@ -117,7 +104,7 @@ Semua yang di atas gratis, berjalan di perangkat keras Anda sendiri, dan tidak m
 <table>
   <tr>
     <td width="50%" valign="top">
-      <a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section"><img src="../assets/voicestudio-pro.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">VoiceStudio Pro</a></strong><br /><br />
+      <a href="https://github.com/TheHalfMoon/wisprstudio"><img src="../assets/voicestudio-pro.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Pro</a></strong><br /><br />
       Untuk pekerjaan klien berbayar di lebih dari satu mesin.
       <ul>
         <li>Lisensi Komersial untuk pekerjaan klien Anda, dikirim lewat email</li>
@@ -126,10 +113,10 @@ Semua yang di atas gratis, berjalan di perangkat keras Anda sendiri, dan tidak m
         <li>Fitur dan perbaikan baru lebih dulu</li>
       </ul>
       <sub>Build sumber tertutup, wajib akun, pengembalian dana penuh 7 hari. Aplikasi AGPL-3.0 tetap gratis, termasuk untuk penggunaan komersial sesuai ketentuannya.</sub><br /><br />
-      <strong><a href="https://voicestudio.sh/pro?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">Lihat paket Pro →</a></strong>
+      <strong><a href="https://github.com/TheHalfMoon/wisprstudio">Lihat paket Pro →</a></strong>
     </td>
     <td width="50%" valign="top">
-      <a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section"><img src="../assets/voicestudio-cloud.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">VoiceStudio Cloud</a></strong><br /><br />
+      <a href="https://github.com/TheHalfMoon/wisprstudio"><img src="../assets/voicestudio-cloud.svg" alt="" width="56" height="56" align="middle" /></a>&nbsp;&nbsp;<strong><a href="https://github.com/TheHalfMoon/wisprstudio">WisprStudio Cloud</a></strong><br /><br />
       API suara dan sulih suara yang di-hosting, segera hadir. Tanpa perlu GPU.
       <ul>
         <li>Ucapan, desain suara, dan kloning suara dengan persetujuan</li>
@@ -138,7 +125,7 @@ Semua yang di atas gratis, berjalan di perangkat keras Anda sendiri, dan tidak m
         <li>Pekerjaan panjang yang berjalan sendiri</li>
       </ul>
       <sub>Belum tersedia: gabung akses awal untuk kredit penggunaan gratis. Aplikasi desktop tetap gratis dan lokal.</sub><br /><br />
-      <strong><a href="https://app.voicestudio.sh/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=project&amp;utm_content=readme-section">Gabung akses awal Cloud →</a></strong>
+      <strong><a href="https://github.com/TheHalfMoon/wisprstudio">Gabung akses awal Cloud →</a></strong>
     </td>
   </tr>
 </table>
@@ -169,9 +156,9 @@ brew install --cask debpalash/tap/voicestudio
 <details>
 <summary>DMG</summary>
 
-Unduh DMG untuk Mac Anda, buka dan seret VoiceStudio ke dalam Aplikasi.
+Unduh DMG untuk Mac Anda, buka dan seret WisprStudio ke dalam Aplikasi.
 
-[Unduh](https://github.com/debpalash/VoiceStudio/releases/latest) · [Panduan](../../docs/install/macos.md)
+[Unduh](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [Panduan](../../docs/install/macos.md)
 
 </details>
 
@@ -179,7 +166,7 @@ Unduh DMG untuk Mac Anda, buka dan seret VoiceStudio ke dalam Aplikasi.
 <summary>Pemasang satu perintah</summary>
 
 ```sh
-curl -fsSL https://voicestudio.sh/install | sh
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh
 ```
 
 </details>
@@ -187,14 +174,14 @@ curl -fsSL https://voicestudio.sh/install | sh
 <details>
 <summary>Intel Mac · backend jarak jauh · Terbatas</summary>
 
-UI aplikasi berjalan pada Intel; sambungkan ke backend VoiceStudio di komputer lain.
+UI aplikasi berjalan pada Intel; sambungkan ke backend WisprStudio di komputer lain.
 
 [Panduan](../../docs/install/macos.md)
 
 </details>
 
 > [!NOTE]
-> Di macOS, pesan «VoiceStudio rusak dan tidak dapat dibuka» berarti Gatekeeper memblokir aplikasi, bukan berkas unduhannya rusak. [Mengatasi blokir Gatekeeper](../../docs/install/macos.md#gatekeeper-quarantine).
+> Di macOS, pesan «WisprStudio rusak dan tidak dapat dibuka» berarti Gatekeeper memblokir aplikasi, bukan berkas unduhannya rusak. [Mengatasi blokir Gatekeeper](../../docs/install/macos.md#gatekeeper-quarantine).
 
 </blockquote>
 
@@ -210,17 +197,17 @@ UI aplikasi berjalan pada Intel; sambungkan ke backend VoiceStudio di komputer l
 **Stabil · x64**<br />Windows 10/11 x64 · NVIDIA CUDA · AMD ROCm (opt-in) · CPU.
 
 ```powershell
-irm https://voicestudio.sh/install.ps1 | iex
+irm https://github.com/TheHalfMoon/wisprstudio | iex
 ```
 
-[Unduh penginstal Windows](https://github.com/debpalash/VoiceStudio/releases/latest) · [Panduan](../../docs/install/windows.md) · [AMD ROCm](../../docs/install/windows-rocm.md)
+[Unduh penginstal Windows](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [Panduan](../../docs/install/windows.md) · [AMD ROCm](../../docs/install/windows-rocm.md)
 
 <details>
 <summary>Windows di ARM · eksperimental</summary>
 
 UI aplikasi asli; backend Python x64 berjalan di bawah emulasi pada CPU.
 
-[Unduh](https://github.com/debpalash/VoiceStudio/releases/latest) · [Panduan](../../docs/install/windows.md)
+[Unduh](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [Panduan](../../docs/install/windows.md)
 
 </details>
 
@@ -241,7 +228,7 @@ UI aplikasi asli; backend Python x64 berjalan di bawah emulasi pada CPU.
 <summary>Pemasang satu perintah</summary>
 
 ```sh
-curl -fsSL https://voicestudio.sh/install | sh
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh
 ```
 
 </details>
@@ -279,10 +266,10 @@ sudo pacman -U ./voicestudio-bin-*.pkg.tar.zst
 
 Unduh `.deb` ke dalam folder saat ini, lalu instal:
 
-[Unduh](https://github.com/debpalash/VoiceStudio/releases/latest)
+[Unduh](https://github.com/TheHalfMoon/wisprstudio/releases/latest)
 
 ```sh
-sudo apt install ./VoiceStudio-*-linux-x64.deb
+sudo apt install ./WisprStudio-*-linux-x64.deb
 ```
 
 </details>
@@ -311,11 +298,11 @@ sudo snap connect voicestudio:audio-record
 
 Unduh AppImage ke folder saat ini, lalu luncurkan:
 
-[Unduh](https://github.com/debpalash/VoiceStudio/releases/latest)
+[Unduh](https://github.com/TheHalfMoon/wisprstudio/releases/latest)
 
 ```sh
-chmod +x VoiceStudio-*-linux-x64.AppImage
-./VoiceStudio-*-linux-x64.AppImage
+chmod +x WisprStudio-*-linux-x64.AppImage
+./WisprStudio-*-linux-x64.AppImage
 ```
 
 </details>
@@ -326,8 +313,8 @@ chmod +x VoiceStudio-*-linux-x64.AppImage
 Masuk ke lingkungan pengembangan FHS repositori, lalu jalankan dari sumber:
 
 ```sh
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/TheHalfMoon/wisprstudio.git
+cd WisprStudio
 nix develop .#fhs
 bun run dev
 ```
@@ -351,7 +338,7 @@ bun run dev
 
 Image kontainer stabil · CPU · NVIDIA CUDA · AMD ROCm.
 
-<a href="https://github.com/debpalash/VoiceStudio/pkgs/container/voicestudio"><img src="https://img.shields.io/badge/GHCR-27272a?style=flat-square&amp;logo=github&amp;logoColor=ffffff" alt="GHCR" height="20" /></a>
+<a href="https://github.com/TheHalfMoon/wisprstudio/pkgs/container/voicestudio"><img src="https://img.shields.io/badge/GHCR-27272a?style=flat-square&amp;logo=github&amp;logoColor=ffffff" alt="GHCR" height="20" /></a>
 
 **Jalankan secara lokal di CPU (Bash)**
 
@@ -385,15 +372,15 @@ Buka http://localhost:3900 dan gunakan kunci API yang dicetak di bawah.
 
 Android 10+ · Pratinjau · Di perangkat, offline setelah pengunduhan model.
 
-[Unduh APK](https://github.com/debpalash/VoiceStudio/releases/latest) · [Panduan](../../docs/mobile.md#install)
+[Unduh APK](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [Panduan](../../docs/mobile.md#install)
 
 <details>
-<summary>F-Droid · Repositori VoiceStudio</summary>
+<summary>F-Droid · Repositori WisprStudio</summary>
 
 Tambahkan repositori ini di klien yang kompatibel dengan F-Droid; verifikasi sidik jari di panduan.
 
 ```text
-https://debpalash.github.io/VoiceStudio/fdroid/repo
+https://debpalash.github.io/WisprStudio/fdroid/repo
 ```
 
 [Panduan](../../store/fdroid/README.md)
@@ -406,10 +393,10 @@ https://debpalash.github.io/VoiceStudio/fdroid/repo
 Tambahkan sumber ini di Obtainium, atau impor konfigurasi yang disediakan.
 
 ```text
-https://github.com/debpalash/VoiceStudio
+https://github.com/TheHalfMoon/wisprstudio
 ```
 
-[Impor konfigurasi](https://debpalash.github.io/VoiceStudio/obtainium.json)
+[Impor konfigurasi](https://debpalash.github.io/WisprStudio/obtainium.json)
 
 </details>
 
@@ -417,7 +404,7 @@ https://github.com/debpalash/VoiceStudio
 <summary>Instal melalui USB dengan adb</summary>
 
 ```sh
-adb install -r VoiceStudio-*-android.apk
+adb install -r WisprStudio-*-android.apk
 ```
 
 </details>
@@ -437,13 +424,13 @@ iOS / iPadOS 17+ · Pratinjau · Di perangkat, offline setelah pengunduhan model
 
 Unduh IPA dan ikuti instruksi penandatanganan dan sideload.
 
-[Unduh](https://github.com/debpalash/VoiceStudio/releases/latest) · [Panduan](../../docs/mobile.md#install)
+[Unduh](https://github.com/TheHalfMoon/wisprstudio/releases/latest) · [Panduan](../../docs/mobile.md#install)
 
 </blockquote>
 
 </details>
 
-Pemasang desktop dan ponsel ada di [rilis terbaru](https://github.com/debpalash/VoiceStudio/releases/latest); Gambar Docker berasal dari GHCR. Tidak ada GPU? Aplikasi ini dapat digunakan sepenuhnya pada CPU, hanya saja lebih lambat. Mesin GGUF asli juga dapat menggunakan Vulkan pada GPU AMD, Intel dan NVIDIA; OmniVoice GGUF memilih GPU dan ukuran modelnya secara otomatis di Windows dan Linux ([OmniVoice](../../docs/engines/omnivoice-gguf.md#vulkan-acceleration), [CosyVoice](../../docs/engines/cosyvoice-gguf.md)). Kecepatan berdasarkan mesin dan perangkat keras: [kinerja](../../docs/performance.md).
+Pemasang desktop dan ponsel ada di [rilis terbaru](https://github.com/TheHalfMoon/wisprstudio/releases/latest); Gambar Docker berasal dari GHCR. Tidak ada GPU? Aplikasi ini dapat digunakan sepenuhnya pada CPU, hanya saja lebih lambat. Mesin GGUF asli juga dapat menggunakan Vulkan pada GPU AMD, Intel dan NVIDIA; OmniVoice GGUF memilih GPU dan ukuran modelnya secara otomatis di Windows dan Linux ([OmniVoice](../../docs/engines/omnivoice-gguf.md#vulkan-acceleration), [CosyVoice](../../docs/engines/cosyvoice-gguf.md)). Kecepatan berdasarkan mesin dan perangkat keras: [kinerja](../../docs/performance.md).
 
 
 <a id="get-started"></a>
@@ -456,18 +443,18 @@ Instal menggunakan opsi di atas. Kemudian buka **Kloning suara**, pilih suara at
 <summary><strong>Opsi pemasangan lainnya</strong>: versi tertentu, versi utama saat ini, uninstall, dari sumber, dengan agen pengkodean</summary>
 
 ```sh
-curl -fsSL https://voicestudio.sh/install | sh -s -- --version X.Y.Z   # a specific release
-curl -fsSL https://voicestudio.sh/install | sh -s -- --main            # build current main
-curl -fsSL https://voicestudio.sh/install | sh -s -- --uninstall       # remove the app, keep your data
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh -s -- --version X.Y.Z   # a specific release
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh -s -- --main            # build current main
+curl -fsSL https://github.com/TheHalfMoon/wisprstudio | sh -s -- --uninstall       # remove the app, keep your data
 ```
 
-Jika `voicestudio.sh` tidak dapat dijangkau, jalankan skrip langsung dari repositori: `curl -fsSL https://raw.githubusercontent.com/debpalash/VoiceStudio/main/scripts/install.sh | sh`. Prasyarat dan perilaku: [panduan penginstal](../../docs/install/script.md).
+Jika `voicestudio.sh` tidak dapat dijangkau, jalankan skrip langsung dari repositori: `curl -fsSL https://raw.githubusercontent.com/TheHalfMoon/wisprstudio/main/scripts/install.sh | sh`. Prasyarat dan perilaku: [panduan penginstal](../../docs/install/script.md).
 
 **Dari sumber**
 
 ```bash
-git clone https://github.com/debpalash/VoiceStudio.git
-cd VoiceStudio
+git clone https://github.com/TheHalfMoon/wisprstudio.git
+cd WisprStudio
 bun run dev
 ```
 
@@ -478,8 +465,8 @@ Lihat [Pengaturan elektron](../../electron/README.md).
 **Dengan agen pengkodean** (Claude Code, Codex, Cursor, …), tempel:
 
 ```text
-Install the VoiceStudio app on this device and verify it works, following
-https://github.com/debpalash/VoiceStudio/blob/main/docs/install/agent.md
+Install the WisprStudio app on this device and verify it works, following
+https://github.com/TheHalfMoon/wisprstudio/blob/main/docs/install/agent.md
 ```
 
 Mengupgrade dari 0.5.3 atau lebih lama (aplikasi Tauri)? [Instal aplikasi baru secara terpisah](../../docs/electron-migration.md).
@@ -501,34 +488,27 @@ Mengupgrade dari 0.5.3 atau lebih lama (aplikasi Tauri)? [Instal aplikasi baru s
 | Aplikasi telepon | [iOS dan Android](../../docs/mobile.md) |
 | Perkembangan | [Berkontribusi](../../.github/CONTRIBUTING.md) ([menandatangani CLA](../../.github/CONTRIBUTING.md#contribution-licensing) sebelum PR pertama Anda) · [Changelog](../../CHANGELOG.md) |
 
-Skill agen: `npx skills add debpalash/VoiceStudio` (**voicestudio** untuk pekerjaan audio, **voicestudio-maintainer** untuk repositori).
+Skill agen: `npx skills add TheHalfMoon/wisprstudio` (**voicestudio** untuk pekerjaan audio, **voicestudio-maintainer** untuk repositori).
 
 <a id="sponsors"></a>
 
 ## Sponsor
 
-VoiceStudio gratis dan tidak bergantung pada layanan cloud berbayar. Sponsor membantu pengembangan dan rilis terus berjalan dengan mendanai waktu pengelola, perangkat keras pengujian, penandatanganan kode, dan infrastruktur rilis.
+WisprStudio gratis dan tidak bergantung pada layanan cloud berbayar. Sponsor membantu pengembangan dan rilis terus berjalan dengan mendanai waktu pengelola, perangkat keras pengujian, penandatanganan kode, dan infrastruktur rilis.
 
-<p>
-    <a href="https://github.com/debpalash/OpenGTM?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opengtm-dark.svg" /><img src="../../docs/sponsors/opengtm.svg" alt="OpenGTM" height="48" align="middle" /></picture></a>
-    <a href="https://github.com/debpalash/Opal?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opal-dark.svg" /><img src="../../docs/sponsors/opal.svg" alt="Opal" height="48" align="middle" /></picture></a>
-    <a href="https://github.com/velixio/supermetry?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/supermetry-dark.svg" /><img src="../../docs/sponsors/supermetry.svg" alt="Supermetry" height="48" align="middle" /></picture></a>
-</p>
 
-Untuk pertanyaan sponsorship, hubungi [sponsor@voicestudio.sh](mailto:sponsor@voicestudio.sh).
+Untuk pertanyaan sponsorship, hubungi [TheHalfMoon/wisprstudio](https://github.com/TheHalfMoon/wisprstudio).
 
 <a href="https://github.com/sponsors/debpalash"><img src="https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?logo=githubsponsors&logoColor=white" alt="Sponsor di GitHub Sponsor" /></a>
-[Ko-fi](https://ko-fi.com/debpalash) · [PayPal](https://paypal.me/palashCoder) · [Tingkatan dan manfaat](../../SPONSORS.md) · [Cantumkan logo Anda](https://github.com/debpalash/VoiceStudio/issues/new?template=sponsor.yml)
 
 <a id="other-projects"></a>
 
 ## Proyek lainnya
 
-Lebih banyak alat sumber terbuka dari orang-orang yang membuat VoiceStudio.
+Lebih banyak alat sumber terbuka dari orang-orang yang membuat WisprStudio.
 
-- **[OpenGTM](https://opengtm.palash.dev/?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=related-projects)** — Temukan dan perkaya perusahaan dan orang-orang di ruang kerja masuk ke pasar yang dihosting sendiri. [Sumber](https://github.com/debpalash/OpenGTM).
-- **[Opal](https://opal.palash.dev/?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=related-projects)** — Tonton, streaming, dan jelajahi media Anda dalam satu pemutar sumber terbuka asli. [Sumber](https://github.com/debpalash/Opal).
-- **[Supermetry](https://supermetry.com/?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=related-projects)** — Pahami situs web dan produk Anda dengan analisis yang dihosting sendiri dan bebas cookie. [Sumber](https://github.com/velixio/supermetry).
+- **[OpenGTM](https://github.com/debpalash/OpenGTM)** — Temukan dan perkaya perusahaan dan orang-orang di ruang kerja masuk ke pasar yang dihosting sendiri. [Sumber](https://github.com/debpalash/OpenGTM).
+- **[Opal](https://github.com/debpalash/Opal)** — Tonton, streaming, dan jelajahi media Anda dalam satu pemutar sumber terbuka asli. [Sumber](https://github.com/debpalash/Opal).
 
 Proyek lainnya: [debpalash](https://github.com/debpalash?tab=repositories) · [velixio](https://github.com/velixio?tab=repositories)
 
@@ -553,22 +533,22 @@ Proyek lainnya: [debpalash](https://github.com/debpalash?tab=repositories) · [v
 
 <a href="https://github.com/kevin9327"><img src="https://github.com/kevin9327.png?size=96" width="44" height="44" alt="@kevin9327" title="@kevin9327"></a> <a href="https://github.com/jaketame"><img src="https://github.com/jaketame.png?size=96" width="44" height="44" alt="@jaketame" title="@jaketame"></a> <a href="https://github.com/psiberfunk"><img src="https://github.com/psiberfunk.png?size=96" width="44" height="44" alt="@psiberfunk" title="@psiberfunk"></a> <a href="https://github.com/rudycelekli"><img src="https://github.com/rudycelekli.png?size=96" width="44" height="44" alt="@rudycelekli" title="@rudycelekli"></a> <a href="https://github.com/paoloantinori"><img src="https://github.com/paoloantinori.png?size=96" width="44" height="44" alt="@paoloantinori" title="@paoloantinori"></a> <a href="https://github.com/Chang-Jin-Lee"><img src="https://github.com/Chang-Jin-Lee.png?size=96" width="44" height="44" alt="@Chang-Jin-Lee" title="@Chang-Jin-Lee"></a> <a href="https://github.com/swadhinbiswas"><img src="https://github.com/swadhinbiswas.png?size=96" width="44" height="44" alt="@swadhinbiswas" title="@swadhinbiswas"></a> <a href="https://github.com/BichengWang"><img src="https://github.com/BichengWang.png?size=96" width="44" height="44" alt="@BichengWang" title="@BichengWang"></a> <a href="https://github.com/nirmalchatur"><img src="https://github.com/nirmalchatur.png?size=96" width="44" height="44" alt="@nirmalchatur" title="@nirmalchatur"></a> <a href="https://github.com/Shivendra-Coherent"><img src="https://github.com/Shivendra-Coherent.png?size=96" width="44" height="44" alt="@Shivendra-Coherent" title="@Shivendra-Coherent"></a> <a href="https://github.com/marreiradigital"><img src="https://github.com/marreiradigital.png?size=96" width="44" height="44" alt="@marreiradigital" title="@marreiradigital"></a> <a href="https://github.com/nvtoan0201-swe"><img src="https://github.com/nvtoan0201-swe.png?size=96" width="44" height="44" alt="@nvtoan0201-swe" title="@nvtoan0201-swe"></a>
 
-Terima kasih kepada semua orang yang mengirimkan kode, laporan, terjemahan, dan ide. [Semua kontributor](https://github.com/debpalash/VoiceStudio/graphs/contributors) · [Kontribusi](../../.github/CONTRIBUTING.md)
+Terima kasih kepada semua orang yang mengirimkan kode, laporan, terjemahan, dan ide. [Semua kontributor](https://github.com/TheHalfMoon/wisprstudio/graphs/contributors) · [Kontribusi](../../.github/CONTRIBUTING.md)
 
 <a id="license--responsible-use"></a>
 
 ## Lisensi & penggunaan yang bertanggung jawab
 
-[AGPL-3.0](../../LICENSE) mencakup aplikasi, termasuk penggunaan komersial berdasarkan ketentuannya. Bobot model, suara, dan keluaran yang dihasilkan memiliki lisensinya sendiri, yang ditunjukkan oleh Manajer Model untuk setiap model ([inventaris](../../docs/licensing/model-inventory.md)). Mengkloning suara hanya dengan izin pemiliknya. Detail: [LICENSE-NOTICE.md](../../LICENSE-NOTICE.md).
+[AGPL-3.0](../../LICENSE) mencakup aplikasi, termasuk penggunaan komersial berdasarkan ketentuannya. Bobot model, suara, dan keluaran yang dihasilkan memiliki lisensinya sendiri, yang ditunjukkan oleh Manajer Model untuk setiap model ([inventaris](../../docs/licensing/model-inventory.md)). Mengkloning suara hanya dengan izin pemiliknya. Detail: [LICENSE-NOTICE.md](../../LICENSE-NOTICE.md) · [AGPL-3.0 Source](https://github.com/TheHalfMoon/wisprstudio).
 
 <a id="community-tutorials"></a>
 
 ## Tutorial komunitas
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=I-u-A-oisIU&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/I-u-A-oisIU/hqdefault.jpg" alt="VoiceStudio tutorial by Nafay 3D on YouTube" width="30%" /></a>
-  <a href="https://www.youtube.com/watch?v=hsLRbXLBP4U&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/hsLRbXLBP4U/hqdefault.jpg" alt="VoiceStudio tutorial by Samuel Gregory on YouTube" width="30%" /></a>
-  <a href="https://www.youtube.com/watch?v=2KemGhEI0Ck&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/2KemGhEI0Ck/hqdefault.jpg" alt="VoiceStudio tutorial by kilObit on YouTube" width="30%" /></a><br />
+  <a href="https://www.youtube.com/watch?v=I-u-A-oisIU&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/I-u-A-oisIU/hqdefault.jpg" alt="WisprStudio tutorial by Nafay 3D on YouTube" width="30%" /></a>
+  <a href="https://www.youtube.com/watch?v=hsLRbXLBP4U&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/hsLRbXLBP4U/hqdefault.jpg" alt="WisprStudio tutorial by Samuel Gregory on YouTube" width="30%" /></a>
+  <a href="https://www.youtube.com/watch?v=2KemGhEI0Ck&amp;utm_source=github&amp;utm_medium=readme&amp;utm_campaign=community_tutorials"><img src="https://i.ytimg.com/vi/2KemGhEI0Ck/hqdefault.jpg" alt="WisprStudio tutorial by kilObit on YouTube" width="30%" /></a><br />
   <sub>Nafay 3D · Samuel Gregory · kilObit</sub>
 </p>
 

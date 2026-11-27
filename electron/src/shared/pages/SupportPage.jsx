@@ -56,7 +56,9 @@ const DONATE_HUE = 'var(--color-brand)';
 // its tip page (no reliable preset-amount URL). A non-numeric/"custom" amount
 // falls back to the bare link.
 function methodUrl(method, amount) {
-  if (method.id === 'paypal' && typeof amount === 'number') return `${PAYPAL_URL}/${amount}`;
+  if (method.id === 'paypal' && typeof amount === 'number' && PAYPAL_URL.includes('paypal.me')) {
+    return `${PAYPAL_URL}/${amount}`;
+  }
   return method.url;
 }
 
@@ -342,7 +344,7 @@ function SupportView() {
                 variant="subtle"
                 size="sm"
                 leading={<Star size={13} />}
-                onClick={() => openExternal('https://github.com/debpalash/VoiceStudio')}
+                onClick={() => openExternal('https://github.com/TheHalfMoon/wisprstudio')}
               >
                 {t('support.star_github')}
               </Button>
@@ -362,11 +364,9 @@ function SupportView() {
   );
 }
 
-/* ── Commercial License panel ─────────────────────────────────────────── */
-const LICENSE_EMAIL = 'hi@voicestudio.sh';
-const LICENSE_MAILTO =
-  'mailto:hi@voicestudio.sh?subject=VoiceStudio Commercial License Inquiry' +
-  '&body=Hi Palash,%0A%0AI%27d like to talk about a commercial license for VoiceStudio.%0A%0AOrganization:%0ATeam size:%0AUse case:%0A';
+/* ── Open-Source License panel (AGPL-3.0-only) ────────────────────────── */
+const LICENSE_EMAIL = 'opensource@wispral.dev';
+const LICENSE_MAILTO = 'https://github.com/TheHalfMoon/wisprstudio/blob/main/LICENSE';
 
 const LICENSE_BENEFITS = [
   { Icon: Shield, labelKey: 'enterprise.benefit_ip' },

@@ -9,7 +9,7 @@ and will need a new signature.
 
 ## How you accept
 
-Everyone who opens a pull request in `debpalash/VoiceStudio`, or authored or
+Everyone who opens a pull request in `TheHalfMoon/wisprstudio`, or authored or
 co-authored a commit in one, accepts this Agreement once by posting this
 comment, on its own line, when the CLA check asks:
 
@@ -34,7 +34,7 @@ Technology Act, 2000.
   under section 10. An affiliate is an entity that controls, is controlled by,
   or is under common control with Yupcha Softwares Private Limited.
 - **"Project"** means the VoiceStudio software and documentation published at
-  `https://github.com/debpalash/VoiceStudio`, including work published under
+  `https://github.com/TheHalfMoon/wisprstudio`, including work published under
   its former name, OmniVoice Studio.
 - **"Contribution"** means any code, documentation, asset, or other work of
   authorship that You submit to the Project for inclusion, through a pull

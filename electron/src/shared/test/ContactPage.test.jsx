@@ -18,7 +18,7 @@ vi.mock('../api/external', () => ({ openExternal }));
 import { ContactSections } from '../pages/ContactPage';
 import { useAppStore } from '../store';
 
-const REPO = 'https://github.com/debpalash/VoiceStudio';
+const REPO = 'https://github.com/TheHalfMoon/wisprstudio';
 
 beforeEach(() => {
   openExternal.mockClear();
@@ -48,11 +48,11 @@ describe('contact sections', () => {
     render(<ContactSections />);
     const href = (name) => screen.getByRole('link', { name }).getAttribute('href');
     expect(href('Open GitHub Issues')).toBe(`${REPO}/issues`);
-    expect(href('Join the Discord')).toBe('https://discord.gg/bzQavDfVV9');
-    expect(href('Follow on X')).toBe('https://x.com/idebpalash');
+    expect(href('Join the Discord')).toBe(`${REPO}/discussions`);
+    expect(href('Follow on X')).toBe(REPO);
     expect(href('Report privately')).toBe(`${REPO}/security/advisories/new`);
-    expect(href(/licensing/i)).toBe(`mailto:hi@voicestudio.sh`);
-    expect(href(/more about the project/i)).toBe('https://palash.dev');
+    expect(href(/licensing/i)).toBe('mailto:opensource@wispral.dev');
+    expect(href(/more about the project/i)).toBe(REPO);
   });
 
   it('opens external links via the shared opener and marks them noreferrer', () => {
@@ -61,7 +61,7 @@ describe('contact sections', () => {
     expect(link).toHaveAttribute('rel', 'noreferrer');
     expect(link).toHaveAttribute('target', '_blank');
     fireEvent.click(link);
-    expect(openExternal).toHaveBeenCalledWith('https://discord.gg/bzQavDfVV9');
+    expect(openExternal).toHaveBeenCalledWith(`${REPO}/discussions`);
   });
 
   it('sends "Support the project" to the support section, not out to Ko-fi', () => {

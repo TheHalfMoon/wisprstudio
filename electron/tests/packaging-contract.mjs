@@ -108,7 +108,7 @@ assert.match(electronPackage.author?.email ?? '', /@/, 'Linux package declares a
 assert.equal(config.productName, PRODUCT_NAME, 'Builder uses the central product name');
 assert.equal(
   config.appId,
-  DISTRIBUTION_TARGET === 'mac-app-store' ? 'sh.voicestudio.pro' : APP_ID,
+  DISTRIBUTION_TARGET === 'mac-app-store' ? 'com.wispral.wisprstudio.mas' : APP_ID,
   'Builder uses the registered identity for the selected distribution',
 );
 const storeLabel = {
@@ -133,7 +133,7 @@ assert.equal(
 if (DISTRIBUTION_TARGET === 'microsoft-store') {
   assert.equal(
     config.extraMetadata.author.name,
-    'Yupcha Softwares Private Limited',
+    'Wispral Contributors',
     'Microsoft Store uninstall metadata uses the legal publisher',
   );
 } else {

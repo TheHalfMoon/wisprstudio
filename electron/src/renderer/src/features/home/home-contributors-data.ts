@@ -13,7 +13,7 @@ import avatar11 from './contributors/Shivendra-Coherent.png';
 import avatar12 from './contributors/marreiradigital.png';
 import avatar13 from './contributors/nvtoan0201-swe.png';
 
-// GitHub /repos/debpalash/VoiceStudio/contributors snapshot, 2026-10-25.
+// GitHub /repos/TheHalfMoon/wisprstudio/contributors snapshot, 2026-10-25.
 // Human contributors with strictly more than 10 repository commits; bundled for offline use.
 // Regenerate with `uv run scripts/update_contributors.py` (weekly: .github/workflows/contributors-refresh.yml).
 // Core maintainers are assigned by the project owner, independently of commit counts.

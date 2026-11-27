@@ -402,10 +402,9 @@ def _network_check() -> dict:
             status = "warn"
             detail = "No Hugging Face endpoint reachable"
             fix = (
-                "Neither huggingface.co nor the hf-mirror.com community mirror "
-                "responded — check internet connection, VPN, or firewall. You "
-                "can continue — models already downloaded keep working "
-                "offline; a custom mirror can be configured below."
+                "huggingface.co did not respond — check internet connection, VPN, "
+                "or firewall. You can continue — models already downloaded keep "
+                "working offline; an explicit custom endpoint can be configured below."
             )
         return {
             "id": "network", "label": f"Network ({picked_host})",
@@ -429,18 +428,8 @@ def _network_check() -> dict:
         }
     net_ok = _probe_network(net_host, net_port)
     mirror_reachable = False
-    if not net_ok and net_host == "huggingface.co":
-        # Official endpoint blocked — if the community mirror is reachable,
-        # tell the user exactly which switch unblocks them.
-        mirror_reachable = _probe_network("hf-mirror.com")
     if net_ok:
         net_fix = None
-    elif mirror_reachable:
-        net_fix = (
-            "huggingface.co is blocked on this network, but the hf-mirror.com "
-            "community mirror is reachable — apply it below and re-check. "
-            "Model downloads will use the mirror immediately."
-        )
     elif net_host != "huggingface.co":
         net_fix = (
             f"Your configured Hugging Face mirror ({net_host}) is unreachable "
@@ -452,8 +441,8 @@ def _network_check() -> dict:
         net_fix = (
             "Check internet connection, VPN, or corporate firewall whitelist "
             "for huggingface.co. You can continue — models already downloaded "
-            "keep working offline; new downloads need a connection or a "
-            "mirror (configurable below)."
+            "keep working offline; new downloads need a connection or an "
+            "explicit custom endpoint (configurable below)."
         )
     return {
         "id": "network", "label": f"Network ({net_host})",

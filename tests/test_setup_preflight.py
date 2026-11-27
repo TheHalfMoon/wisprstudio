@@ -582,24 +582,19 @@ def test_preflight_network_probes_configured_mirror():
     assert "mirror.example.test" in seen_hosts
 
 
-def test_preflight_network_auto_selects_reachable_mirror():
-    """Official endpoint blocked but hf-mirror.com reachable → with no
-    explicit endpoint configured the race picks the mirror automatically, the
-    check PASSES (downloads will work — no dead-end, no manual switch), and
-    the copy states the outcome honestly."""
+def test_preflight_network_auto_never_probes_unsolicited_mirror():
+    """When huggingface.co is unreachable and no explicit mirror is configured,
+    preflight warns cleanly and never probes hf-mirror.com automatically."""
     import services.endpoint_race as er
 
-    with _patch_race_probe({er.CANONICAL_ENDPOINT: None, er.COMMUNITY_MIRROR: 90}):
+    with _patch_race_probe({er.CANONICAL_ENDPOINT: None}):
         body = client_factory().get("/setup/preflight").json()
 
     net = next(c for c in body["checks"] if c["id"] == "network")
-    assert net["status"] == "pass"
-    assert net.get("endpoint") == er.COMMUNITY_MIRROR
-    assert net.get("mirror_reachable") is True
-    assert "huggingface.co is unreachable" in net["detail"]
-    assert "hf-mirror.com" in net["detail"]
-    # The winning endpoint is cached for the actual model downloads.
-    assert er.effective_endpoint() == er.COMMUNITY_MIRROR
+    assert net["status"] == "warn"
+    assert net.get("mirror_reachable") is False
+    assert "hf-mirror.com" not in (net.get("detail") or "")
+    assert "hf-mirror.com" not in (net.get("fix") or "")
 
 
 def test_preflight_network_explicit_setting_never_raced(monkeypatch):

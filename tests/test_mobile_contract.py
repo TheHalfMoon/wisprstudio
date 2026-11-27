@@ -335,19 +335,17 @@ def test_mobile_models_pin_retains_desktop_omnivoice_revision(monkeypatch):
     assert requests == [f"/api/models/{expected['source_model']}/revision/{expected['source_commit_sha']}?blobs=true"]
 
 
-def test_mobile_models_pin_falls_back_only_to_hf_mirror(monkeypatch):
+def test_mobile_models_pin_uses_official_hf_only(monkeypatch):
     urls = []
 
     def request(url, timeout):
         urls.append(url)
-        if len(urls) == 1:
-            raise mobile_models.URLError("unreachable")
-        return io.BytesIO(b"mirror response")
+        raise mobile_models.URLError("unreachable")
 
     monkeypatch.setattr(mobile_models, "urlopen", request)
-    with mobile_models._open_hf("/api/models/example/model") as response:
-        assert response.read() == b"mirror response"
-    assert urls == ["https://huggingface.co/api/models/example/model", "https://hf-mirror.com/api/models/example/model"]
+    with pytest.raises(mobile_models.URLError):
+        mobile_models._open_hf("/api/models/example/model")
+    assert urls == ["https://huggingface.co/api/models/example/model"]
 
 
 def test_mobile_models_have_display_names():

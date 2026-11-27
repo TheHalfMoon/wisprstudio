@@ -9,8 +9,15 @@ import shutil
 import subprocess
 import tempfile
 from urllib.parse import urlsplit
-import soundfile as sf
-import torch
+
+try:
+    import soundfile as sf
+except ImportError:  # pragma: no cover - lightweight test env
+    sf = None  # type: ignore[assignment]
+try:
+    import torch
+except ImportError:  # pragma: no cover - lightweight test env
+    torch = None  # type: ignore[assignment]
 from typing import Optional
 from fastapi import Request, Depends
 from fastapi import APIRouter, File, Form, UploadFile, HTTPException
@@ -966,12 +973,11 @@ async def dub_upload(
 
 @router.post("/dub/ingest-url")
 async def dub_ingest_url(req: DubIngestUrlRequest, request: Request):
-    """Ingest a remote video URL via yt-dlp. Queues background prep task.
+    """Ingest a remote video URL via yt-dlp (disabled by default in WisprStudio)."""
+    from core.url_safety import REMOTE_URL_INGEST_DISABLED_DETAIL, remote_url_ingest_enabled
 
-    Returns 202 immediately with {job_id, task_id}. All work (download,
-    audio extract, Demucs, scene detect, thumbnail) happens in the background
-    task and progress is streamed via /tasks/stream/{task_id}.
-    """
+    if not remote_url_ingest_enabled():
+        raise HTTPException(status_code=403, detail=REMOTE_URL_INGEST_DISABLED_DETAIL)
     try:
         url = await asyncio.to_thread(check_public_url, req.url or "")
     except UnsafeURLError as exc:
