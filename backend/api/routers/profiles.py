@@ -134,6 +134,8 @@ async def create_profile(
     design_recipe: Optional[str] = Form(None),
     engine: Optional[str] = Form(None),
     image: Optional[UploadFile] = File(None),
+    voice_id: Optional[str] = Form(None),
+    consent_epoch: Optional[int] = Form(None),
 ):
     """Create a voice profile (spec: docs/specs/voice-studio-unification.md §5).
 
@@ -147,6 +149,28 @@ async def create_profile(
     name = name.strip()
     if not name:
         raise HTTPException(status_code=400, detail="A voice profile needs a name.")
+    from services.consent_ledger import is_reserved_stock_voice_id
+
+    if is_reserved_stock_voice_id(name):
+        raise HTTPException(
+            status_code=400,
+            detail="Profile name cannot use the reserved 'catalog:' prefix or collide with stock preset IDs.",
+        )
+    if isinstance(voice_id, str) and voice_id.strip():
+        candidate_vid = voice_id.strip()
+        if is_reserved_stock_voice_id(candidate_vid):
+            raise HTTPException(
+                status_code=400,
+                detail="voice_id cannot use the reserved 'catalog:' prefix or collide with stock preset IDs.",
+            )
+        if not re.fullmatch(r"[A-Za-z0-9._:-]{8,128}", candidate_vid):
+            raise HTTPException(
+                status_code=400,
+                detail="voice_id must be 8..128 characters matching [A-Za-z0-9._:-].",
+            )
+        profile_id = candidate_vid
+    else:
+        profile_id = str(uuid.uuid4())[:8]
     if kind not in ("clone", "design"):
         raise HTTPException(status_code=422, detail="kind must be 'clone' or 'design'")
     if kind == "clone" and ref_audio is None:
@@ -217,7 +241,6 @@ async def create_profile(
         # valid tags survive, prose/"[object Object]" is dropped.
         instruct = sanitize_instruct(instruct)
 
-    profile_id = str(uuid.uuid4())[:8]
     portrait = None
     if isinstance(image, StarletteUploadFile):
         portrait = normalize_portrait(await image.read(MAX_IMAGE_BYTES + 1))
@@ -237,8 +260,17 @@ async def create_profile(
         # stream (a silent screen recording, a video-only WebM) at save time
         # instead of failing every later generation with it.
         from services.ffmpeg_utils import require_audio_stream
+        from services.consent_ledger import enforce_checkpoint_consent
         try:
             await asyncio.to_thread(require_audio_stream, audio_path)
+            enforce_checkpoint_consent(
+                profile_id,
+                checkpoint="profile_enrollment",
+                expected_epoch=consent_epoch,
+                reference_path=audio_path,
+                has_ref_audio=True,
+                profile_kind="clone",
+            )
         except BaseException:
             with contextlib.suppress(OSError):
                 os.remove(audio_path)
@@ -739,6 +771,15 @@ async def replace_profile_audio(
                     status_code=422,
                     detail="That file could not be read as audio. Choose another recording.",
                 )
+            from services.consent_ledger import enforce_checkpoint_consent
+
+            enforce_checkpoint_consent(
+                profile_id,
+                checkpoint="profile_audio_update",
+                reference_path=new_path,
+                has_ref_audio=True,
+                profile_kind="clone",
+            )
             text = (ref_text or "").strip() or await _auto_transcribe_reference(new_path)
             with db_conn() as conn:
                 # Compare-and-swap on the clip read above, so a writer outside
@@ -1345,6 +1386,8 @@ def clear_attestation(profile_id: str):
 
 @router.delete("/profiles/{profile_id}/consent")
 def revoke_consent(profile_id: str):
+    from services.consent_ledger import get_default_consent_ledger
+
     with db_conn() as conn:
         row = conn.execute(
             "SELECT consent_audio_path FROM voice_profiles WHERE id=?", (profile_id,)
@@ -1360,8 +1403,14 @@ def revoke_consent(profile_id: str):
         path = _voices_path(row["consent_audio_path"])
         if path and os.path.exists(path):
             os.remove(path)
+    revocation = get_default_consent_ledger().revoke_voice_locally(profile_id)
     event_bus.emit("profiles", {"action": "consent_revoked", "id": profile_id})
-    return {"id": profile_id, "verified_own_voice": False}
+    return {
+        "id": profile_id,
+        "verified_own_voice": False,
+        "purged_embeddings": revocation["purged_embeddings"],
+        "cancelled_renders": revocation["cancelled_renders"],
+    }
 
 
 @router.delete("/profiles/{profile_id}")
@@ -1401,6 +1450,8 @@ def delete_profile(profile_id: str):
             except (UnsafePath, OSError, ValueError):
                 failed_assets.append("asset location unavailable (consult local backend log)")
             logger.warning("Deleted profile asset cleanup failed: %s", scrub_text(path))
+    from services.consent_ledger import purge_speaker_embeddings
+    purge_speaker_embeddings(profile_id)
     event_bus.emit("profiles", {"action": "deleted", "id": profile_id})
     if failed_assets:
         raise HTTPException(status_code=500, detail=(

@@ -215,12 +215,21 @@ def plan_fit(
 
     Pure function: no I/O, no torch, deterministic.
     """
-    params = params or FitParams()
+    from services.fit_inputs import validate_fit_inputs
+
+    validated = validate_fit_inputs(
+        segments,
+        natural_durs_s,
+        total_dur_s,
+        params,
+        allow_empty=True,
+        allow_zero_total_dur=True,
+    )
+    params = validated.params
+    segments = validated.segments
+    natural_durs_s = validated.natural_durs_s
+    total_dur_s = validated.total_dur_s
     n = len(segments)
-    if len(natural_durs_s) != n:
-        raise ValueError(
-            f"segments ({n}) and natural_durs_s ({len(natural_durs_s)}) must be parallel"
-        )
 
     plan = FitPlan(params=params, orig_duration=round(float(total_dur_s), 4))
     if n == 0:

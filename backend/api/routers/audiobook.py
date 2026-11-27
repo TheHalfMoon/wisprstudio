@@ -255,12 +255,19 @@ class AudiobookRequest(ExpressiveMixin):
 
 
 def _resolve_voice(profile_id: str | None) -> dict:
-    """Map a voice-profile id to (ref_audio, ref_text, instruct, seed).
+    """Map a voice-profile id to (ref_audio, ref_text, instruct, seed, profile_id, kind).
 
     Compact form of the resolver in generation.py — covers locked, design and
     clone profiles. Returns all-None for the engine default (no profile).
     """
-    out = {"ref_audio": None, "ref_text": None, "instruct": None, "seed": None}
+    out = {
+        "ref_audio": None,
+        "ref_text": None,
+        "instruct": None,
+        "seed": None,
+        "profile_id": profile_id,
+        "kind": None,
+    }
     if not profile_id:
         return out
     from core.config import VOICES_DIR
@@ -275,6 +282,7 @@ def _resolve_voice(profile_id: str | None) -> dict:
         kind = row["kind"] or "clone"
     except (KeyError, IndexError):
         kind = "clone"
+    out["kind"] = kind
     if row["is_locked"] and row["locked_audio_path"]:
         out["ref_audio"] = contained_join(VOICES_DIR, row["locked_audio_path"])
         out["ref_text"] = stored_reference_transcript(row)
@@ -954,6 +962,7 @@ def _render_chapter_cached(chapter, synth, sr, engine_id, resolve, cache_dir, le
                                     segment_cache=seg_cache, on_progress=on_progress,
                                     # the fill the cache keys were derived from
                                     pause_fill=pause_fill,
+                                    voice_resolver=resolve,
                                     **opts.join_kwargs())
     # Invisible provenance mark on the assembled chapter (#1169), tensor stage,
     # before the WAV lands in the cache — this single site covers every
@@ -994,9 +1003,20 @@ async def _run_chapter(chapter, *, default_voice, language, opts, voice_map,
     # setup did this even for local jobs; keeping it explicit prevents a
     # concurrent re-lock/sweep from deleting a take before the local resolver
     # first reads it.
+    from services.consent_ledger import enforce_checkpoint_consent
+
     for span in chapter.spans:
         profile_id = _map_span_voice(span.voice_id, default_voice, voice_map)
-        voice_leases.hold(lease, _resolve_voice(profile_id).get("ref_audio"))
+        v_info = _resolve_voice(profile_id)
+        voice_leases.hold(lease, v_info.get("ref_audio"))
+        if profile_id and (v_info.get("kind") != "design" or v_info.get("ref_audio")):
+            enforce_checkpoint_consent(
+                profile_id,
+                checkpoint="audiobook_enqueue",
+                reference_path=v_info.get("ref_audio"),
+                has_ref_audio=bool(v_info.get("ref_audio")),
+                profile_kind=v_info.get("kind"),
+            )
 
     synth, sr, resolve, engine_id = await _prepare_synth(
         default_voice, language=language, opts=opts, voice_map=voice_map,

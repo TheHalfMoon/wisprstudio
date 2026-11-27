@@ -361,7 +361,6 @@ class _JoinPolicy:
 
     def stitch(self, renders: list, sample_rate: int):
         """Hard-join the paragraph renders of one span with the paragraph gap between them."""
-        import torch
         from services.chunked_tts import concatenate_audio_chunks
 
         present = [r for r in renders if r is not None]
@@ -394,6 +393,7 @@ def synthesize_chapter(
     segment_cache: Optional["object"] = None,
     on_progress: Optional[Callable[..., None]] = None,
     pause_fill: Optional[str] = None,
+    voice_resolver: Optional[Callable[[Optional[str]], dict]] = None,
 ):
     """Render a chapter's spans to one waveform via an injected ``synth``.
 
@@ -428,11 +428,20 @@ def synthesize_chapter(
     Returns ``(audio_tensor, duration_seconds)``. torch + chunked_tts are
     imported lazily so this module stays import-light for the pure parser path.
     """
-    import torch
+    try:
+        import torch
+    except ImportError:  # pragma: no cover - lightweight torch-free test env
+        torch = None  # type: ignore[assignment]
     from core.render_trace import call as trace_call
     from services.chunked_tts import (concatenate_audio_chunks,
                                       join_rendered_chunks,
                                       split_text_into_chunks)
+    from services.consent_ledger import (
+        ConsentRevokedError,
+        enforce_checkpoint_consent,
+        register_active_render,
+        unregister_active_render,
+    )
     from services.pronunciation import apply_lexicon
 
     items: list = []  # ("a", tensor) for audio, ("s", n_samples) for silence
@@ -468,33 +477,68 @@ def synthesize_chapter(
     for span, paragraphs in zip(spans, paragraphs_by_span):
         span_end = progress_done + sum(len(p) for p in paragraphs)
         if span.text:
+            resolved_vid = span.voice_id
+            resolved_ref_path = None
+            resolved_kind = None
+            if voice_resolver is not None:
+                v_info = voice_resolver(span.voice_id) or {}
+                resolved_vid = v_info.get("profile_id") or span.voice_id
+                resolved_ref_path = v_info.get("ref_audio")
+                resolved_kind = v_info.get("kind")
+            enforce_Consent = resolved_kind != "design" or bool(resolved_ref_path)
+            if enforce_Consent:
+                enforce_checkpoint_consent(
+                    resolved_vid,
+                    checkpoint="pre_chunk_render",
+                    reference_path=resolved_ref_path,
+                    has_ref_audio=bool(resolved_ref_path),
+                    profile_kind=resolved_kind,
+                )
             occ_key = (span.voice_id, span.text, getattr(span, "speed", None))
             occ = occ_counts.get(occ_key, 0)
             occ_counts[occ_key] = occ + 1
             audio = trace_call("cache", segment_cache.load, span, nonce=occ) if segment_cache is not None else None
             if audio is None:
-                paragraph_renders = []
-                for paragraph in paragraphs:
-                    chunks = split_text_into_chunks(paragraph)
-                    rendered = []
-                    for c in chunks:
-                        _stop_if_abandoned()
-                        out = trace_call("synthesis", synth, c, span.voice_id, span.speed)
-                        rendered.append(out)
-                        _note_chunk_done()
-                        progress_done = min(span_end, progress_done + len(c))
-                        shape = getattr(out, "shape", None)
-                        report(progress_done,
-                               (shape[-1] / float(sample_rate)) if shape else 0.0, False)
-                    # Deliberately NOT pre-filtered (#1330). Dropping the empties
-                    # here both hid them — a chapter would come back short with
-                    # nothing said about it — and misaligned `rendered` from
-                    # `chunks`, so the concat could not name which text was lost.
-                    paragraph_renders.append(
-                        join_rendered_chunks(rendered, sample_rate,
-                                             crossfade_ms=crossfade_ms,
-                                             texts=chunks, trim_edges=trim_edges))
-                audio = policy.stitch(paragraph_renders, sample_rate)
+                render_handle = register_active_render(resolved_vid) if resolved_vid else None
+                try:
+                    paragraph_renders = []
+                    for paragraph in paragraphs:
+                        chunks = split_text_into_chunks(paragraph)
+                        rendered = []
+                        for c in chunks:
+                            _stop_if_abandoned()
+                            if render_handle is not None and render_handle.cancelled.is_set():
+                                raise ConsentRevokedError(
+                                    f"Voice consent for {resolved_vid!r} was revoked mid-render; halted before chunk",
+                                    voice_id=str(resolved_vid or ""),
+                                    checkpoint="pre_chunk_render",
+                                )
+                            if enforce_Consent:
+                                enforce_checkpoint_consent(
+                                    resolved_vid,
+                                    checkpoint="pre_chunk_render",
+                                    reference_path=resolved_ref_path,
+                                    has_ref_audio=bool(resolved_ref_path),
+                                    profile_kind=resolved_kind,
+                                )
+                            out = trace_call("synthesis", synth, c, span.voice_id, span.speed)
+                            rendered.append(out)
+                            _note_chunk_done()
+                            progress_done = min(span_end, progress_done + len(c))
+                            shape = getattr(out, "shape", None)
+                            report(progress_done,
+                                   (shape[-1] / float(sample_rate)) if shape else 0.0, False)
+                        # Deliberately NOT pre-filtered (#1330). Dropping the empties
+                        # here both hid them — a chapter would come back short with
+                        # nothing said about it — and misaligned `rendered` from
+                        # `chunks`, so the concat could not name which text was lost.
+                        paragraph_renders.append(
+                            join_rendered_chunks(rendered, sample_rate,
+                                                 crossfade_ms=crossfade_ms,
+                                                 texts=chunks, trim_edges=trim_edges))
+                    audio = policy.stitch(paragraph_renders, sample_rate)
+                finally:
+                    unregister_active_render(render_handle)
                 if audio is not None and segment_cache is not None:
                     trace_call("cache", segment_cache.store, span, audio, nonce=occ)
                 if span_end > progress_done:
@@ -519,7 +563,11 @@ def synthesize_chapter(
                 items.append(("s", n))
 
     if not items:
-        return torch.zeros(0, dtype=torch.float32), 0.0
+        if torch is not None:
+            return torch.zeros(0, dtype=torch.float32), 0.0
+        import numpy as np
+
+        return np.zeros(0, dtype=np.float32), 0.0
     # Engines return (1, samples) per the TTSBackend contract while a bare
     # zeros(n) is 1-D — mixing the two crashed the final concat (#897). So
     # materialize inter-span silence AFTER the loop, matching the rendered

@@ -90,6 +90,12 @@ os.environ["OMNIVOICE_PRELOAD_WATERMARK"] = "0"
 # call its readers directly with fakes.
 os.environ["OMNIVOICE_DISABLE_GPU_INVENTORY"] = "1"
 
+# Production defaults WISPRSTUDIO_REQUIRE_VOICE_CONSENT to "1" (fail-closed even
+# before consent_ledger.jsonl exists). Legacy donor unit tests without consent
+# fixtures opt out here via setdefault; consent/qualification suites override to
+# "1" or delete the env var to verify default fail-closed production behavior.
+os.environ.setdefault("WISPRSTUDIO_REQUIRE_VOICE_CONSENT", "0")
+
 
 # ── Test fixtures ──────────────────────────────────────────────────────────
 

@@ -214,13 +214,24 @@ def test_get_model_revocation_stops_a_resident_model(store, mm, monkeypatch, ma)
         asyncio.run(mm.get_model())
 
 
-def test_preload_skips_quietly_when_unaccepted(store, mm, monkeypatch, caplog):
+def test_preload_skips_quietly_when_unaccepted(store, mm, monkeypatch, caplog, tts_backend):
     monkeypatch.setattr(mm, "model", None)
     caps = importlib.import_module("core.device_caps")
 
     monkeypatch.setattr(caps, "detect_host_caps", lambda: type("C", (), {"family": "cpu"})())
     monkeypatch.setattr(mm, "resolve_omnivoice_checkpoint",
                         lambda: pytest.fail("preload must stop before the checkpoint probe"))
+    # Default active engine in WisprStudio is commercial-ready "kokoro", which
+    # skips native OmniVoice preload immediately without warning.
+    with caplog.at_level(logging.INFO):
+        asyncio.run(mm.preload_model())
+    assert mm.model is None
+    assert "another TTS engine is selected" in caplog.text
+
+    # When "omnivoice" IS explicitly selected without licence acceptance, preload
+    # skips quietly with the licence-not-accepted info log.
+    caplog.clear()
+    monkeypatch.setattr(tts_backend, "active_backend_id", lambda: "omnivoice")
     with caplog.at_level(logging.INFO):
         asyncio.run(mm.preload_model())
     assert mm.model is None

@@ -661,23 +661,9 @@ async def create_speech(req: SpeechRequest):
         # OpenAI's error shape; `detail` keeps the models for VoiceStudio clients.
         raise OpenAIError(403, exc.detail(), param="model", code=exc.detail()["code"]) from exc
 
-    # Compressed formats need ffmpeg: fail fast, before any model load or GPU
-    # work, and never fall back to a body that doesn't match the format.
-    ffmpeg = None
-    if req.response_format in _FFMPEG_FORMATS:
-        ffmpeg = await asyncio.to_thread(_ffmpeg_or_error, req.response_format)
-
-    # Routing gate (#21 — no silent CPU fallback), identical to REST /generate.
-    from core.device_caps import detect_host_caps
-    from services.engine_routing import routing_notice, runtime_compute_profile_async
-    _routing = await runtime_compute_profile_async(
-        backend, detect_host_caps()
-    )
-    if _routing["routing_status"] == "unavailable":
-        raise OpenAIError(400, _routing["routing_reason"], param="model", code="model_not_available")
-    _routing_notice = routing_notice(_routing)  # (status, reason) or None
-
-    # Build kwargs for the backend's generate() method
+    # Build kwargs for the backend's generate() method and enforce voice-clone
+    # consent BEFORE probing ffmpeg or host compute routing so unauthorized or
+    # revoked voices always fail closed with 403 regardless of host format tools.
     kw: dict = {
         "speed": req.speed,
         "denoise": req.denoise,
@@ -724,9 +710,57 @@ async def create_speech(req: SpeechRequest):
             # A profile's remembered seed keeps repeat requests for it reproducible.
             if req.seed is None and row["seed"] is not None:
                 kw["seed"] = row["seed"]
+            try:
+                profile_kind = row["kind"] or "clone"
+            except (KeyError, IndexError):
+                profile_kind = "clone"
+            if profile_kind == "clone":
+                from services.consent_ledger import ConsentGateError, enforce_checkpoint_consent
+
+                try:
+                    enforce_checkpoint_consent(
+                        row["id"],
+                        checkpoint="openai_speech_enqueue",
+                        reference_path=kw.get("ref_audio"),
+                        has_ref_audio=bool(kw.get("ref_audio")),
+                        profile_kind="clone",
+                        engine_id=backend.id,
+                    )
+                except ConsentGateError as exc:
+                    raise OpenAIError(403, exc.to_dict(), param="voice", code=exc.code) from exc
         else:
+            from services.tts_backend import preset_voices_of
+
+            preset_set = {p.lower() for p in preset_voices_of(backend.__class__)}
+            if str(voice).strip().lower() not in preset_set:
+                from services.consent_ledger import ConsentGateError, enforce_checkpoint_consent
+
+                try:
+                    enforce_checkpoint_consent(
+                        voice,
+                        checkpoint="openai_speech_enqueue",
+                        engine_id=backend.id,
+                    )
+                except ConsentGateError as exc:
+                    raise OpenAIError(403, exc.to_dict(), param="voice", code=exc.code) from exc
             # Not a profile — forward as an engine preset name.
             kw["voice"] = voice
+
+    # Compressed formats need ffmpeg: fail fast, before any model load or GPU
+    # work, and never fall back to a body that doesn't match the format.
+    ffmpeg = None
+    if req.response_format in _FFMPEG_FORMATS:
+        ffmpeg = await asyncio.to_thread(_ffmpeg_or_error, req.response_format)
+
+    # Routing gate (#21 — no silent CPU fallback), identical to REST /generate.
+    from core.device_caps import detect_host_caps
+    from services.engine_routing import routing_notice, runtime_compute_profile_async
+    _routing = await runtime_compute_profile_async(
+        backend, detect_host_caps()
+    )
+    if _routing["routing_status"] == "unavailable":
+        raise OpenAIError(400, _routing["routing_reason"], param="model", code="model_not_available")
+    _routing_notice = routing_notice(_routing)  # (status, reason) or None
 
     # Engine-agnostic text normalization (junk strip, numbers→words,
     # abbreviations) at this route's text→engine choke point — the same

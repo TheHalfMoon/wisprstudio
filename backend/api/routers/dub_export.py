@@ -43,6 +43,61 @@ router = APIRouter()
 logger = logging.getLogger("omnivoice.api")
 
 
+def _enforce_dub_export_consent(job: dict) -> str | None:
+    """Checkpoint 4 gate on dub exports: verify active consent for every cloned voice used in the job."""
+    from api.routers.dub_generate import _enforce_dub_segment_consent
+
+    seen: set[str] = set()
+    primary_clone_vid: str | None = None
+    voice_map = job.get("voice_map")
+    if isinstance(voice_map, dict):
+        for val in voice_map.values():
+            vid = str(val or "").strip() if not isinstance(val, dict) else str(val.get("voice_id") or val.get("profile_id") or "").strip()
+            if vid and vid not in seen:
+                seen.add(vid)
+                resolved = _enforce_dub_segment_consent(job, vid, checkpoint="dub_export_commit")
+                if resolved and primary_clone_vid is None:
+                    primary_clone_vid = resolved
+    for idx, seg in enumerate(job.get("segments") or []):
+        if not isinstance(seg, dict):
+            continue
+        seg_key = str(seg.get("id") if seg.get("id") is not None else idx)
+        for cand in (seg.get("profile_id"), seg.get("voice_id")):
+            vid = str(cand or "").strip()
+            if vid and vid not in seen:
+                seen.add(vid)
+                resolved = _enforce_dub_segment_consent(
+                    job, vid, checkpoint="dub_export_commit", seg_id=seg_key
+                )
+                if resolved and primary_clone_vid is None:
+                    primary_clone_vid = resolved
+    return primary_clone_vid
+
+
+def _emit_dub_provenance_sidecar(
+    artifact_path: str,
+    job: dict | None = None,
+    *,
+    primary_voice_id: str | None = None,
+) -> str | None:
+    """Write an atomic signed `<artifact>.provenance.json` sidecar beside a dub export artifact."""
+    if not artifact_path or not os.path.isfile(artifact_path):
+        return None
+    from services.consent_ledger import write_provenance_sidecar_for_artifact
+
+    dur_s = float((job or {}).get("duration") or 1.0)
+    res = write_provenance_sidecar_for_artifact(
+        artifact_path,
+        voice_id=primary_voice_id,
+        has_ref_audio=bool(primary_voice_id),
+        profile_kind="clone" if primary_voice_id else None,
+        duration_ms=max(1, int(round(dur_s * 1000.0))),
+        project_id=str((job or {}).get("id") or "") or None,
+        enforce_consent=False,
+    )
+    return res["provenance_path"]
+
+
 async def _preserved_background(job: dict, job_id: str, lang: str, *, prepare: bool = True) -> str:
     """All mixed preview/download paths share the same dialogue-only bed."""
     from services.dub_background import surgical_background
@@ -238,8 +293,16 @@ def _consume_native_save(authorization: str) -> str | None:
         raise HTTPException(status_code=403, detail=str(exc)) from exc
 
 
-def _native_save(source: str, destination: str, display_name: str, media_type: str):
-    """Copy a generated export file to a user-chosen destination and return JSON."""
+def _native_save(
+    source: str,
+    destination: str,
+    display_name: str,
+    media_type: str,
+    *,
+    job: dict | None = None,
+    primary_voice_id: str | None = None,
+):
+    """Copy a generated export file to a user-chosen destination, emit `.provenance.json`, and return JSON."""
     import shutil
     dest = os.path.expanduser(destination)
     # Reject traversal against the user's home dir — Tauri save dialog returns abs path.
@@ -254,10 +317,12 @@ def _native_save(source: str, destination: str, display_name: str, media_type: s
         raise HTTPException(status_code=500, detail=f"Copy failed: {e}")
     if not os.path.exists(dest) or os.path.getsize(dest) == 0:
         raise HTTPException(status_code=500, detail="Copy produced empty file at destination")
+    prov_path = _emit_dub_provenance_sidecar(dest, job, primary_voice_id=primary_voice_id)
     logger.info("Native save completed (%d bytes)", os.path.getsize(dest))
     return {
         "saved": True,
         "path": dest,
+        "provenance_path": prov_path,
         "size": os.path.getsize(dest),
         "media_type": media_type,
         "display_name": display_name,
@@ -711,6 +776,7 @@ async def dub_download(
     job = _get_job(job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
+    _primary_vid = _enforce_dub_export_consent(job)
 
     tracks = job.get("dubbed_tracks", {})
     include_set = set(t.strip() for t in include_tracks.split(",") if t.strip()) if include_tracks else None
@@ -813,12 +879,16 @@ async def dub_download(
         else:
             dl_name = f"dubbed_audio_{stamp}.m4a"
         media_type = _MEDIA_TYPES.get(f".{fmt}", "audio/mp4")
+        _emit_dub_provenance_sidecar(out_path, job, primary_voice_id=_primary_vid)
         save_path = _consume_native_save(save_authorization)
         if save_path:
             # Keep the request-derived download label out of the filesystem
             # trust boundary. It is response metadata, not a source or
             # destination path (CodeQL, #1575).
-            result = _native_save(out_path, save_path, "dubbed_audio", media_type=media_type)
+            result = _native_save(
+                out_path, save_path, "dubbed_audio", media_type=media_type,
+                job=job, primary_voice_id=_primary_vid,
+            )
             result["display_name"] = dl_name
             return result
         return FileResponse(
@@ -1113,9 +1183,13 @@ async def dub_download(
     if retime_warning is not None:
         extra_headers["X-Dub-Export-Warning"] = "video-retime-fallback"
 
+    _emit_dub_provenance_sidecar(output_path, job, primary_voice_id=_primary_vid)
     save_path = _consume_native_save(save_authorization)
     if save_path:
-        result = _native_save(output_path, save_path, dl_name, media_type="video/mp4")
+        result = _native_save(
+            output_path, save_path, dl_name, media_type="video/mp4",
+            job=job, primary_voice_id=_primary_vid,
+        )
         if retime_warning is not None:
             result["warning"] = {"type": "video_retime_fallback", **retime_warning}
         return result
@@ -1905,6 +1979,7 @@ async def dub_download_audio(
     job = _get_job(job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
+    _primary_vid = _enforce_dub_export_consent(job)
 
     tracks = job.get("dubbed_tracks", {})
     if lang and lang in tracks:
@@ -1939,7 +2014,11 @@ async def dub_download_audio(
     try:
         save_path = _consume_native_save(save_authorization)
         if save_path:
-            return _native_save(wav_path, save_path, dl_name, media_type="audio/wav")
+            return _native_save(
+                wav_path, save_path, dl_name, media_type="audio/wav",
+                job=job, primary_voice_id=_primary_vid,
+            )
+        _emit_dub_provenance_sidecar(wav_path, job, primary_voice_id=_primary_vid)
         if leased is None:
             return FileResponse(wav_path, media_type="audio/wav", headers=headers)
         response = _LeasedMixResponse(leased, media_type="audio/wav", headers=headers)
@@ -2155,6 +2234,7 @@ async def dub_export_segments_zip(job_id: str, lang: str = Query(None)):
     job = _get_job(job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
+    _primary_vid = _enforce_dub_export_consent(job)
 
     segments = job.get("segments", [])
     if not segments:
@@ -2200,6 +2280,7 @@ async def dub_download_mp3(
     job = _get_job(job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
+    _primary_vid = _enforce_dub_export_consent(job)
 
     tracks = job.get("dubbed_tracks", {})
     if lang and lang in tracks:
@@ -2268,9 +2349,13 @@ async def dub_download_mp3(
     base_name = os.path.splitext(job.get('filename', 'audio'))[0]
     safe_name = ''.join(c for c in base_name if c.isalnum() or c in '-_ ').strip() or 'audio'
     dl_name = f"dubbed_{lang_label}_{safe_name}_{stamp}.mp3"
+    _emit_dub_provenance_sidecar(mp3_path, job, primary_voice_id=_primary_vid)
     save_path = _consume_native_save(save_authorization)
     if save_path:
-        return _native_save(mp3_path, save_path, dl_name, media_type="audio/mpeg")
+        return _native_save(
+            mp3_path, save_path, dl_name, media_type="audio/mpeg",
+            job=job, primary_voice_id=_primary_vid,
+        )
     return FileResponse(
         mp3_path, media_type="audio/mpeg",
         headers={"Content-Disposition": content_disposition(dl_name)},
@@ -2284,6 +2369,7 @@ async def dub_export_stems(job_id: str, lang: str = Query(None)):
     job = _get_job(job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
+    _primary_vid = _enforce_dub_export_consent(job)
 
     tracks = job.get("dubbed_tracks", {})
     if not tracks:

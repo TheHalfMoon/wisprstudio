@@ -1,4 +1,4 @@
-# ── VoiceStudio — Model Catalog ─────────────────────────────────────
+# ── WisprStudio — Model Catalog ─────────────────────────────────────
 #
 # This file is the source of truth for all known HuggingFace models.
 # The backend loads it at startup via `load_model_catalog()`.
@@ -41,29 +41,63 @@
 # ─────────────────────────────────────────────────────────────────────────
 
 models:
-  # ── Required ──────────────────────────────────────────────────────────
+  # ── Required (Permissive Commercial-Safe Default) ────────────────────
+
+  - repo_id: "hexgrad/Kokoro-82M"
+    label: "Kokoro-82M (Apache-2.0 — permissive commercial-ready local TTS, 82M)"
+    role: TTS
+    engines: [kokoro]
+    size_gb: 0.33
+    required: true
+    curated_on: [all]
+    license: "Apache-2.0"
+    commercial_use: true
+    non_commercial: false
+    note: "Recommended default local TTS engine with Apache-2.0 weights suitable for commercial and production deployment."
+
+  - repo_id: "rhasspy/piper-voices"
+    label: "Piper Voices (MIT — ultra-fast local ONNX CPU TTS)"
+    role: TTS
+    engines: [piper]
+    size_gb: 0.06
+    curated_on: [all, cpu]
+    license: "MIT"
+    commercial_use: true
+    non_commercial: false
+    required_files:
+      - "en/en_US/lessac/medium/en_US-lessac-medium.onnx"
+      - "en/en_US/lessac/medium/en_US-lessac-medium.onnx.json"
+    allow_patterns:
+      - "en/en_US/lessac/medium/*"
+    note: "Permissive MIT local CPU ONNX voice pack recommended alongside Kokoro-82M for commercial production."
+
+  # ── Optional Non-Commercial / Research TTS Weights ────────────────────
 
   - repo_id: "k2-fsa/OmniVoice"
-    label: "VoiceStudio TTS (k2-fsa/OmniVoice, 600+ languages, zero-shot)"
+    label: "OmniVoice Zero-Shot TTS [NON-COMMERCIAL WEIGHTS: CC-BY-NC]"
     role: TTS
     engines: [omnivoice, omnivoice-subprocess]
     size_gb: 2.4
-    required: true
-    curated_on: [all]
+    license: "CC-BY-NC"
+    commercial_use: false
+    non_commercial: true
+    note: "NON-COMMERCIAL WEIGHTS (CC-BY-NC; Boson Higgs Audio 2 / Meta Llama 3 tokenizer terms) — optional personal/research zero-shot voice cloning only. Use Kokoro-82M (Apache-2.0) or Piper (MIT) for commercial production."
 
   - repo_id: "audio-cpp/audio.cpp-gguf"
-    label: "audio.cpp native bundle (Breeze-TTS-2 + Sortformer diarisation)"
+    label: "audio.cpp native bundle (Breeze-TTS-2 + Sortformer diarisation) [NON-COMMERCIAL]"
     role: TTS
     engines: [audiocpp]
     families: [tts, diarisation]
     size_gb: 4.98
+    commercial_use: false
+    non_commercial: true
     required_files:
       - "Breeze-TTS-2-GGUF/breeze-tts-2-q8_0.gguf"
       - "Sortformer-Diar-4spk-v1-GGUF/sortformer-diar-4spk-v1-q8_0.gguf"
     allow_patterns:
       - "Breeze-TTS-2-GGUF/breeze-tts-2-q8_0.gguf"
       - "Sortformer-Diar-4spk-v1-GGUF/sortformer-diar-4spk-v1-q8_0.gguf"
-    note: "Optional audio.cpp bundle for native voice cloning and up-to-four-speaker diarisation. Research/non-commercial weights and self-hosted outputs; install only after reviewing the licenses."
+    note: "Optional audio.cpp bundle for native voice cloning and up-to-four-speaker diarisation. NON-COMMERCIAL / research weights and self-hosted outputs; install only after reviewing the licenses."
 
   # A second package from the same repository: its own catalogue `id`
   # (`<repo_id>:<package>`) so it installs, reports and uninstalls on its own.

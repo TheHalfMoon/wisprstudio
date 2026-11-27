@@ -28,6 +28,7 @@ interface ProbeOptions {
   fetcher?: typeof fetch;
   now?: () => number;
   timeoutMs?: number;
+  authHeaders?: Record<string, string>;
 }
 
 export function normalizeRemoteUrl(raw: string): string {
@@ -234,24 +235,32 @@ export async function remoteWebSocketUrl(
   rawUrl: string,
   path: '/ws/transcribe' | '/ws/events' | '/ws/tts',
   session: RemoteSession | null,
-  { fetcher = fetch, now = Date.now, timeoutMs = 5000 }: ProbeOptions = {},
+  { fetcher = fetch, now = Date.now, timeoutMs = 5000, authHeaders }: ProbeOptions = {},
 ): Promise<string> {
   const target = normalizeRemoteUrl(rawUrl);
   // Resolve the route relative to the base so a reverse-proxy path prefix
   // (`https://host/studio`) survives; a leading slash would replace it.
   const url = new URL(path.replace(/^\/+/, ''), `${target}/`);
   url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
-  if (!session) return url.toString();
-  if (session.expiresAt <= now() / 1000) throw new Error('Remote session expired');
+  if (!session && (!authHeaders || Object.keys(authHeaders).length === 0)) {
+    return url.toString();
+  }
+  if (session && session.expiresAt <= now() / 1000) throw new Error('Remote session expired');
+  const headers: Record<string, string> = session
+    ? {
+        Authorization: `Bearer ${session.token}`,
+        'Content-Type': 'application/json',
+      }
+    : {
+        ...authHeaders,
+        'Content-Type': 'application/json',
+      };
   const response = await fetchWithin(
     fetcher,
     `${target}/api/auth/ws-ticket`,
     {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${session.token}`,
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify({ path }),
     },
     timeoutMs,

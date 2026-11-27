@@ -56,9 +56,10 @@ from pathlib import Path
 from typing import Optional
 
 import numpy as np
+
 try:
     import torch
-except ImportError:  # pragma: no cover - lightweight test env
+except ImportError:  # pragma: no cover - lightweight torch-free test env
     torch = None  # type: ignore[assignment]
 
 from core.contained_subprocess import spawn_owned

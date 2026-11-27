@@ -249,6 +249,20 @@ def _batch_voice(voice_id: str | None) -> dict:
 
 
 async def _run_batch_pipeline(job_id: str, job: dict):
+    if job.get("voice_id"):
+        from services.consent_ledger import enforce_checkpoint_consent
+
+        resolved_voice = _batch_voice(job["voice_id"])
+        if resolved_voice.get("requires_cloning") or resolved_voice.get("ref_audio"):
+            enforce_checkpoint_consent(
+                job["voice_id"],
+                checkpoint="batch_worker_start",
+                reference_path=resolved_voice.get("ref_audio"),
+                has_ref_audio=bool(resolved_voice.get("ref_audio")),
+                profile_kind="clone",
+            )
+        else:
+            enforce_checkpoint_consent(job["voice_id"], checkpoint="batch_worker_start")
     """Full batch dub pipeline: extract → transcribe → translate → generate → mix → export."""
     # The queue-wide voice is resolved once and its reference re-read for every
     # segment, so hold it until the job ends: the retired-voice sweep must not
@@ -809,9 +823,22 @@ async def enqueue_batch_job(
     # Resolve it again in the worker so deleting or editing a queued profile
     # cannot silently fall back to the engine's default voice.
     try:
-        await asyncio.to_thread(_batch_voice, voice_id)
+        resolved_batch_voice = await asyncio.to_thread(_batch_voice, voice_id)
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
+    if voice_id:
+        from services.consent_ledger import enforce_checkpoint_consent
+
+        if resolved_batch_voice.get("requires_cloning") or resolved_batch_voice.get("ref_audio"):
+            enforce_checkpoint_consent(
+                voice_id,
+                checkpoint="batch_enqueue",
+                reference_path=resolved_batch_voice.get("ref_audio"),
+                has_ref_audio=bool(resolved_batch_voice.get("ref_audio")),
+                profile_kind="clone",
+            )
+        else:
+            enforce_checkpoint_consent(voice_id, checkpoint="batch_enqueue")
 
     # TTS-only install: no ASR model on disk → typed 409 with a download CTA
     # now, instead of accepting the job and having the transcribe stage

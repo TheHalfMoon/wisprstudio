@@ -650,11 +650,97 @@ def _label_from_turns(start: float, end: float, turns: Sequence[tuple]) -> Optio
     return _nearest_turn_label(start, end, turns)
 
 
+_SPEAKER_UI_RE = re.compile(r"^speaker\s+(\d+)$", re.IGNORECASE)
+_SPEAKER_RAW_RE = re.compile(r"^(?:speaker|spk)[_-]?(\d+)$", re.IGNORECASE)
+
+
+def canonical_anonymous_cluster(raw_label: object, fallback_index: int = 0) -> str:
+    """Normalize any speaker/diarization label into an anonymous `SPEAKER_XX` cluster ID.
+
+    - `SPEAKER_00` -> `SPEAKER_00`, `SPEAKER_02` -> `SPEAKER_02`
+    - `Speaker 1`  -> `SPEAKER_00`, `Speaker 3`  -> `SPEAKER_02`
+    - Any freeform string (e.g. `narrator`, `Alice`) -> `SPEAKER_{fallback_index:02d}`
+    """
+    text = str(raw_label or "").strip()
+    m_ui = _SPEAKER_UI_RE.match(text)
+    if m_ui:
+        idx = max(0, int(m_ui.group(1)) - 1)
+        return f"SPEAKER_{idx:02d}"
+    m_raw = _SPEAKER_RAW_RE.match(text)
+    if m_raw:
+        idx = max(0, int(m_raw.group(1)))
+        return f"SPEAKER_{idx:02d}"
+    if "_" in text:
+        tail = text.rsplit("_", 1)[-1]
+        if tail.isdigit():
+            return f"SPEAKER_{int(tail):02d}"
+    return f"SPEAKER_{max(0, int(fallback_index)):02d}"
+
+
+def tag_anonymous_diarization_segment(seg: dict, raw_label: object, fallback_index: int = 0) -> dict:
+    """Explicitly mark a diarized segment as an anonymous speaker cluster (`identity_verified=False`)."""
+    seg["speaker_cluster"] = canonical_anonymous_cluster(raw_label, fallback_index=fallback_index)
+    seg["identity_verified"] = False
+    seg["speaker_label_anonymous"] = True
+    for forbidden in ("verified_identity", "person_id", "speaker_identity", "verified_person_name"):
+        seg.pop(forbidden, None)
+    return seg
+
+
+def format_anonymous_diarization_turns(diarization_or_turns) -> List[dict]:
+    """Export diarization turns with canonical anonymous `SPEAKER_XX` clusters and `identity_verified: False`."""
+    cluster_map: dict[str, int] = {}
+    out: List[dict] = []
+    if hasattr(diarization_or_turns, "itertracks"):
+        raw_iter = [
+            (float(turn.start), float(turn.end), spk)
+            for turn, _, spk in diarization_or_turns.itertracks(yield_label=True)
+        ]
+    else:
+        raw_iter = [
+            (float(t["start"]), float(t["end"]), t["speaker"])
+            for t in (diarization_or_turns or [])
+            if isinstance(t, dict)
+            and t.get("speaker") is not None
+            and t.get("start") is not None
+            and t.get("end") is not None
+        ]
+    for start, end, spk in raw_iter:
+        key = str(spk)
+        if key not in cluster_map:
+            cluster_map[key] = len(cluster_map)
+        idx = cluster_map[key]
+        cluster_id = canonical_anonymous_cluster(spk, fallback_index=idx)
+        ui_num = int(cluster_id.split("_")[-1]) + 1
+        out.append({
+            "start": round(start, 3),
+            "end": round(end, 3),
+            "speaker_cluster": cluster_id,
+            "speaker_id": f"Speaker {ui_num}",
+            "identity_verified": False,
+            "speaker_label_anonymous": True,
+        })
+    return out
+
+
 def _assign_from_turn_tuples(segments: List[dict], turns: Sequence[tuple]) -> List[dict]:
+    cluster_order: dict[str, int] = {}
+    for _, _, lbl in turns:
+        key = str(lbl)
+        if key not in cluster_order:
+            cluster_order[key] = len(cluster_order)
     for s in segments:
         label = _label_from_turns(s["start"], s["end"], turns)
         if label is not None:
             s["speaker_id"] = label
+            tag_anonymous_diarization_segment(
+                s,
+                label,
+                fallback_index=cluster_order.get(str(label), 0),
+            )
+        else:
+            existing = s.get("speaker_id", "Speaker 1")
+            tag_anonymous_diarization_segment(s, existing, fallback_index=0)
     return segments
 
 
@@ -734,6 +820,7 @@ def assign_speakers_heuristic(
         if i > 0 and n > 1 and (s["start"] - last_end) > SPEAKER_GAP:
             current = (current + 1) % n
         s["speaker_id"] = f"Speaker {current + 1}"
+        tag_anonymous_diarization_segment(s, s["speaker_id"], fallback_index=current)
         last_end = s["end"]
     return segments
 
@@ -872,6 +959,7 @@ def _resplit_core(
                 piece["words"] = _serialize_words(ws)
             if label:
                 piece["speaker_id"] = label
+                tag_anonymous_diarization_segment(piece, label, fallback_index=k)
             if piece_no > 0:
                 piece["id"] = f"{seg.get('id', 'seg')}-{piece_no}"
                 if "text_original" in piece:

@@ -116,6 +116,16 @@ for _stream in (sys.stdout, sys.stderr):
     except Exception:  # noqa: BLE001 — pythonw/frozen builds may lack reconfigure
         pass
 
+# Read per-launch sidecar token from stdin BEFORE arming the stdin EOF watchdog.
+from core.launch_auth import (  # noqa: E402
+    LaunchAuthMiddleware,
+    is_launch_auth_armed,
+    read_stdin_launch_token,
+    validate_loopback_bind_host,
+)
+
+read_stdin_launch_token()
+
 # The desktop keeps the backend's stdin pipe open for its own lifetime. EOF is
 # therefore a stable ownership signal that survives PID reuse and lets a child
 # terminate even when the shell crashes before its normal process-tree teardown.
@@ -1261,6 +1271,19 @@ async def _phase_b(app: FastAPI) -> None:
 async def lifespan(app: FastAPI):
     from api.dependencies import validate_server_admin_key
 
+    if not is_launch_auth_armed():
+        read_stdin_launch_token()
+    _allow_non_loopback = (
+        os.environ.get("OMNIVOICE_ALLOW_NON_LOOPBACK", "").strip().lower() in {"1", "true", "yes", "on"}
+        or os.environ.get("OMNIVOICE_SERVER_MODE", "").strip().lower() in {"1", "true", "yes", "on"}
+    )
+    _bind_host = (
+        os.environ.get("OMNIVOICE_BIND_HOST")
+        or os.environ.get("UVICORN_HOST")
+        or "127.0.0.1"
+    )
+    validate_loopback_bind_host(_bind_host, allow_non_loopback=_allow_non_loopback)
+
     validate_server_admin_key()
     # Startup watchdog (#632): a silent hang during startup (e.g. a model-load /
     # MCP deadlock on some platforms) means "Application startup complete" never
@@ -1597,6 +1620,19 @@ async def no_audio_track_handler(request: Request, exc: NoAudioTrackError):
     return JSONResponse(
         status_code=422,
         content={"detail": no_audio_track_detail()},
+        headers=_cors_headers_for(request),
+    )
+
+
+from services.consent_ledger import ConsentGateError
+
+
+@app.exception_handler(ConsentGateError)
+async def consent_gate_exception_handler(request: Request, exc: ConsentGateError):
+    """403 fail-closed response when cryptographic voice consent is missing or revoked."""
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"detail": exc.to_dict()},
         headers=_cors_headers_for(request),
     )
 
@@ -2015,6 +2051,7 @@ app.add_middleware(BearerKeyMiddleware)
 # inside CORS so preflights reach CORS and refusals keep their CORS headers.
 from core.browser_guard import BrowserGuardMiddleware
 app.add_middleware(BrowserGuardMiddleware, is_public_path=_is_public_path)
+app.add_middleware(LaunchAuthMiddleware)
 
 app.add_middleware(
     CORSMiddleware,
@@ -2248,6 +2285,8 @@ if __name__ == "__main__":
     # its uvicorn ENTRYPOINT binds 0.0.0.0 itself (deploy/Dockerfile), and the
     # host-side `127.0.0.1:` port mapping is what keeps it loopback-only there.
     _bind_host = os.environ.get("OMNIVOICE_BIND_HOST", "127.0.0.1")
+    if is_launch_auth_armed() or os.environ.get("OMNIVOICE_DESKTOP_CONTAINED") == "1":
+        _bind_host = validate_loopback_bind_host(_bind_host)
 
     def _port_taken(host: str, port: int) -> "OSError | None":
         """The EADDRINUSE error a bind would raise, or None if the port is free.
